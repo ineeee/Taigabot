@@ -7,8 +7,13 @@ global userlist
 
 def format_hostmask(inp):
     "format_hostmask -- Returns a nicks userhost"
+    """
     return re.sub(r'(@[^@\.]+\d{2,}([^\.]?)+\.)', '*',
                   inp.replace('@', '@@')).replace('~', '').replace('@@', '@').lower().strip()
+    """
+    # Case sensitive version
+    return re.sub(r'(@[^@\.]+\d{2,}([^\.]?)+\.)', '*',
+                  inp.replace('@', '@@')).replace('~', '').replace('@@', '@').strip()
 
 
 def get_hostmask(inp, db):
@@ -22,8 +27,8 @@ def get_hostmask(inp, db):
     if db_host is False:
         db_host = nick
 
-    return format_hostmask(db_host)
-    # return db_host
+    # return format_hostmask(db_host)
+    return db_host
 
 
 def compare_hostmasks(hostmask, matchmasks):

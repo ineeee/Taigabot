@@ -291,6 +291,10 @@ errors = [
 @hook.command
 def wolframalpha(inp, bot=None):
     """wa <query> -- Computes <query> using Wolfram Alpha."""
+
+    if 'weight of j' in inp:
+        return formatting.output('WolframAlpha', ['Over 9000'.encode('utf-8')])
+
     server = 'http://api.wolframalpha.com/v2/query.jsp'
     api_key = bot.config.get("api_keys", {}).get("wolframalpha", None)
 
