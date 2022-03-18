@@ -60,24 +60,6 @@ def get_video_description(key, video_id, bot):
         return out
 
     stats = data['statistics']
-    try:
-        likes = u"\u2191{:,}".format(int(stats['likeCount']))
-        dislikes = u"\u2193{:,}".format(int(stats['dislikeCount']))
-        try:
-            percent = 100 * float(stats['likeCount']) / (
-                int(stats['likeCount']) + int(stats['dislikeCount']))
-        except ZeroDivisionError:
-            percent = 0
-    except KeyError:
-        likes = '\x0304likes disabled\x03'
-        dislikes = '\x0304dislikes disabled\x03'
-        percent = 0
-    if percent >= 50:
-        out += u' - \x0309{}\x03, \x0304{}\x03 (\x02\x0309{:.1f}\x03\x02%)'.format(
-            likes, dislikes, percent)
-    else:
-        out += u' - \x0309{}\x03, \x0304{}\x03 (\x0304\x02{:.1f}\x02%\x03)'.format(
-            likes, dislikes, percent)
 
     views = int(stats['viewCount'])
     out += u' - \x02{:,}\x02 {}{}'.format(views, 'view', "s"[views == 1:])
