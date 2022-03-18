@@ -14,6 +14,22 @@ def paste_taigalink(text, title='Paste'):
     res = requests.post('https://taiga.link/p/upload', headers=HEADERS, data=data)
     return res.text
 
+def paste_litterbox(text):
+
+    files = {
+        'reqtype': (None, 'fileupload'),
+        'time': (None, '1h'),
+        'fileToUpload': ('filesss.txt', text),
+    }
+
+    url = "https://litterbox.catbox.moe/resources/internals/api.php"
+    response = requests.post(url, files=files)
+
+    if response.status_code == 200:
+        return response.text
+
+    return "Error uploading text file"
+
 
 # leaving this one here in case taigalink dies
 def paste_pastebin(text, title='Paste', config={}):

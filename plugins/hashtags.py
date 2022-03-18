@@ -4,7 +4,7 @@ from util import hook, text, database
 import string
 import re
 from utilities import request
-from utilities.services import paste
+from utilities.services import paste, paste_litterbox
 
 re_lineends = re.compile(r'[\r\n]*')
 
@@ -193,6 +193,5 @@ def hashes(inp, say=None, db=None, bot=None, me=None, conn=None, input=None):
     else:
         output = "\n".join(output)
         output = output.encode('utf-8')
-        # it needs to pass bot.config cuz api keys
-        url = paste(output, 'hash search result')
+        url = paste_litterbox(output)
         return "Hashes: " + url

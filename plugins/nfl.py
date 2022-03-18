@@ -1,110 +1,87 @@
 from util import formatting, hook, http, web
 import requests
 
-NFL_REALTIME_API = 'http://static.nfl.com/liveupdate/scores/scores.json'
-HOME = 'home'
-AWAY = 'away'
-ABBR = 'abbr'   # e.g. NE, DAL
-SCORE = 'score'
-T = 'T'         # Current score
-QTR = 'qtr'
-YL = 'yl'
-DOWN = 'down'
-TOGO = 'togo'
-CLOCK = 'clock'
-POSTEAM = 'posteam'  # Possessing team
+NFL_REALTIME_API = (
+    "http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
+)
 
+h = {"Cache-Control": "no-cache", "Pragma": "no-cache"}
 
-def ordinaltg(n):
-    """ Add an ordinal (-st, -nd, -rd) to a number
-    """
-    return str(n) + {1: 'st', 2: 'nd', 3: 'rd'}.get(4 if 10 <=
-                                                    n % 100 < 20 else n % 10, "th")
+def helper(event):
+    thing = []
+    competition = event["competitions"][0]
 
+    # Get score
+    competitors = competition["competitors"]
+    match_result = ""
+    id_to_abbr = dict()
+    for competitor in competitors:
+        abbreviation = competitor["team"]["abbreviation"]
+        id = competitor["team"]["id"]
+        id_to_abbr[id] = abbreviation
+        match_result += abbreviation + " " + competitor["score"] + " "
 
-def get_match_info(home, away, match=None):
-    """ Returns teams and scores for a given match
-    """
+    # Remove white space end of string
+    match_result = match_result[:-1]
+    thing.append(match_result)
+    time_detail = competition["status"]["type"]["shortDetail"]
+    thing.append(time_detail)
 
-    home_abbr = home[ABBR]
-    # If None type, turn it to 0
-    home_score = home[SCORE][T] or 0
-    away_abbr = away[ABBR]
-    away_score = away[SCORE][T] or 0
+    # Down distance
+    down_distance = ""
+    try:
+        pos_team_id = competition["situation"]["lastPlay"]["team"]["id"]
+        pos_team = id_to_abbr[pos_team_id]
+        down_distance = pos_team + ": " + competition["situation"]["downDistanceText"]
+        thing.append(down_distance)
+    except:
+        pass
 
-    # Returning brief info for given match; used in getting all NFL games for
-    # current week
-    if not match:
-        return "{} {} {} {}".format(
-            home_abbr, home_score, away_abbr, away_score)
+    # Last play info
+    last_play_info = ""
+    try:
+        last_play_info = competition["situation"]["lastPlay"]["text"]
+        thing.append(last_play_info)
+    except:
+        pass
 
-    # Get detailed game stats for a specific match
-
-    # Game has not started or has ended
-    quarter = match[QTR]
-    if not quarter or quarter.lower() in ["final", "pregame", "final overtime"]:
-        return "{} {} {} {} - {}".format(home_abbr,
-                                         home_score,
-                                         away_abbr,
-                                         away_score,
-                                         quarter)
-
-    # Game is ongoing, fetch and return detailed info
-    yard_line = match[YL]
-    down = ordinaltg(match[DOWN])
-    to_go = match[TOGO]
-    clock = match[CLOCK]
-    pos_team = match[POSTEAM]
-    # Example: TB 14 GB 10 - 2Q 11:02 - [GB] 1st & 10 @ GB 25
-    return "{} {} {} {} - {}Q {} - [{}] {} & {} @ {}".format(
-        home_abbr,
-        home_score,
-        away_abbr,
-        away_score,
-        quarter,
-        clock,
-        pos_team,
-        down,
-        to_go,
-        yard_line)
-
+    return " | ".join(thing)
 
 @hook.command(autohelp=False)
 def nfl(inp):
     """nfl | nfl <team abbreviation> -- Returns all matchups for current week, or only for a specified team's matchup
     """
-
-    # Get real time data
     try:
-        data = requests.get(NFL_REALTIME_API).json()
+        data = requests.get(NFL_REALTIME_API, headers=h).json()
     except Exception as e:
         return "Could not get NFL data"
 
-    # Convert input to uppercase; NFL team abbreviations are in uppercase
-    team_abbr = inp.upper()
+    events = data["events"]
 
-    if team_abbr:
-        # If user has specified a team, return the match with that team
-        for game_id in data:
-            match = data[game_id]
-            home = data[game_id][HOME]
-            away = data[game_id][AWAY]
-            if team_abbr in [home[ABBR], away[ABBR]]:
-                return get_match_info(home, away, match)
+    schedule = []
 
-        # Non-existent football team or team is not playing this week
-        return "{} not found".format(inp)
+    # Specific match
+    if inp:
+        team = inp.upper()
+        for event in events:
+            competitors = event["competitions"][0]["competitors"]
+            for competitor in competitors:
+                if competitor["team"]["abbreviation"] == team:
+                    return helper(event)
+
+    # League summary
+    for event in events:
+        match_result = ""
+        competitors = event["competitions"][0]["competitors"]
+
+        for competitor in competitors:
+            match_result += (
+                competitor["team"]["abbreviation"] + " " + competitor["score"] + " "
+            )
+
+        # Remove white space end of string
+        match_result = match_result[:-1]
+        schedule.append(match_result)
 
     # Build entire schedule
-    schedule = []
-    for game_id in data:
-        match = data[game_id]
-        home = match[HOME]
-        away = match[AWAY]
-
-        # Add all matches
-        match_info = get_match_info(home, away)
-        schedule.append(match_info)
-
-    # Return all matches occurring in current week
-    return ', '.join(schedule)
+    return(" | ".join(schedule))

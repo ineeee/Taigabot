@@ -79,9 +79,15 @@ def onkick(paraml, conn=None, chan=None, bot=None):
 
 @hook.event("JOIN")
 def onjoined(inp, input=None, conn=None, chan=None, raw=None, db=None):
+    """
     database.set(
         db, 'users', 'mask',
         input.mask.lower().replace('~', ''), 'nick', input.nick.lower())
+    """
+    # Make mask case sensitive (i.e. don't lowercase mask)
+    database.set(
+        db, 'users', 'mask',
+        input.mask.replace('~', ''), 'nick', input.nick.lower())
     mask = user.format_hostmask(input.mask)
     disabled_commands = database.get(db, 'channels', 'disabled', 'chan', chan)
     if not disabled_commands:

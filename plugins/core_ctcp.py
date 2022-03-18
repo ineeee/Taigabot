@@ -151,11 +151,23 @@ def ctcp_event(paraml, input=None, bot=None, conn=None):
 
 @hook.command
 def host(inp, nick=None, conn=None, db=None):
+    # User is checking own host (i.e. using .host w/o args)
+    checking_own_host = False
+
     if not inp:
-        return 'Your host is ' + user.get_hostmask(nick, db)
+        checking_own_host = True
+        inp = nick
+        # This has some weird behavior so commenting out
+        # e.g. Your host is testers!uid119154@*irccloud.com
+        # Don't know why there is a * instead of a complete host
+        # return 'Your host is ' + user.get_hostmask(nick, db)
     db_host = database.get(db, 'users', 'mask', 'nick', inp)
     if inp is db_host:
         db_host = database.get(db, 'seen', 'host', 'name', inp)
+
+    if checking_own_host:
+        return "Your host is {}".format(db_host)
+
     return "{}: {}".format(inp, db_host)
 
 

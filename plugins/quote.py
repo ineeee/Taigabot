@@ -4,6 +4,7 @@ import time
 import urllib
 
 from util import hook, user
+from utilities.services import paste, paste_litterbox
 
 
 def format_quote(q, num, n_quotes):
@@ -75,8 +76,9 @@ def search_quote(db, nick, search, bot):
             results.append(u'[{}/{}] <{}> {}'.format(num, len(quotes), nick,
                                                      quote[0]))
         num += 1
-    print results
+    # print results
     if len(results) >= 5:
+        """
         pastebin_vars = {
             'api_dev_key': bot.config.get('api_keys', {}).get('pastebin'),
             'api_option': 'paste',
@@ -89,6 +91,10 @@ def search_quote(db, nick, search, bot):
                                   urllib.urlencode(pastebin_vars))
         results = response.read()
         print results
+        """
+        output = '\n'.join(results).encode('utf-8')
+        paste_url = paste_litterbox(output)
+        return str(paste_url)
     return results
 
 

@@ -885,3 +885,42 @@ def breakfast(inp, nick=None, me=None, conn=None, chan=None):
     if not inp: inp = nick
     food = foods[random.randint(0, len(foods) - 1)]
     me('gives {} some {}.'.format(inp, food))
+
+@hook.command(autohelp=False)
+def rose(inp, nick=None, me=None):
+    if not inp: inp = nick
+    if inp.lower() == 'ru':
+        me(u'gives \U0001F940 to ' + unicode(inp))
+    else:
+        me(u'gives \U0001F339 to ' + unicode(inp))
+
+@hook.command(autohelp=False)
+def egg(inp, nick=None, me=None):
+    if not inp: inp = nick
+    if inp.lower() == 'irssucks':
+        me(u'throws \U0001F95A at IRSSucks')
+    elif inp.lower() == 'egg':
+        me(u'gives \U0001F95A to \U0001F95A')
+    else:
+        me(u'gives \U0001F95A to ' + unicode(inp))
+
+@hook.command(autohelp=False)
+def banana(inp, nick=None, me=None):
+    if not inp: inp = nick
+    me(u'gives \U0001F34C to ' + unicode(inp))
+
+@hook.command(autohelp=False)
+def mango(inp, nick=None, me=None):
+    if not inp: inp = nick
+    me(u'gives \U0001F96D to ' + unicode(inp))
+
+@hook.command(autohelp=False)
+def peach(inp, nick=None, me=None):
+    if not inp: inp = nick
+    me(u'gives \U0001F351 to ' + unicode(inp))
+
+@hook.command(autohelp=False)
+def vax(inp, nick=None, me=None):
+    if not inp: inp = nick
+    me(u'gives \U0001F489 to ' + unicode(inp))
+
