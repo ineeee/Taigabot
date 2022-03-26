@@ -43,7 +43,12 @@ location_columns = ['location NOT NULL',
                     'address',
                     'primary key(location)']
 
-currency_columns = []
+bank_columns = """nick TEXT NOT NULL,
+                  money REAL DEFAULT 0,
+                  peach INTEGER DEFAULT 0,
+                  rose INTEGER DEFAULT 0,
+                  cum INTEGER DEFAULT 0,
+                  PRIMARY KEY(nick)"""
 
 db_ready = False
 
@@ -57,6 +62,7 @@ def init(db):
                    format(', '.join(user_columns)))
         db.execute('create table if not exists location({});'.
                    format(', '.join(location_columns)))
+        db.execute('create table if not exists bank({});'.format(bank_columns))
         db.commit()
         db_ready = True
 
