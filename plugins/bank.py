@@ -37,7 +37,7 @@ def bank_get_data(db, nick, currency):
 
 # get all currencies from $nick
 # TODO find a better function name, portfolio doesnt really apply
-def bank_get_portfolio(db, nick):
+def bank_get_bals(db, nick):
     data = []
     for (currency, prefix, suffix) in MEME_CURRENCIES:
         value = bank_get_data(db, nick, currency)
@@ -65,12 +65,12 @@ def bank(inp, nick=None, db=None):
         bank_create(db, nick)
         return "yea hold on i'm creating a new TaigaBank(tm) Account(r) just for you sir dudesir. use \x02.bank\x02 to check it out ok"
 
-    portfolio = bank_get_portfolio(db, nick)
-    return "{}, your TaigaBank(tm) account: {}".format(nick, portfolio)
+    balances = bank_get_bals(db, nick)
+    return "{}, your TaigaBank(tm) account: {}".format(nick, balances)
 
 
 @hook.command(autohelp=False)
-def peachypeach(inp, nick=None, db=None, me=None, notice=None):
+def peach(inp, nick=None, db=None, me=None, notice=None):
     if not inp:
         notice("You have to tell me who you're going to send it to")
         return
@@ -85,11 +85,11 @@ def peachypeach(inp, nick=None, db=None, me=None, notice=None):
     bank_add(db, inp, "peach")
 
     me(u'gives \U0001F351 to ' + unicode(inp))
-    notice(u"sent one (1) \U0001F351 peachy peach to {}".format(inp))
+    notice("u sent one (1) \U0001F351 peachy peach to {}".format(inp))
 
 
 @hook.command(autohelp=False)
-def roseyrose(inp, nick=None, db=None, me=None, notice=None):
+def rose(inp, nick=None, db=None, me=None, notice=None):
     if not inp:
         notice("You have to tell me who you're going to send it to")
         return
@@ -104,7 +104,29 @@ def roseyrose(inp, nick=None, db=None, me=None, notice=None):
     bank_add(db, inp, "rose")
 
     if inp.lower() == 'ru':
-        me(u'gives \U0001F940 to ' + unicode(inp))
+        me('u gives \U0001F940 to ' + unicode(inp))
     else:
-        me(u'gives \U0001F339 to ' + unicode(inp))
-    notice(u"sent one (1) \U0001F339 rosey rose to {}".format(inp))
+        me('u gives \U0001F339 to ' + unicode(inp))
+    notice("u sent one (1) \U0001F339 rosey rose to {}".format(inp))
+
+@hook.command(autohelp=False)
+def daddy(inp, nick=None, db=None, me=None, notice=None):
+    if nick.lower() = 'daddy':
+        if not inp:
+            notice("who would u like to daddy, daddio?")
+            return
+
+        if inp == nick:
+            return "no daddy thats not allowed"
+
+        if not bank_exists(db, inp):
+            return "dude {} literally doesnt have a TaigaBank(tm) Account(r)".format(inp)
+
+        bank_add(db, inp, "cum")
+
+        me('u gifted \U0001F4A6 to ' + unicode(inp))
+        
+        notice("u gifted one (1) \U0001F4A6 cummie to {}".format(inp))
+    else:
+        notice("only daddy can daddy, non-daddy")
+
