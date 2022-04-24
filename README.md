@@ -1,5 +1,8 @@
 # Taigabot
 
+* Garbage 10+ year old code
+* Only runs on python 2
+* Extremely stable, has been running for literally over a decade
 * Easy to use wrapper
 * Intuitive configuration
 * Fully controlled from IRC
@@ -86,6 +89,6 @@ UguuBot is **licensed** under the **GPL v3** license. The terms are as follows.
     You should have received a copy of the GNU General Public License
     along with UguuBot.  If not, see <http://www.gnu.org/licenses/>.
 
-## Contact
+## Help?
 
-Need to contact someone? Head on over to #uguubot at irc.rizon.net for assistance or any other needs.
+Open an issue in this github repo. Feel free to improve something and send a pull request.
