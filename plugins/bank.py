@@ -108,3 +108,22 @@ def roseyrose(inp, nick=None, db=None, me=None, notice=None):
     else:
         me(u'gives \U0001F339 to ' + unicode(inp))
     notice(u"sent one (1) \U0001F339 rosey rose to {}".format(inp))
+
+
+@hook.command(autohelp=False)
+def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
+    if not inp:
+        notice("You have to tell me who you're going to send it to")
+        return
+
+    if inp == nick:
+        return "why are you trying to send cummies to yourself, {}? weirdo".format(nick)
+
+    if not bank_exists(db, inp):
+        return "dude {} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that".format(inp)
+
+    bank_subtract(db, nick, "cum")
+    bank_add(db, inp, "cum")
+
+    me(u'gives \U0001F4A6 to ' + unicode(inp))
+    notice(u"sent one (1) \U0001F4A6 daddies cummies to {}".format(inp))
