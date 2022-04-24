@@ -24,7 +24,7 @@ you can now run taigabot!
     python2 bot.py
 
 
-### ubuntu
+### ubuntu 18.04(?)
 - python2.7 python-pip git
 - build-essential python2.7-dev libxml2-dev libxslt1-dev
 
@@ -39,6 +39,34 @@ tldr:
     source venv/bin/activate
     pip2 install -r requirements.txt
     pip2 install -r requirements_extra.txt
+
+### ubuntu 21.10
+    # system essentials
+    sudo apt install python2.7 wget git --no-install-suggests
+    
+    # build essentials
+    sudo apt install build-essential python2.7-dev libxml2-dev libxslt1-dev zlib1g-dev
+    
+    # pip for py2
+    wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+    python2.7 get-pip.py
+    export PATH=~/.local/bin:$PATH
+    python2.7 -m pip install virtualenv
+    
+    # get taigabot
+    git clone https://github.com/inexist3nce/Taigabot.git
+    cd Taigabot/
+    
+    # install pip dependencies in a virtualenv
+    python2.7 -m virtualenv venv
+    source venv/bin/activate
+    python2.7 -m pip install -r requirements.txt
+    # enchant is fucked in py2/ubuntu22
+    sed -i 's/pyenchant.*$/#pyenchant/' requirements_extra.txt
+    python2.7 -m pip install -r requirements_extra.txt
+    
+    # run the bot
+    python2.7 bot.py
 
 ### alpine
 - python2 py2-pip git
