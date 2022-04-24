@@ -1,6 +1,6 @@
 # Taigabot
 
-* Garbage 10+ year old code
+* 13+ year old code
 * Only runs on python 2
 * Extremely stable, has been running for literally over a decade
 * Easy to use wrapper
