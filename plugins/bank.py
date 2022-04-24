@@ -75,7 +75,7 @@ def peachypeach(inp, nick=None, db=None, me=None, notice=None):
         notice("You have to tell me who you're going to send it to")
         return
 
-    if inp == nick:
+    if inp.lower() == nick.lower():
         return "ur hungry, {}? cant send peachy peaches from you to you".format(nick)
 
     if not bank_exists(db, inp):
@@ -94,7 +94,7 @@ def roseyrose(inp, nick=None, db=None, me=None, notice=None):
         notice("You have to tell me who you're going to send it to")
         return
 
-    if inp == nick:
+    if inp.lower() == nick.lower():
         return "why are you trying to send roses to yourself, {}? weirdo".format(nick)
 
     if not bank_exists(db, inp):
@@ -116,7 +116,7 @@ def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
         notice("You have to tell me who you're going to send it to")
         return
 
-    if inp == nick:
+    if inp.lower() == nick.lower():
         return "why are you trying to send cummies to yourself, {}? weirdo".format(nick)
 
     if not bank_exists(db, inp):
