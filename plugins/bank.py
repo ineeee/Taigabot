@@ -22,6 +22,7 @@ def bank_exists(db, nick):
 # make sure the schema has sane DEFAULTs (util/database.py $bank_columns)
 def bank_create(db, nick):
     db.execute("INSERT INTO bank(nick) VALUES (?)", (nick, ))
+    db.execute("UPDATE bank SET money = 10000.00 WHERE nick = (nick)", (nick, ))
     db.commit()
 
 def bank_get_data(db, nick, currency):
@@ -81,7 +82,7 @@ def peach(inp, nick=None, db=None, me=None, notice=None):
         return
 
     if inp == nick:
-        return "ur hungry, {}? cant send peachy peaches from you to you".format(nick)
+        return u"r hungry, {}? cant send peachy peaches from you to you".format(nick)
 
     if not bank_exists(db, inp):
         return "dude {} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that".format(inp)
@@ -90,7 +91,7 @@ def peach(inp, nick=None, db=None, me=None, notice=None):
     bank_add(db, inp, "peach")
 
     me(u'gives \U0001F351 to ' + unicode(inp))
-    notice("u sent one (1) \U0001F351 peachy peach to {}".format(inp))
+    notice(u" sent one (1) \U0001F351 peachy peach to {}".format(inp))
 
 
 @hook.command(autohelp=False)
@@ -109,10 +110,10 @@ def rose(inp, nick=None, db=None, me=None, notice=None):
     bank_add(db, inp, "rose")
 
     if inp.lower() == 'ru':
-        me('u gives \U0001F940 to ' + unicode(inp))
+        me(u' gives \U0001F940 to ' + unicode(inp))
     else:
-        me('u gives \U0001F339 to ' + unicode(inp))
-    notice("u sent one (1) \U0001F339 rosey rose to {}".format(inp))
+        me(u' gives \U0001F339 to ' + unicode(inp))
+    notice(u" sent one (1) \U0001F339 rosey rose to {}".format(inp))
 
 @hook.command(autohelp=False)
 def daddy(inp, nick=None, db=None, me=None, notice=None):
@@ -129,9 +130,9 @@ def daddy(inp, nick=None, db=None, me=None, notice=None):
 
         bank_add(db, inp, "cum")
 
-        me('u gifted \U0001F4A6 to ' + unicode(inp))
+        me(u' gifted \U0001F4A6 to ' + unicode(inp))
         
-        notice("u gifted one (1) \U0001F4A6 cummie to {}".format(inp))
+        notice(u" gifted one (1) \U0001F4A6 cummie to {}".format(inp))
     else:
         notice("only daddy can daddy, non-daddy")
 
