@@ -77,64 +77,74 @@ def bank(inp, nick=None, db=None):
 
 @hook.command(autohelp=False)
 def peach(inp, nick=None, db=None, me=None, notice=None):
-    if not inp:
-        notice("You have to tell me who you're going to send it to")
-        return
+    if bank_exists(db, nick):
+        if not inp:
+            notice("You have to tell me who you're going to send it to")
+            return
 
-    if inp == nick:
-        return u"r hungry, {}? cant send peachy peaches from you to you".format(nick)
+        if inp.lower() == nick.lower():
+            return u"r hungry, {}? cant send peachy peaches from you to you".format(nick)
 
-    if not bank_exists(db, inp):
-        return "dude {} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that".format(inp)
+        if not bank_exists(db, inp):
+            return "dude {} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that".format(inp)
 
-    bank_subtract(db, nick, "peach")
-    bank_add(db, inp, "peach")
+        bank_subtract(db, nick, "peach")
+        bank_add(db, inp, "peach")
 
-    me(u'gives \U0001F351 to ' + unicode(inp))
-    notice(u" sent one (1) \U0001F351 peachy peach to {}".format(inp))
+        me(u'gives \U0001F351 to ' + unicode(inp))
+        notice(u" sent one (1) \U0001F351 peachy peach to {}".format(inp))
+    else: 
+        notice(u" don't have an account -___- create one with .bank")
 
 
 @hook.command(autohelp=False)
 def rose(inp, nick=None, db=None, me=None, notice=None):
-    if not inp:
-        notice("You have to tell me who you're going to send it to")
-        return
+    if bank_exists(db, nick):
+        if not inp:
+            notice("You have to tell me who you're going to send it to")
+            return
 
-    if inp == nick:
-        return "why are you trying to send roses to yourself, {}? weirdo".format(nick)
+        if inp.lower() == nick.lower():
+            return "why are you trying to send roses to yourself, {}? weirdo".format(nick)
 
-    if not bank_exists(db, inp):
-        return "dude {} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that".format(inp)
+        if not bank_exists(db, inp):
+            return "dude {} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that".format(inp)
 
-    bank_subtract(db, nick, "rose")
-    bank_add(db, inp, "rose")
+        bank_subtract(db, nick, "rose")
+        bank_add(db, inp, "rose")
 
-    if inp.lower() == 'ru':
-        me(u' gives \U0001F940 to ' + unicode(inp))
-    else:
-        me(u' gives \U0001F339 to ' + unicode(inp))
-    notice(u" sent one (1) \U0001F339 rosey rose to {}".format(inp))
+        if inp.lower() == 'ru':
+            me(u' gives \U0001F940 to ' + unicode(inp))
+        else:
+            me(u' gives \U0001F339 to ' + unicode(inp))
+        notice(u" sent one (1) \U0001F339 rosey rose to {}".format(inp))
+    else: 
+        notice(u" don't have an account -___- create one with .bank")
+
 
 @hook.command(autohelp=False)
 def daddy(inp, nick=None, db=None, me=None, notice=None):
-    if nick.lower() == 'daddy':
-        if not inp:
-            notice("who would u like to daddy, daddio?")
-            return
+    if bank_exists(db, nick): 
+        if nick.lower() == 'daddy':
+            if not inp:
+                notice("who would u like to daddy, daddio?")
+                return
 
-        if inp == nick:
-            return "no daddy thats not allowed"
+            if inp.lower() == nick.lower():
+                return "no daddy thats not allowed"
 
-        if not bank_exists(db, inp):
-            return "dude {} literally doesnt have a TaigaBank(tm) Account(r)".format(inp)
+            if not bank_exists(db, inp):
+                return "dude {} literally doesnt have a TaigaBank(tm) Account(r)".format(inp)
 
-        bank_add(db, inp, "cum")
+            bank_add(db, inp, "cum")
 
-        me(u' gifted \U0001F4A6 to ' + unicode(inp))
-        
-        notice(u" gifted one (1) \U0001F4A6 cummie to {}".format(inp))
-    else:
-        notice("only daddy can daddy, non-daddy")
+            me(u' gifted \U0001F4A6 to ' + unicode(inp))
+            
+            notice(u" gifted one (1) \U0001F4A6 cummie to {}".format(inp))
+        else:
+            notice("only daddy can daddy, non-daddy")
+    else: 
+        notice(u" don't have an account -___- create one with .bank")
 
 
 
