@@ -74,6 +74,10 @@ def dice(inp):
             side = int(side)
             if side > 10000000:
                 return 'i cant make a dice with that many faces :('
+
+            if count > 100000000:
+                return 'can\'t roll that many dice at once :( it will overflow'
+
             try:
                 if count > 0:
                     dice = nrolls(count, side)
