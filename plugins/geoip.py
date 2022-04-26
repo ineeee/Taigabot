@@ -1,15 +1,20 @@
 # geoip plugin by ine (2020)
+# checked 04/2022
 import re
 from socket import gethostbyname
 from util import hook
 from utilities import request
 
 
+# ipinfo.io api
+# - 50.000 requests/mo free api limit
+# - seems to have a 100 requests/hour limit
+
 dumb_ip_re = r'(\d+\.\d+\.\d+\.\d+)'
 dumb_domain_re = r'([a-zA-Z0-9]+\.[a-zA-Z0-9]+)'
 
 
-@hook.command
+@hook.command()
 def geoip(inp):
     "geoip <host/ip> -- Gets the location of <host/ip>"
 
