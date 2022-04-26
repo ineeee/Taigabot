@@ -1,9 +1,15 @@
 # bible/koran plugin by ine (2020)
+# checked 04/2022
 from util import hook
 from utilities import request, iterable
 from utilities.formatting import compress_whitespace
 from bs4 import BeautifulSoup
 
+
+# esv api limits:
+# - 5000 queries/day
+# - 1000 queries/hour
+# - 60 requests/min
 
 @hook.command('god')
 @hook.command
@@ -19,7 +25,7 @@ def bible(inp, bot=None):
     json = request.get_json(url, headers={"Authorization": "Token " + API_KEY})
 
     if 'detail' in json:
-        return 'Bible error (lol): ' + json['detail']
+        return '[Bible] API error: ' + json['detail']
 
     if 'passages' in json and len(json['passages']) == 0:
         return '[Bible] Not found'
