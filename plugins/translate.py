@@ -1,20 +1,15 @@
+# google translate plugin
+# updated 04/2022
 from util import hook
 from utilities import request
 import re
 
-kataLetters = range(0x30A0, 0x30FF)
-hiraLetters = range(0x3040, 0x309F)
-kataPunctuation = range(0x31F0, 0x31FF)
-all_letters = kataLetters + kataPunctuation + hiraLetters
-japanese_characters = ''.join([unichr(aLetter) for aLetter in all_letters])
-japanese_characters = (r'.*(([' + japanese_characters + '])).*', re.UNICODE)
 
-
-# how to update this mess:
+# how to update google's supported languages:
 # go to https://translate.google.com/m?sl=auto&tl=auto&mui=tl&hl=en
 # and run this shady code in ur browser console:
-#     copy(Array.prototype.map.call(document.querySelector('div.small').querySelectorAll('a'), e => ' '.repeat(8)+'\'' + e.textContent.trim().toLowerCase().replace(/[\(\)]/g, '').replace(/\s+/g, '_') + '\': \'' + e.href.split('&tl=')[1].split('&')[0] + '\'').join(',\n'))
-# it'll fill your clipboard with stuff, paste it inside the { }
+#     copy(Array.prototype.map.call(document.querySelectorAll('div.language-item a'), e => ' '.repeat(4)+'\'' + e.textContent.trim().toLowerCase().replace(/[\(\)]/g, '').replace(/\s+/g, '_') + '\': \'' + e.href.split('&tl=')[1].split('&')[0] + '\'').join(',\n'))
+# it'll fill your clipboard with stuff, paste it inside the following {}
 langs = {
     'afrikaans': 'af',
     'albanian': 'sq',
@@ -86,7 +81,7 @@ langs = {
     'myanmar_burmese': 'my',
     'nepali': 'ne',
     'norwegian': 'no',
-    'oriya': 'or',
+    'odia_oriya': 'or',
     'pashto': 'ps',
     'persian': 'fa',
     'polish': 'pl',
@@ -115,16 +110,16 @@ langs = {
     'thai': 'th',
     'turkish': 'tr',
     'turkmen': 'tk',
-    'uighur': 'ug',
     'ukrainian': 'uk',
     'urdu': 'ur',
+    'uyghur': 'ug',
     'uzbek': 'uz',
     'vietnamese': 'vi',
     'welsh': 'cy',
     'xhosa': 'xh',
     'yiddish': 'yi',
     'yoruba': 'yo',
-    'zulu': 'zu',
+    'zulu': 'zu'
 }
 
 
@@ -136,17 +131,24 @@ def google_translate(to_translate, to_language="auto", from_language="auto"):
     url = url + "&ie=UTF-8&oe=UTF-8"
     url = url + "&q=" + request.urlencode(to_translate)
 
-    page = request.get_text(url)
+    # don't bother parsing HTML, just scrape the string lol
     # this will break super badly if google changes their html
+    page = request.get_text(url)
     before_trans = 'class="result-container">'
     result = page[page.find(before_trans) + len(before_trans) :]
     result = result.split("<")[0]
-    return '%s' % (result)
+    return u'{}'.format(result) # ?
 
 
 @hook.command
 def translate(inp):
     "translate [from language] [to language] <text> -- Run text through google translate, translate to english by default"
+
+    # this code has a bug in the "from x to x" parser:
+    #  - "from en to nl" = ok
+    #  - "from english to dutch" = ok
+    #  - "from en to dutch" = error
+    #  - "from english to nl" = ok
 
     inp = inp.lower()
     if inp.startswith('from') and inp.split()[2] == 'to':
@@ -171,10 +173,14 @@ def translate(inp):
         to_language = "auto"
         to_translate = inp
 
-    label = '%s to %s' % (from_language, to_language)
+    label = u'{} to {}'.format(from_language, to_language)
 
     if from_language == 'auto' and to_language == 'auto':
         label = 'translate'
 
     result = google_translate(to_translate, to_language, from_language)
-    return '[%s] %s' % (label, result)
+
+    if len(result) > 300:
+        result = result[:300] + '...'
+
+    return u'[{}] {}'.format(label, result)
