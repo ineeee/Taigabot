@@ -1,4 +1,5 @@
 # word of the day plugin by ine (2020)
+# checked 04/2022
 from util import hook
 from utilities import request, iterable
 from bs4 import BeautifulSoup
@@ -17,9 +18,9 @@ def wordoftheday(inp):
     for paragraph in iterable.limit(4, paragraphs):
         definitions.append(paragraph.text.strip())
 
-    output = u"The word of the day is \x02{}\x02: {}".format(word, '; '.join(definitions))
+    output = u"The word of the day is \x02{}\x02: {}".format(word, u'; '.join(definitions))
 
-    if len(output) > 320:
-        output = output[:320] + '... More at https://www.merriam-webster.com/word-of-the-day'
+    if len(output) > 300:
+        output = output[:300] + '... More at https://www.merriam-webster.com/word-of-the-day'
 
     return output
