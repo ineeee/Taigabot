@@ -1,4 +1,5 @@
 # urban dictionary plugin by ine (2020)
+# checked 04/2022
 from util import hook
 from utilities import request, formatting
 
@@ -51,7 +52,7 @@ def search(input):
 @hook.command('ebonics')
 @hook.command
 def urban(inp):
-    "urban <phrase> -- Looks up <phrase> on urbandictionary.com."
+    "urban <phrase> [entry] -- Looks up <phrase> on urbandictionary.com."
 
     inp_val = inp.strip()
     inp_count = 1
@@ -66,15 +67,19 @@ def urban(inp):
         inp_val = inp.strip()
         inp_count = 1
 
-    if (inp_count - 1) < 0:
-        return '[ud] Indexing of results starts at 1'
+    if inp_count < 1:
+        return '[ud] Results start at 1'
 
     results = search(inp_val)
+    results_len = len(results)
 
-    # always return just the first one
+    if inp_count > results_len:
+        return '[ud] this entry only has {} results'.format(results_len)
+
     try:
-        return '[ud %s/%s] %s' % (
-            inp_count, len(results), results[inp_count-1]
-        )
+        if results_len == 1:
+            return u'[ud] {}'.format(results[inp_count-1])
+        else:
+            return u'[ud {}/{}] {}'.format(inp_count, results_len, results[inp_count-1])
     except IndexError:
         return '[ud] Not found'
