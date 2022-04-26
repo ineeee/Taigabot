@@ -8,7 +8,7 @@ from time import time
 # update cache every 2 hours
 cache = ''
 cache_stale = 2 * 60 * 60
-last_refresh = time()
+last_refresh = 0
 
 data_limit = 4  # how many distros per each dataset
 allowed_datasets = [
@@ -87,6 +87,3 @@ def distro(inp):
         last_refresh = now
 
     return cache
-
-
-refresh_cache()
