@@ -1,4 +1,5 @@
 # amazon plugin by ine (2020)
+# checked 04/2022
 from util import hook
 from utilities import request
 from bs4 import BeautifulSoup
@@ -54,14 +55,19 @@ def parse_product(html):
         title = title.text.strip()
 
     if price is None:
-        price = 'various prices'
+        # some books have a div#price box
+        price = soup.find(id='price')
+        if price is None:
+            price = 'various prices'
+        else:
+            price = price.text.strip()
     else:
         price = price.text.strip()
 
     return title, price
 
 
-@hook.command
+@hook.command()
 def amazon(inp):
     """amazon [query] -- Searches amazon for query"""
     if not inp:
