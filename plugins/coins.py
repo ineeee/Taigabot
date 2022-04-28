@@ -5,6 +5,10 @@ from utilities import request
 
 # update this like once a month
 # https://api.coingecko.com/api/v3/coins/list
+# last database update: 04/2022
+#
+# this commands works kinda:
+# $ curl --silent https://api.coingecko.com/api/v3/coins/list | jq --compact-output ".[] | [.id, .symbol, .name]"
 json_data = open("plugins/data/coingecko-coins.json", "r")
 supported_coins = json.loads(json_data.read())
 json_data.close()
@@ -68,19 +72,19 @@ def cryptocoin(inp):
     output = "[coin] {} ({}) Current: \x0307${:,}\x03, High: \x0307${:,}\x03, Low: \x0307${:,}\x03, Vol: ${:,}, Cap: ${:,}".format(coin[2], coin[1].upper(), current, high, low, volume, cap)
 
     if change_24h < 0:
-        output = output + ", 24h: \x0304{:.2f}%\x03".format(change_24h)
+        output += ", 24h: \x0304{:.2f}%\x03".format(change_24h)
     else:
-        output = output + ", 24h: \x0303+{:.2f}%\x03".format(change_24h)
+        output += ", 24h: \x0303+{:.2f}%\x03".format(change_24h)
 
     if change_7d < 0:
-        output = output + ", 7d: \x0304{:.2f}%\x03".format(change_7d)
+        output += ", 7d: \x0304{:.2f}%\x03".format(change_7d)
     else:
-        output = output + ", 7d: \x0303+{:.2f}%\x03".format(change_7d)
+        output += ", 7d: \x0303+{:.2f}%\x03".format(change_7d)
 
     if change_30d < 0:
-        output = output + ", 30d: \x0304{:.2f}%\x03".format(change_30d)
+        output += ", 30d: \x0304{:.2f}%\x03".format(change_30d)
     else:
-        output = output + ", 30d: \x0303+{:.2f}%\x03".format(change_30d)
+        output += ", 30d: \x0303+{:.2f}%\x03".format(change_30d)
 
     return output
 
