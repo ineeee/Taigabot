@@ -72,8 +72,6 @@ def get_post(booru_id, tags=''):
     if len(json) == 0:
         return None
 
-    images = []
-
     for item in json:
         # skip pixiv, all direct links are "403 denied"
         if 'pixiv_id' in item and 'file_url' not in item:
@@ -84,9 +82,9 @@ def get_post(booru_id, tags=''):
             # 'created': item['created_at'],
             'file_url': item['file_url'],
             'file_size': item['file_size'],
-            'rating': item.get('rating', 'e'),
+            'rating': item.get('rating', 'unknown'),
             'score': item.get('score', 0),
-            'tags': item.get('tags', item.get('tag_string', 'unknown'))
+            'tags': item.get('tags', item.get('tag_string', 'none'))
         }
 
         if not image['file_url'].startswith('http'):
@@ -134,7 +132,7 @@ def message(post):
     url = web.isgd(post['file_url'])
     size = formatting.filesize(post['file_size'])
     tags = post['tags']
-    if len(tags) > 80:
-        tags = '{}... (and {} more)'.format(tags[:80], tags.count(' '))  # this count() is wrong lol, close enough
+    if len(tags) > 40:
+        tags = '{}... (and {} more)'.format(tags[:40], tags.count(' '))  # this count() is wrong lol, close enough
 
-    return "[{}] {} ({}) - Score: {} - Rating: {} - Tags: {}".format(id, url, size, score, rating, tags)
+    return '[{}] {} ({}) - Score: {} - Rating: {} - Tags: {}'.format(id, url, size, score, rating, tags)
