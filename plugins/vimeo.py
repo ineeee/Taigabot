@@ -1,9 +1,16 @@
 # vimeo info plugin by ine (2020)
+# checked 04/2022
 from util import hook, timeformat
 from utilities import request
 
-# the v2 api is deprecated and only does simple public video information
-# new one is at https://api.vimeo.com/videos/{id} but needs a key
+# the vimeo v2 api is deprecated:
+# > This API is no longer maintained or supported. We recommend
+# > developers utilize our oEmbed implementation to get that
+# > same metadata for embeddable videos.
+# https://vimeo.zendesk.com/hc/en-us/articles/360042975791-Deprecated-APIs
+#
+# keeping track of this in github:
+# https://github.com/inexist3nce/Taigabot/issues/14
 
 
 def info(id):
@@ -18,6 +25,9 @@ def info(id):
     views = format(info[0]['stats_number_of_plays'], ',d')
     uploader = info[0]['user_name']
     upload_date = info[0]['upload_date']
+
+    if len(title) > 80:
+        title = title[:80] + '...'
 
     output = []
     output.append('\x02' + title + '\x02')
