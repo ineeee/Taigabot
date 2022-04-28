@@ -1,10 +1,11 @@
 # dictionary and etymology plugin by ine (2020)
+# updated 04/2022
 from util import hook
 from utilities import request, formatting
 from bs4 import BeautifulSoup
 
-dict_url = 'http://ninjawords.com/'
-eth_url = 'https://www.etymonline.com/word/'
+dict_url = 'https://ninjawords.com/'
+etym_url = 'https://www.etymonline.com/word/'
 
 
 @hook.command('dictionary')
@@ -12,7 +13,8 @@ eth_url = 'https://www.etymonline.com/word/'
 def define(inp):
     "define <word> -- Fetches definition of <word>."
 
-    html = request.get(dict_url + request.urlencode(inp))
+    word = request.urlencode(inp)
+    html = request.get(dict_url + word)
     soup = BeautifulSoup(html, 'lxml')
 
     definitions = soup.find_all('dd')
@@ -28,20 +30,21 @@ def define(inp):
     for definition in definitions:
         if 'article' in definition['class']:
             text = formatting.compress_whitespace(definition.text.strip())
-            output = output + ' \x02' + text + '\x02'
+            output += ' \x02' + text + '\x02'
             i = 1
 
         elif 'entry' in definition['class']:
             definition = definition.find('div', attrs={'class': 'definition'})
             text = formatting.compress_whitespace(definition.text.strip())
-            output = output + text.replace(u'\xb0', ' \x02{}.\x02 '.format(i))
+            # 0xb0 is &deg;, &#176; the "°" symbol
+            output += text.replace(u'\xb0', ' \x02{}.\x02 '.format(i))
             i = i + 1
 
         # theres 'synonyms' and 'examples' too
 
     # arbitrary length limit
-    if len(output) > 360:
-        output = output[:360] + '\x0f... More at https://en.wiktionary.org/wiki/' + inp
+    if len(output) > 320:
+        output = output[:320] + '\x0f... More at https://en.wiktionary.org/wiki/{}'.format(word)
 
     return output
 
@@ -50,7 +53,8 @@ def define(inp):
 def etymology(inp):
     "etymology <word> -- Retrieves the etymology of <word>."
 
-    html = request.get(eth_url + request.urlencode(inp))
+    word = request.urlencode(inp)
+    html = request.get(etym_url + word)
     soup = BeautifulSoup(html, 'lxml')
     # the page uses weird class names like "section.word__definatieon--81fc4ae"
     # if it breaks change the selector to [class~="word_"]
@@ -64,10 +68,10 @@ def etymology(inp):
 
     for result in results:
         text = formatting.compress_whitespace(result.text.strip())
-        output = output + u' \x02{}.\x02 {}'.format(i, text)
+        output += u' \x02{}.\x02 {}'.format(i, text)
         i = i + 1
 
-    if len(output) > 400:
-        output = output[:400] + '\x0f... More at https://www.etymonline.com/word/select'
+    if len(output) > 200:
+        output = output[:200] + '\x0f... More at https://www.etymonline.com/word/{}'.format(word)
 
     return output
