@@ -58,9 +58,9 @@ def countdown(inp, me=None):
         me('Ready! The countdown will begin in 2 seconds...')
         time.sleep(2)
 
-    for cur in range(1, count):
-        me('*** {} ***'.format(count - cur))
-        time.sleep(1)
+        for cur in range(1, count):
+            me('*** {} ***'.format(count - cur))
+            time.sleep(1)
     else:
         set_countdown_to_false()
         return '\x02***\x02 GO \x02***\x02'
