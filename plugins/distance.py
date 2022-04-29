@@ -1,3 +1,5 @@
+# distance plugin rewritten by ine
+# still working as of 04/2022
 from util import hook
 from utilities import request
 from bs4 import BeautifulSoup
@@ -6,7 +8,7 @@ from bs4 import BeautifulSoup
 def fetch(start, dest):
     start = request.urlencode(start)
     dest = request.urlencode(dest)
-    url = "http://www.travelmath.com/flying-distance/from/{}/to/{}".format(start, dest)
+    url = "https://www.travelmath.com/flying-distance/from/{}/to/{}".format(start, dest)
     html = request.get(url)
     return html
 
@@ -30,6 +32,10 @@ def distance(inp):
     "distance <start> to <end> -- Calculate the distance between 2 places."
     if 'from ' in inp:
         inp = inp.replace('from ', '')
+
+    if ' to ' not in inp:
+        return '[Distance] You need to specify 2 places like so: "from place1 to place2"'
+
     start = inp.split(" to ")[0].strip()
     dest = inp.split(" to ")[1].strip()
 
@@ -37,7 +43,6 @@ def distance(inp):
     query, distance = parse(html)
 
     if not distance:
-        return "Could not calculate the distance from {} to {}.".format(start, dest)
+        return u'[Distance] Could not calculate the distance from "{}" to "{}".'.format(start, dest)
 
-    result = u"Distance: {} {}".format(query, distance)
-    return result
+    return u'[Distance] {} {}'.format(query, distance)
