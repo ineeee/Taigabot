@@ -5,7 +5,7 @@ from urllib import quote  # python 2
 # from urllib.parse import quote  # python 3
 
 # update this like once every few months
-fake_ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'
+fake_ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36'
 
 
 def urlencode(inp):
