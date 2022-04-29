@@ -1,3 +1,6 @@
+# radio plugin rewritten by ine (2020?)
+# updated 04/2022
+
 from util import hook
 from bs4 import BeautifulSoup
 from utilities import request
@@ -18,30 +21,20 @@ radios = {
         'source': 'radio.mp3'
     },
 
-    'ducky': {
-        'name': 'just some radio',
-        'api': 'https://radio.wolowolo.com:8443/status-json.xsl',
-        'homepage': 'https://radio.wolowolo.com/ducky/',
-        'source': 'ducky'
-    },
-
     'chiru': {
         'name': 'chiru.no',
         'api': 'https://chiru.no:8080/status-json.xsl',
         'homepage': 'https://chiru.no/',
         'source': 'stream.mp3',
-    },
-    'flippy': {
-        'name': 'flippy radio',
-        'api': 'https://radio.wolowolo.com:8443/status-json.xsl',
-        'homepage': 'https://radio.wolowolo.com/flippy',
-        'source': 'flippy'
     }
 }
 
 
 @hook.command
 def radio(id):
+    if id == "":
+        return "pick a radio: " + ", ".join(radios.keys())
+
     if id not in radios:
         return "we dont support that radio. try one of the following: " + ", ".join(radios.keys())
 
@@ -84,9 +77,11 @@ def aradio(inp):
 
 
 # fallback because chiru.no's api sometimes returns broken json
+# as of 2022 jesus' server runs icecast 2.4.4 so the json api actually works
+# still leaving this here
 @hook.command(autohelp=False)
 @hook.command('mutantradio', autohelp=False)
-def muradio(inp, say=False):
+def muradio(inp):
     "radio [url]-- Returns current mutantradio song"
     url = 'https://chiru.no:8080/status.xsl'
     page = request.get_text(url)
