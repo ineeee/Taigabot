@@ -1,4 +1,5 @@
 # w3c validator plugin by ine (2020)
+# updated 04/2022
 from util import hook
 from utilities import request
 from bs4 import BeautifulSoup
