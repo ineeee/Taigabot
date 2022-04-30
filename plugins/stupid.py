@@ -1,7 +1,6 @@
 import math
 import random
 import re
-# import subprocess
 import time
 
 from bs4 import BeautifulSoup
@@ -9,6 +8,12 @@ from bs4 import BeautifulSoup
 from util import database, hook
 from utilities import formatting, request
 
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
 # HONK HONK
 actions = {
     "honk": ["honked at", "honking"],
@@ -114,15 +119,14 @@ def guts(inp):
 
 
 @hook.command()
-def plez(inp, chan=None, conn=None):
-    out = u"PRIVMSG {} :\x01ACTION disables plez\x01".format(chan)
-    conn.send(out)
-    conn.send(out)
-    conn.send(out)
+def plez(inp, me=None):
+    me("disables plez")
+    me("disables plez")
+    me("disables plez")
 
 
 @hook.command(autohelp=False)
-def bet(inp, nick=None, db=None, chan=None):
+def bet(inp, nick=None, db=None, chan=None, me=None):
     "bet <ammount> -- bets <ammount>"
     inp = inp.replace(',', '').replace('$', '')
     try:
@@ -139,8 +143,7 @@ def bet(inp, nick=None, db=None, chan=None):
         strmoney = "{:,}".format(money)
         if inp < money or money == 0:
             if '-' in strmoney[0]:
-                return u"\x01ACTION You don't have enough money to bet \x02${}\x02. You have \x0309${}\x02\x01".format(
-                    strinp[1:], strmoney[1:])
+                return u"You don't have enough money to bet \x02${}\x02. You only have \x0309${}\x02".format(strinp[1:], strmoney[1:])
             else:
                 return u"\x01ACTION You don't have enough money to bet \x02${}\x02. You owe \x0304${}\x02\x01".format(
                     strinp[1:], strmoney)
@@ -159,19 +162,16 @@ def bet(inp, nick=None, db=None, chan=None):
                 strmoney = "{:,}".format(money)
                 database.set(db, 'users', 'fines', money, 'nick', nick)
                 if '-' in strmoney[0]:
-                    return u"\x01ACTION You lose the bet and lost \x02${}\x02. You have \x0309${}\x02\x01".format(
-                        strinp[1:], strmoney[1:])
+                    return u"You lose the bet and lost \x02${}\x02. You have \x0309${}\x02".format(strinp[1:], strmoney[1:])
                 else:
-                    return u"\x01ACTION You lose the bet and lost \x02${}\x02. You owe \x0304${}\x02\x01".format(
-                        strinp[1:], strmoney)
+                    return u"You lose the bet and lost \x02${}\x02. You owe \x0304${}\x02".format(strinp[1:], strmoney)
             else:
                 money = money + inp
                 strinp = "{:,}".format(inp)
                 strmoney = "{:,}".format(money)
                 database.set(db, 'users', 'fines', money, 'nick', nick)
                 if '-' in strmoney[0]:
-                    return u"\x01ACTION You win the bet and win \x02${}\x02. You have \x0309${}\x02\x01".format(
-                        strinp[1:], strmoney[1:])
+                    return u"You win the bet and win \x02${}\x02. You have \x0309${}\x02".format(strinp[1:], strmoney[1:])
                 else:
                     return u"\x01ACTION You win the bet and win \x02${}\x02. You owe \x0304${}\x02\x01".format(
                         strinp[1:], strmoney)
@@ -348,12 +348,17 @@ def donate(inp, db=None, nick=None, chan=None, conn=None, notice=None):
 @hook.command('steal')
 @hook.command('rob')
 @hook.command()
-def mug(inp, db=None, nick=None, chan=None, conn=None, notice=None):
+def mug(inp, db=None, nick=None, me=None):
     """mug <user> -- Takes money from <user>.."""
     inp = inp.split()
     user = inp[0]
     money = float(random.randint(20, 1500))
+
+    if user == nick:
+        return "mug yourself??"
+
     try:
+        # what the fuck is this
         money = inp[-1].split('.')[0] + '.' + inp[-1].split('.')[1][0:2]
         money = float(money)
     except:
@@ -371,35 +376,39 @@ def mug(inp, db=None, nick=None, chan=None, conn=None, notice=None):
         if victim != robber:
             database.set(db, 'users', 'fines', robber + money, 'nick', nick)
             database.set(db, 'users', 'fines', victim - money, 'nick', user)
-        conn.send(u"PRIVMSG {} :\x01ACTION {} shoots you in the foot and takes \x02${}\x02.\x01".
-                  format(chan, user, money))
+        me(u"{} shoots you in the foot and takes \x02${}\x02".format(user, money))
     else:
         if robber != victim:
             database.set(db, 'users', 'fines', victim + money, 'nick', user)
             database.set(db, 'users', 'fines', robber - money, 'nick', nick)
-        conn.send(u"PRIVMSG {} :\x01ACTION {} shanks {} in a dark alley and takes \x02${}\x02\x01".
-                  format(chan, nick, user, money))
+        me(u"{} shanks {} in a dark alley and takes \x02${}\x02".format(nick, user, money))
 
 
 @hook.command(autohelp=False)
-def owed(inp, nick=None, conn=None, chan=None, db=None):
+def owed(inp, nick=None, db=None):
     """owe -- shows your total fines"""
     if '@' in inp: nick = inp.split('@')[1].strip()
+
+    # apparently we store the user's debt instead of their cash?
+    # so fines is like "cash * -1"
+    # also fines is not a number lol
     fines = database.get(db, 'users', 'fines', 'nick', nick)
-    if not fines: fines = 0
-    strfines = "{:,}".format(float(fines))
-    if '-' in strfines[0]:
-        return u'\x02{} has:\x02 \x0309${}'.format(nick, strfines[1:])
-    if fines <= 0:
-        return u'\x02{} owes:\x02 \x0309${}'.format(nick, strfines)
+    if not fines: fines = "0"
+
+    fines = float(fines)
+    moneis = -fines
+    strfines = "{:,}".format(moneis)
+
+    if moneis > 0:
+        return u'\x02{} has\x02 \x0309${}'.format(nick, strfines)
     else:
-        return u'\x02{} owes:\x02 \x0304${}'.format(nick, strfines)
+        return u'\x02{} owes\x02 \x0304${}'.format(nick, strfines[1:])
 
 
 @hook.command(autohelp=False)
-def pay(inp, nick=None, conn=None, chan=None, db=None):
+def pay(inp):
     """pay -- pay your fines"""
-    return u'\x02Donate to infinitys paypal to pay the fees! \x02'
+    return u'\x02BIG\x02'
 
 
 # VENDINGMACHINE
@@ -442,7 +451,6 @@ def dab(inp, nick=None, me=None):
     "dab <nick> -- dab on dem haters"
     if not inp: inp = nick
     me("dabs on {}".format(inp))
-    return
 
 
 @hook.command(autohelp=False)
@@ -490,16 +498,14 @@ def decrease(inp):
 
 
 @hook.command(autohelp=False)
-def shekels(inp, conn=None, chan=None):
-    "shekles"
-    conn.send(u"PRIVMSG {} :\x01ACTION lays some shekels on the ground to lure the jews.\x01".
-              format(chan))
+def shekels(inp, me=None):
+    me("lays some shekels on the ground to lure the jews.")
 
 
 @hook.command(autohelp=False)
-def hump(inp, conn=None, chan=None):
-    "humps"
-    conn.send(u"PRIVMSG {} :\x01ACTION humps {}.\x01".format(chan, inp))
+def hump(inp, me=None, nick=None):
+    if not inp: inp = nick
+    me("humps {}".format(inp))
 
 
 @hook.command(autohelp=False)
@@ -641,14 +647,6 @@ def cowsay(inp, reply=None):
     reply('              ||     ||')
 
 
-# @hook.command
-# def figlet(inp, reply=None):
-#     inp = inp.encode('utf-8')[:11]
-#     for line in subprocess.check_output(['figlet', '{0}'.format(inp)]).split('\n'):
-#         if line != ' ' * (len(line)):
-#             reply(line)
-
-
 @hook.regex(r'^(same)$')
 def same(inp):
     "same -- dont feel left out"
@@ -758,21 +756,6 @@ def pushups(inp, autohelp=False, me=None, paraml=None):
                                                                    activity))
 
 
-# @hook.command
-# def room(inp, conn=None):
-#     letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-#     users = inp.split()
-#     channel = "#rm-"
-
-#     for i in range(1,6):
-#         channel = channel + random.choice(letters)
-
-#     conn.send("JOIN " + channel)
-
-#     for user in users:
-#         conn.send("INVITE " + user + " " + channel)
-
-
 @hook.command(autohelp=False)
 def madoka(inp):
     return 'Madoka_Miku has looked at infinitys abs {} times today.'.format(random.randint(1, 500))
@@ -780,11 +763,13 @@ def madoka(inp):
 
 @hook.command(autohelp=False)
 def drink(inp, me=None):
+    if not inp: inp = nick
     me('Drinks {}, and it was delicious. mmmmmmmmmmmmmmmm'.format(inp))
 
 
 @hook.command(autohelp=False)
 def fap(inp, me=None, nick=None):
+    if not inp: inp = nick
     me('Jerks off and cums on {}'.format(inp))
 
 
@@ -816,34 +801,9 @@ def sniff(inp, nick=None, me=None):
     if not inp: inp = nick
     me('huffs {}s hair while sat behind them on the bus.'.format(inp))
 
-
-# @hook.command('siid')
-# @hook.command(autohelp=False)
-# def sleepytime(inp, chan=None, conn=None, notice=None):
-#     "kick [channel] <user> [reason] -- Makes the bot kick <user> in [channel] "\
-#     "If [channel] is blank the bot will kick the <user> in "\
-#     "the channel the command was used in."
-#     user = 'siid'
-#     out = "KICK %s %s" % (chan, user)
-#     reason = "sleepytime!"
-#     out = out + " :" + reason
-#     notice("Attempting to kick %s from %s..." % (user, chan))
-#     conn.send(out)
-
-
-# @hook.command(autohelp=False,channeladminonly=True)
-# def touhouradio(inp, chan=None, notice=None, bot=None):
-#     "disabled -- Lists channels's disabled commands."
-#     url = "http://booru.touhouradio.com/post/list/%7Bchannel%7C%23pantsumen%7D/1"
-#     html = http.get_html(url)
-#
-#     link = html.xpath("//div[@id='main']//a/@href")[0]
-#     #COMPARE TO DB
-#     image = http.unquote(re.search('.+?imgurl=(.+)&imgrefurl.+', link).group(1))
-#     return image
 @hook.command(autohelp=False)
-def lok(inp, reply=None):
-    reply('lol')
+def lok(inp):
+    return 'lol'
 
 
 foods = [
