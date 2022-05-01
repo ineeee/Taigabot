@@ -4,8 +4,8 @@ from json import loads as json_load
 from utilities import request
 
 # TODO add support for chat links
-#import re
-#twitch_re = (r'https?://(www\.)?twitch.tv/([a-zA-Z0-9_+])', re.I)
+import re
+TWITCH_RE = (r'https?://(www\.)?twitch.tv/([a-zA-Z0-9_]+)', re.I)
 
 
 # the token gets renewed automatically when it expires
@@ -53,7 +53,6 @@ def twitch_chan_info(id):
 @hook.command
 def twitch(inp, bot=None, reply=None):
     """twitch <username> -- gets user and channel info about a twitch.tv streamer"""
-
     global TWITCH_CURRENT_TOKEN
     global TWITCH_CLIENT_ID
     global TWITCH_CLIENT_SECRET
@@ -83,12 +82,12 @@ def twitch(inp, bot=None, reply=None):
     u_id = data.get('id', 0)
     u_name = data.get('display_name', 'Unknown')
     u_user = data.get('login', 'unknown')
-    u_desc = data.get('description', 'None')
-    u_type = data.get('broadcaster_type', 'normal')
-    u_creation = data.get('created_at', '1980-01-01T00:00:00Z')
-    u_views = data.get('view_count', 0)
+    #u_desc = data.get('description', 'None')
+    #u_type = data.get('broadcaster_type', 'normal')
+    #u_creation = data.get('created_at', '1980-01-01T00:00:00Z')
+    #u_views = data.get('view_count', 0)
 
-    reply(u'[Twitch] User \x02{}\x02 has {:,} views, was created in {}, is a {} user and their description says "{}". https://twitch.tv/{}'.format(u_name, u_views, u_creation, u_type, u_desc, u_user))
+    # reply(u'[Twitch] User \x02{}\x02 has {:,} views, was created in {}, is a {} user and their description says "{}". https://twitch.tv/{}'.format(u_name, u_views, u_creation, u_type, u_desc, u_user))
 
     # try to download channel info...
     data = twitch_chan_info(u_id)
@@ -101,4 +100,11 @@ def twitch(inp, bot=None, reply=None):
     c_game = data.get('game_name', 'Unknown game')
     c_lang = data.get('broadcaster_language', 'unknown')
 
-    reply(u'[Twitch] Last seen streaming \x02{}\x02 titled "{}" ({})'.format(c_game, c_title, c_lang))
+    return u'[Twitch] \x02{}\x02 https://twitch.tv/{} was last seen streaming \x02{}\x02 titled "{}" ({})'.format(u_name, u_user, c_game, c_title, c_lang)
+
+
+@hook.regex(*TWITCH_RE)
+def twitch_urls(match, bot=None, reply=None):
+    user = match.group(2)
+    reply(u'twitch-senpai pls get me info on {},,,,'.format(user))
+    return twitch(user, bot, reply)
