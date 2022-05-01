@@ -1,119 +1,104 @@
-import re
-from HTMLParser import HTMLParser
+# twitch plugin by ine (2022)
+from util import hook
+from json import loads as json_load
+from utilities import request
 
-from util import hook, http
-
-twitch_re = (r'(.*:)//(twitch.tv|www.twitch.tv)(:[0-9]+)?(.*)', re.I)
-multitwitch_re = (r'(.*:)//(www.multitwitch.tv|multitwitch.tv)/(.*)', re.I)
-
-
-def test(s):
-    valid = set(
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_/')
-    return set(s) <= valid
+# TODO add support for chat links
+#import re
+#twitch_re = (r'https?://(www\.)?twitch.tv/([a-zA-Z0-9_+])', re.I)
 
 
-def truncate(msg):
-    nmsg = msg.split(" ")
-    out = None
-    x = 0
-    for i in nmsg:
-        if x <= 7:
-            if out:
-                out = out + " " + nmsg[x]
-            else:
-                out = nmsg[x]
-        x += 1
-    if x <= 7:
-        return out
-    else:
-        return out + "..."
+# the token gets renewed automatically when it expires
+TWITCH_CURRENT_TOKEN = 'ahahah how is cyber bullying real'
+# these get loaded from the bot config
+TWITCH_CLIENT_ID = 'taiga rules'
+TWITCH_CLIENT_SECRET = 'hunter2'
 
 
-@hook.regex(*multitwitch_re)
-def multitwitch_url(match):
-    usernames = match.group(3).split("/")
-    out = ""
-    for i in usernames:
-        if not test(i):
-            print "Not a valid username"
-            return None
-        if out == "":
-            out = twitch_lookup(i)
-        else:
-            out = out + " \x02|\x02 " + twitch_lookup(i)
-    return out
+# get a twitch oauth2 access token
+# https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/#client-credentials-grant-flow
+def twitch_auth():
+    data = {
+        'client_id': TWITCH_CLIENT_ID,
+        'client_secret': TWITCH_CLIENT_SECRET,
+        'grant_type': 'client_credentials'
+    }
+
+    req = request.post('https://id.twitch.tv/oauth2/token', data=data)
+    json = json_load(req)
+
+    if 'access_token' in json:
+        return json['access_token']
+
+    return None
 
 
-@hook.regex(*twitch_re)
-def twitch_url(match):
-    bit = match.group(4).split("#")[0]
-    location = "/".join(bit.split("/")[1:])
-    if not test(location):
-        print "Not a valid username"
-        return None
-    return twitch_lookup(location)
+def twitch_user_info(user):
+    user = request.urlencode(user)
+    api_bearer = 'Bearer ' + TWITCH_CURRENT_TOKEN
+    headers = {'Accept': 'application/json', 'Authorization': api_bearer, 'Client-Id': TWITCH_CLIENT_ID}
+    data = request.get_json('https://api.twitch.tv/helix/users?login=' + user, headers=headers)
+
+    return data
 
 
-# @hook.command('twitchviewers')
+def twitch_chan_info(id):
+    api_bearer = 'Bearer ' + TWITCH_CURRENT_TOKEN
+    headers = {'Accept': 'application/json', 'Authorization': api_bearer, 'Client-Id': TWITCH_CLIENT_ID}
+    data = request.get_json('https://api.twitch.tv/helix/channels?broadcaster_id=' + id, headers=headers)
+
+    return data
+
+
 @hook.command
-def twitch(inp):
-    inp = inp.split("/")[-1]
-    if test(inp):
-        location = inp
-    else:
-        return "Not a valid channel name."
-    return twitch_lookup(location).split("(")[-1].split(")")[0].replace(
-        "Online now! ", "")
+def twitch(inp, bot=None, reply=None):
+    """twitch <username> -- gets user and channel info about a twitch.tv streamer"""
 
+    global TWITCH_CURRENT_TOKEN
+    global TWITCH_CLIENT_ID
+    global TWITCH_CLIENT_SECRET
 
-def twitch_lookup(location):
-    locsplit = location.split("/")
-    if len(locsplit) > 1 and len(locsplit) == 3:
-        channel = locsplit[0]
-        type = locsplit[1]    # should be b or c
-        id = locsplit[2]
-    else:
-        channel = locsplit[0]
-        type = None
-        id = None
-    h = HTMLParser()
-    fmt = "{}: {} playing {} ({})"    # Title: nickname playing Game (x views)
-    if type and id:
-        if type == "b":    # I haven't found an API to retrieve broadcast info
-            soup = http.get_soup("http://twitch.tv/" + location)
-            title = soup.find('span', {'class': 'real_title js-title'}).text
-            playing = soup.find('a', {'class': 'game js-game'}).text
-            views = soup.find('span', {'id': 'views-count'}).text + " view"
-            views = views + "s" if not views[0:2] == "1 " else views
-            return h.unescape(fmt.format(title, channel, playing, views))
-        elif type == "c":
-            data = http.get_json(
-                "https://api.twitch.tv/kraken/videos/" + type + id)
-            title = data['title']
-            playing = data['game']
-            views = str(data['views']) + " view"
-            views = views + "s" if not views[0:2] == "1 " else views
-            return h.unescape(fmt.format(title, channel, playing, views))
-    else:
-        data = http.get_json("http://api.twitch.tv/kraken/channels/" + channel)
-        if data and len(data) >= 1:
-            data = data[0]
-            title = data['title']
-            playing = data['meta_game']
-            viewers = "\x033\x02Online now!\x02\x0f " + str(
-                data["channel_count"]) + " viewer"
-            print viewers
-            viewers = viewers + "s" if not " 1 view" in viewers else viewers
-            print viewers
-            return h.unescape(fmt.format(title, channel, playing, viewers))
+    TWITCH_CLIENT_ID = bot.config['api_keys'].get('twitch_client_id', None)
+    TWITCH_CLIENT_SECRET = bot.config['api_keys'].get('twitch_client_secret', None)
+
+    # first check if our api key still works
+    # access tokens expire every few hours
+    data_check = twitch_user_info("pokimane")
+    if 'error' in data_check:
+        if data_check['status'] == 401 and data_check['error'] == 'Unauthorized':
+            # access denied, try to reauthenticate
+            TWITCH_CURRENT_TOKEN = twitch_auth()
+            if TWITCH_CURRENT_TOKEN is None:
+                # can't log in, access is denied
+                return '[Twitch] Failed to authenticate, cannot use API'
         else:
-            try:
-                data = http.get_json(
-                    "https://api.twitch.tv/kraken/channels/" + channel)
-            except:
-                return
-            title = data['status']
-            playing = data['game']
-            viewers = "\x034\x02Offline\x02\x0f"
-            return h.unescape(fmt.format(title, channel, playing, viewers))
+            return '[Twitch] Unknown API error'
+
+    # try to download user data...
+    data = twitch_user_info(inp)
+    if 'data' not in data:
+        return '[Twitch] Unknown API response, can\'t get user info'
+
+    data = data['data'][0]  # top tier code right here
+    u_id = data.get('id', 0)
+    u_name = data.get('display_name', 'Unknown')
+    u_user = data.get('login', 'unknown')
+    u_desc = data.get('description', 'None')
+    u_type = data.get('broadcaster_type', 'normal')
+    u_creation = data.get('created_at', '1980-01-01T00:00:00Z')
+    u_views = data.get('view_count', 0)
+
+    reply(u'[Twitch] User \x02{}\x02 has {:,} views, was created in {}, is a {} user and their description says "{}". https://twitch.tv/{}'.format(u_name, u_views, u_creation, u_type, u_desc, u_user))
+
+    # try to download channel info...
+    data = twitch_chan_info(u_id)
+
+    if 'data' not in data:
+        return '[Twitch] Unknown API response, can\'t get channel info'
+
+    data = data['data'][0]
+    c_title = data.get('title', 'Untitled')
+    c_game = data.get('game_name', 'Unknown game')
+    c_lang = data.get('broadcaster_language', 'unknown')
+
+    reply(u'[Twitch] Last seen streaming \x02{}\x02 titled "{}" ({})'.format(c_game, c_title, c_lang))

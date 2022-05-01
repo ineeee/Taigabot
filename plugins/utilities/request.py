@@ -63,6 +63,23 @@ def get(url, **kwargs):
     return r.text
 
 
+def post(url, **kwargs):
+    if 'data' not in kwargs:
+        return None
+
+    # accept custom headers
+    if 'headers' in kwargs:
+        headers = kwargs.pop('headers')
+        # set a default user-agent if none was set
+        if 'User-Agent' not in headers:
+            headers['User-Agent'] = fake_ua
+    else:
+        headers = {'User-Agent': fake_ua}
+
+    r = requests.post(url, headers=headers, timeout=8, **kwargs)
+    return r.text
+
+
 # upload any text to pastebin
 # please use this function so you don't have to modify 40 plugins when the api changes
 def upload_paste(text, title='Paste', config={}):
