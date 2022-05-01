@@ -1,5 +1,5 @@
-from util import formatting, hook, http, web
-import requests
+from util import hook
+from utilities import request
 
 NFL_REALTIME_API = (
     "http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
@@ -51,11 +51,7 @@ def helper(event):
 def nfl(inp):
     """nfl | nfl <team abbreviation> -- Returns all matchups for current week, or only for a specified team's matchup
     """
-    try:
-        data = requests.get(NFL_REALTIME_API, headers=h).json()
-    except Exception as e:
-        return "Could not get NFL data"
-
+    data = request.get_json(NFL_REALTIME_API, headers=h)
     events = data["events"]
 
     schedule = []
