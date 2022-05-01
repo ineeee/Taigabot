@@ -100,33 +100,30 @@ you __need__ these to run plugins.
   - 4.9.0 works fine
 
 ## details
-these plugins need only the main dependencies (`lxml`, `bs4` and `requests`):
+these plugins are available after installing the main dependencies (`lxml`, `bs4` and `requests`):
 - amazon
 - bash
-- choose †
-- coin †
-- countdown †
+- booru
+- choose
+- coin
+- coins
 - debt
-- dice †
+- dice
 - dictionary
 - distance
 - distro
-- drama
 - fmylife
-- furry
 - geoip
-- heartbleed †
 - kernel
-- potato †
+- lyrics
+- radio
 - religion
-- smileys †
 - translate
+- twitch
 - urbandict
 - validate
 - vimeo
 - wordoftheday
-
-†: no external dependencies
 
 ## specific dependencies
 these specific plugins need a huge disgusting mess of dependencies:
