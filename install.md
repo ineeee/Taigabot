@@ -150,9 +150,11 @@ these specific plugins need a huge disgusting mess of dependencies:
 these plugins need an api key on the `config` file
 | plugin       | key name           | where to find |
 |--------------|--------------------|---------------|
-| religion     | `"english_bible"`  | [here](https://api.esv.org/docs/) |
+| religion     | `"english_bible"`  | [link](https://api.esv.org/docs/) |
 | weather      | `"darksky"`        | not possible to get anymore |
-| wolframalpha | `"wolframalpha"`   | [here](https://products.wolframalpha.com/api/) |
+| wolframalpha | `"wolframalpha"`   | [link](https://products.wolframalpha.com/api/) |
 | google       | `"google"`         | - |
 | google       | `"google2"`        | - |
 | google       | `"googleimage"`    | - |
+| twitch       | `"twitch_client_id"` | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
+| twitch       | `"twitch_client_secret"` | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
