@@ -509,22 +509,21 @@ def hump(inp, me=None, nick=None):
 
 
 @hook.command(autohelp=False)
-def marry(inp, conn=None, chan=None, nick=None):
-    "marrys person"
-    conn.send(u"PRIVMSG {} :\x01ACTION pronounces {} and {} husbando and waifu.\x01".format(
-        chan, nick, inp))
+def marry(inp, me=None, nick=None):
+    if not inp:
+        return "u need to marry someone, dumbo"
+    me(u"pronounces {} and {} husbando and waifu".format(nick, inp))
 
 
 @hook.command(autohelp=False)
 def pantsumap(inp, chan=None, notice=None):
     if chan == "#pantsumen":
-        notice(("Pantsumen Map: http://tinyurl.com/clx2qeg\r\n").encode('utf-8', 'ignore'))
+        notice("Pantsumen Map: http://tinyurl.com/clx2qeg")
     return
 
 
-# TODO cache
-@hook.command('penis', autohelp=False)
-def penis_real(inp, nick=None):
+@hook.command(autohelp=False)
+def penis(inp, nick=None):
     if not inp:
         inp = nick
 
@@ -542,8 +541,8 @@ def penis_real(inp, nick=None):
     return u'{} - http://en.inkei.net/penis/{}'.format(details, inp)
 
 
-@hook.command('tits', autohelp=False)
-def tits_real(inp, nick=None):
+@hook.command(autohelp=False)
+def tits(inp, nick=None):
     if not inp:
         inp = nick
 
@@ -561,8 +560,8 @@ def tits_real(inp, nick=None):
     return u'{} - http://en.inkei.net/tits/{}'.format(details, inp)
 
 
-@hook.command('vagina', autohelp=False)
-def vagina_real(inp, nick=None):
+@hook.command(autohelp=False)
+def vagina(inp, nick=None):
     if not inp:
         inp = nick
 
@@ -580,8 +579,8 @@ def vagina_real(inp, nick=None):
     return u'{} - http://en.inkei.net/vagina/{}'.format(details, inp)
 
 
-@hook.command('anus', autohelp=False)
-def anus_real(inp, nick=None):
+@hook.command(autohelp=False)
+def anus(inp, nick=None):
     if not inp:
         inp = nick
 
@@ -604,16 +603,14 @@ def anus_real(inp, nick=None):
 @hook.command("seppuku", autohelp=False)
 @hook.command(autohelp=False)
 def sudoku(inp, conn=None, chan=None, nick=None, say=None):
-    "up -- Makes the bot kill you in [channel]. "\
-    "If [channel] is blank the bot will op you in "\
-    "the channel the command was used in."
+    "up -- Makes the bot kick you in [channel]."
     say("Sayonara bonzai-chan...")
     conn.send(u"KICK {} {}".format(chan, nick))
     return
 
 
 @hook.command(autohelp=False)
-def akbar(inp, conn=None, chan=None, nick=None, say=None, bot=None):
+def akbar(inp, conn=None, chan=None, nick=None):
     "akbar - makes the bot kick itsself."
     say("ALLAHU AKBAR")
     conn.send(u"KICK {} {}".format(chan, nick))
@@ -676,13 +673,13 @@ woahs = ([('woah'), ('woah indeed'), ('woah woah woah!'), ('keep your woahs to y
 
 @hook.regex(r'.*([W|w]+[H|h]+[O|o]+[A|a]+).*')
 @hook.regex(r'.*([W|w]+[O|o]+[A|a]+[H|h]+).*')
-def woah(inp, nick=None):
+def woah(inp):
     if random.randint(0, 4) == 0:
         return woahs[random.randint(0, len(woahs) - 1)].replace('woah', inp.group(1))
 
 
 @hook.regex(r'.*([L|l]+[I|i]+[N|n]+[U|u]+[X|x]).*')
-def interject(inp, nick=None):
+def interject(inp):
     if random.randint(0, 12) == 0:
         return "I'd Just Like To Interject For A Moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX. \n "
         # \
@@ -764,13 +761,13 @@ def madoka(inp):
 @hook.command(autohelp=False)
 def drink(inp, me=None):
     if not inp: inp = nick
-    me('Drinks {}, and it was delicious. mmmmmmmmmmmmmmmm'.format(inp))
+    me('drinks {}, and it was delicious. mmmmmmmmmmmmmmmm'.format(inp))
 
 
 @hook.command(autohelp=False)
 def fap(inp, me=None, nick=None):
     if not inp: inp = nick
-    me('Jerks off and cums on {}'.format(inp))
+    me('jerks off and cums on {}'.format(inp))
 
 
 # var replies = ['faggot','i ought to fuk u up m8','1v1 me','do u evn lift','ur mom','consider urself trolld','ur mom iz gay','stfu fagget','omg nub','u hax i repert u','my dad works for this site so I would be nice if I were you','ill rek u','get rekt scrub','u r gay'];
