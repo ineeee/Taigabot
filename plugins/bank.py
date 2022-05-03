@@ -1,4 +1,5 @@
 from util import hook
+from random import randint
 
                  # (sql name, prefix, suffix)
 MEME_CURRENCIES = [("money", "$", " moneis"),
@@ -126,7 +127,12 @@ def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
         return "bruh {} you don't have a TaigaBank(tm) Account(r), fuck off".format(inp)
 
     if inp.lower() == nick.lower():
-        return "why are you trying to send cummies to yourself, {}? weirdo".format(nick)
+        return "{} just came all over themselves. weirdo".format(nick)
+
+    if nick.lower() != 'daddy':
+        notify_daddy = ["uwu {}, you're not daddy".format(nick),
+                        "DADDY! {} is trying to \U0001F4A6RAPE\U0001F4A6 {}".format(nick,inp)]
+        return notify_daddy[randint(0,len(notify_daddy)-1)]
 
     if not bank_exists(db, inp):
         return "dude {} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that".format(inp)
