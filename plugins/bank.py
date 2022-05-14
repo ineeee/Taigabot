@@ -76,7 +76,7 @@ def peachypeach(inp, nick=None, db=None, me=None, notice=None):
         return
 
     if not bank_exists(db, nick):
-        return "bruh {} you don't have a TaigaBank(tm) Account(r), fuck off".format(inp)
+        return "bruh {} you don't have a TaigaBank(tm) Account(r), fuck off".format(nick)
 
     if inp.lower() == nick.lower():
         return "ur hungry, {}? cant send peachy peaches from you to you".format(nick)
@@ -98,7 +98,7 @@ def roseyrose(inp, nick=None, db=None, me=None, notice=None):
         return
 
     if not bank_exists(db, nick):
-        return "bruh {} you don't have a TaigaBank(tm) Account(r), fuck off".format(inp)
+        return "bruh {} you don't have a TaigaBank(tm) Account(r), fuck off".format(nick)
 
     if inp.lower() == nick.lower():
         return "why are you trying to send roses to yourself, {}? weirdo".format(nick)
@@ -123,7 +123,7 @@ def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
         return
 
     if not bank_exists(db, nick):
-        return "bruh {} you don't have a TaigaBank(tm) Account(r), fuck off".format(inp)
+        return "bruh {} you don't have a TaigaBank(tm) Account(r), fuck off".format(nick)
 
     if inp.lower() == nick.lower():
         return "why are you trying to send cummies to yourself, {}? weirdo".format(nick)
