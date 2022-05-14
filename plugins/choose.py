@@ -7,6 +7,12 @@ from util import hook
 def choose(inp):
     "choose <choice1>, [choice2], [choice3], ... --  Randomly picks one of the given choices."
 
+    if inp == 'eat':
+        return 'Yes'
+    
+    if inp == 'sleep':
+        return 'Never'
+    
     replacewords = {'should', 'could', '?', ' i ', ' you '}
 
     for word in replacewords:
