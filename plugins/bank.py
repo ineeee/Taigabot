@@ -131,7 +131,7 @@ def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
 
     if nick.lower() != 'daddy':
         notify_daddy = ["uwu {}, you're not daddy".format(nick),
-                        "DADDY! {} is trying to \U0001F4A6RAPE\U0001F4A6 {}".format(nick,inp)]
+                        u"DADDY! {} is trying to \U0001F4A6RAPE\U0001F4A6 {}".format(nick,inp)]
         return notify_daddy[randint(0,len(notify_daddy)-1)]
 
     if not bank_exists(db, inp):
