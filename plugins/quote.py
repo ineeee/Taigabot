@@ -327,14 +327,14 @@ def quotechan(inp, db=None, reply=None):
     if len(inp) < 3 or inp.find(" ") == -1:
         return "You have to search something"
 
-    # extract first word
+    # extract first word, and the rest
     chan = inp[0:inp.index(" ")]
     search = inp[len(chan) + 1:]
 
     if chan[0] != "#":
         chan = "#" + chan
 
-    if len(search) < 3:
+    if len(search) <= 3:
         return "You have to search something a bit longer than that"
 
     penis = db.execute('''
@@ -345,11 +345,22 @@ def quotechan(inp, db=None, reply=None):
             chan = ? AND
             msg LIKE '%' || ? || '%'
         ORDER BY time DESC
-        LIMIT 5;
+        LIMIT 4;
         ''', (chan, search)).fetchall()
 
-    if len(penis) >= 5:
-        reply(u"Found many search results in {}, showing newest:".format(chan))
+    if len(penis) >= 4:
+        # ?????? what the fuck is this
+        XDDDDDDD, count = db.execute('''
+            SELECT "XDDDDDDD", COUNT(msg)
+            FROM quote
+            WHERE
+                deleted != 1 AND
+                chan = ? AND
+                msg LIKE '%' || ? || '%'
+            ''', (chan, search)).fetchone()
+
+        reply(u"Found {} search results in {}, showing only 4 newest:".format(count, chan))
+
     else:
         reply(u"Found {} search results in {}:".format(len(penis), chan))
 
