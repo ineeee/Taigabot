@@ -319,3 +319,41 @@ def rquote(inp, db=None, notice=None, nick=None, bot=None, reply=None):
 #         return
 
 #     notice(quote.__doc__)
+
+@hook.command("qchan")
+def quotechan(inp, db=None, reply=None):
+    "quotechan <#channel> <search>: search some shit in an entire channel"
+
+    if len(inp) < 3 or inp.find(" ") == -1:
+        return "You have to search something"
+
+    # extract first word
+    chan = inp[0:inp.index(" ")]
+    search = inp[len(chan) + 1:]
+
+    if chan[0] != "#":
+        chan = "#" + chan
+
+    if len(search) < 3:
+        return "You have to search something a bit longer than that"
+
+    penis = db.execute('''
+        SELECT nick, msg
+        FROM quote
+        WHERE
+            deleted != 1 AND
+            chan = ? AND
+            msg LIKE '%' || ? || '%'
+        ORDER BY time DESC
+        LIMIT 5;
+        ''', (chan, search)).fetchall()
+
+    if len(penis) >= 5:
+        reply(u"Found many search results in {}, showing newest:".format(chan))
+    else:
+        reply(u"Found {} search results in {}:".format(len(penis), chan))
+
+    for nick, text in penis:
+        reply(u"<{}> {}".format(nick, text))
+
+    return
