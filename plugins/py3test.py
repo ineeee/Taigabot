@@ -29,18 +29,12 @@ else:
     print("fifo already exists, reusing")
 
 
-def pipe_serialize(command, raw):
-    raw = raw.replace(SEPARATOR_UNIT, ' ')
-
-    return SEPARATOR_UNIT.join([
-        command,
-        raw
-    ])
+def pipe_serialize(command, args):
+    return SEPARATOR_UNIT.join([ command ] + args)
 
 
 def pipe_unserialize(data):
-    (command, raw) = data.split(SEPARATOR_UNIT, 2)
-    return command, raw
+    return data.split(SEPARATOR_UNIT.encode('utf-8'), 8)
 
 
 @hook.command
@@ -60,15 +54,17 @@ def THE_SUCCING(paraml, input=None, say=None):
     global BOT_READY
 
     if input.command == '376':
+        # ignore everything until the server finishes the MOTD
         BOT_READY = True
         return
 
     if BOT_READY != True:
         return
 
-    testdata = pipe_serialize('irc message', input.raw)
-
     if input.command == 'PRIVMSG':
+        testdata = pipe_serialize('irc message', [ input.raw ])
+
+        # TODO fix this
         print("data: will write, blocking until something reads")
         fifo_write(testdata)
 
@@ -87,6 +83,15 @@ def THE_SUCCING(paraml, input=None, say=None):
 
         print("data: read success, will close")
         fifo.close()
+        # /TODO
+
+        data = pipe_unserialize(data)
+
+        print "aaaaa", data
+
+        if data[0] == 'reply':
+            command, target, text = data
+            say(u"{}".format(text))
 
         # encoding: transform bytes to str, then concat into unicode
-        say(u"reply says: {}".format(data.decode('utf-8')))
+        #say(u"reply says: {}".format(data.decode('utf-8')))

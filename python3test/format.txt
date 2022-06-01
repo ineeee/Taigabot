@@ -1,0 +1,22 @@
+data is separated by '\u241f' because its unlikely that an irc message
+will have that character in it. this means that everything sent through
+the pipe has to escape this character (protip: `str.replace('\u241f', '_')`)
+
+all arguments are imploded by '\u241f' to send them through the pipe and
+all lines are separated by '\r\n'. irc already prohibits having newlines in
+a message, so avoid sending newlines on messages.
+
+
+commands
+--------
+first argument is always the command (index 0).
+
+- 'irc message'
+  [1]: raw irc line
+
+- 'reply'
+  [1]: target
+  [2]: text
+
+- 'version'
+  [1]: current python version
