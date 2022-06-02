@@ -1,3 +1,6 @@
+from builtins import range
+from past.builtins import basestring
+from builtins import object
 import re
 import random
 
@@ -24,7 +27,7 @@ class TextGenerator(object):
 
         # replace static variables in the template with provided values
         if self.variables:
-            for key, value in self.variables.items():
+            for key, value in list(self.variables.items()):
                 text = text.replace("{%s}" % key, value)
 
         # get a list of all text parts we need
@@ -43,7 +46,7 @@ class TextGenerator(object):
 
     def generate_strings(self, amount, template=None):
         strings = []
-        for i in xrange(amount):
+        for i in range(amount):
             strings.append(self.generate_string())
         return strings
 

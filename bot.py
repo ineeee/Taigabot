@@ -60,7 +60,7 @@ print('Connecting to IRC...')
 bot.conns = {}
 
 try:
-    for name, conf in bot.config['connections'].items():
+    for name, conf in list(bot.config['connections'].items()):
         print('Connecting to server: %s' % conf['server'])
         if conf.get('ssl'):
             bot.conns[name] = SSLIRC(name, conf['server'], conf['nick'], conf=conf,
@@ -83,11 +83,11 @@ while True:
     reload()  # these functions only do things
     config()  # if changes have occured
 
-    for conn in bot.conns.values():
+    for conn in list(bot.conns.values()):
         try:
             out = conn.out.get_nowait()
             main(conn, out)
         except queue.Empty:
             pass
-    while all(conn.out.empty() for conn in bot.conns.values()):
+    while all(conn.out.empty() for conn in list(bot.conns.values())):
         time.sleep(.1)

@@ -125,7 +125,7 @@ def pingip(inp, reply=None):
 def ctcp_event(paraml, input=None, bot=None, conn=None):
     inpkind = input.msg.split(" ")[0].strip()
     if re.search("VERSION", inpkind, re.I) or re.search("PING", inpkind, re.I):
-        inpnick = [_f for _f in input.nick if _f]
+        inpnick = input.nick  # TODO check if this is ok
         inpresult = input.msg.replace(inpkind, '').replace('\x01', '').strip()
         if ctcpcache:
             for x in ctcpcache:

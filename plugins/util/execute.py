@@ -1,4 +1,5 @@
-import http, web
+from __future__ import absolute_import
+from . import http, web
 
 
 def eval_py(code, paste_multiline=True):

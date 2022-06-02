@@ -1,10 +1,11 @@
+from __future__ import print_function
 from util import hook
 import sched, time
 
 def check_for_timers(inp, command):
     split = inp.split(' ')
     timer = 0
-    print split
+    print(split)
     if command == 'ban':
         lastparam = split[-1].lower()
         if   'sec'   in lastparam: timer = int(split[-2])
@@ -18,7 +19,7 @@ def check_for_timers(inp, command):
     if command == 'reminder':
         if split[1] in [u'sec', u'min', u'hour', u'day', u'week', u'month', u'year']:
             lastparam = ' '.join(split[0:2]).lower()
-            print lastparam
+            print(lastparam)
         else:
             lastparam = split[0].lower()
         if   'sec'   in lastparam: timer = int(split[0])

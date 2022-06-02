@@ -66,7 +66,7 @@ def reload(init=False):
     fileset = set(glob.glob(os.path.join('plugins', '*.py')))
 
     # remove deleted/moved plugins
-    for name, data in bot.plugs.items():
+    for name, data in list(bot.plugs.items()):
         bot.plugs[name] = [x for x in data if x[0]._filename in fileset]
 
     for filename in list(mtimes):
@@ -98,7 +98,7 @@ def reload(init=False):
             # output = '<module class="module" name="{}">\n\t<info>{}</info>\n\t'.format(filename.replace(".py",""), filename.replace(".py","<span>.py</span>"))
 
             # remove plugins already loaded from this filename
-            for name, data in bot.plugs.items():
+            for name, data in list(bot.plugs.items()):
                 bot.plugs[name] = [x for x in data
                                    if x[0]._filename != filename]
 
@@ -107,7 +107,7 @@ def reload(init=False):
                     handler.stop()
                     del bot.threads[func]
 
-            for obj in namespace.values():
+            for obj in list(namespace.values()):
                 if hasattr(obj, '_hook'):  # check for magic
                     if obj._thread:
                         bot.threads[obj] = Handler(obj)
@@ -154,7 +154,7 @@ def reload(init=False):
             print('    command:')
             commands = collections.defaultdict(list)
 
-            for name, (func, args) in bot.commands.items():
+            for name, (func, args) in list(bot.commands.items()):
                 commands[make_signature(func)].append(name)
 
             for sig, names in sorted(commands.items()):
