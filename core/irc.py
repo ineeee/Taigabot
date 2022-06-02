@@ -1,7 +1,12 @@
-import Queue
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+from builtins import map
+from builtins import object
+import queue
 import re
 import socket
-import thread
+import _thread
 import time
 from ssl import CERT_NONE, CERT_REQUIRED, SSLError, wrap_socket
 
@@ -18,7 +23,7 @@ def decode(txt):
 def censor(text):
     replacement = '[censored]'
     if 'censored_strings' in bot.config:
-        words = map(re.escape, bot.config['censored_strings'])
+        words = list(map(re.escape, bot.config['censored_strings']))
         regex = re.compile('(%s)' % "|".join(words))
         text = regex.sub(replacement, text)
     return text
@@ -28,10 +33,10 @@ class crlf_tcp(object):
     "Handles tcp connections that consist of utf-8 lines ending with crlf"
 
     def __init__(self, host, port, timeout=300):
-        self.ibuffer = ""
-        self.obuffer = ""
-        self.oqueue = Queue.Queue()    # lines to be sent out
-        self.iqueue = Queue.Queue()    # lines that were received
+        self.ibuffer = b""
+        self.obuffer = b""
+        self.oqueue = queue.Queue()    # lines to be sent out
+        self.iqueue = queue.Queue()    # lines that were received
         self.socket = self.create_socket()
         self.host = host
         self.port = port
@@ -47,8 +52,8 @@ class crlf_tcp(object):
             print('Timed out')
             time.sleep(5)
             self.run()
-        thread.start_new_thread(self.recv_loop, ())
-        thread.start_new_thread(self.send_loop, ())
+        _thread.start_new_thread(self.recv_loop, ())
+        _thread.start_new_thread(self.send_loop, ())
 
     def recv_from_socket(self, nbytes):
         return self.socket.recv(nbytes)
@@ -82,15 +87,15 @@ class crlf_tcp(object):
                     return
                 continue
 
-            while '\r\n' in self.ibuffer:
-                line, self.ibuffer = self.ibuffer.split('\r\n', 1)
+            while b'\r\n' in self.ibuffer:
+                line, self.ibuffer = self.ibuffer.split(b'\r\n', 1)
                 self.iqueue.put(decode(line))
 
     def send_loop(self):
         while True:
             line = self.oqueue.get().splitlines()[0][:500]
-            print ">>> %r" % line
-            self.obuffer += line.encode('utf-8', 'replace') + '\r\n'
+            print(">>> %r" % line)
+            self.obuffer += line.encode('utf-8', 'replace') + b'\r\n'
             while self.obuffer:
                 sent = self.socket.send(self.obuffer)
                 self.obuffer = self.obuffer[sent:]
@@ -139,19 +144,19 @@ class IRC(object):
         self.port = port
         self.nick = nick
 
-        self.out = Queue.Queue()    # responses from the server are placed here
+        self.out = queue.Queue()    # responses from the server are placed here
         # format: [rawline, prefix, command, params,
         # nick, user, host, paramlist, msg]
         self.connect()
 
-        thread.start_new_thread(self.parse_loop, ())
+        _thread.start_new_thread(self.parse_loop, ())
 
     def create_connection(self):
         return crlf_tcp(self.server, self.port)
 
     def connect(self):
         self.conn = self.create_connection()
-        thread.start_new_thread(self.conn.run, ())
+        _thread.start_new_thread(self.conn.run, ())
         self.set_pass(self.conf.get('server_password'))
         self.set_nick(self.nick)
         self.cmd("USER", [

@@ -1,4 +1,7 @@
+from __future__ import print_function
+from __future__ import division
 # Plugin made by Infinity, Lukeroge and neersighted
+from past.utils import old_div
 import re
 from time import sleep
 
@@ -22,7 +25,7 @@ def compare_hostmasks(hostmask, matchmasks):
     for mask in re.findall(r'(\b\S+\b)', ' '.join(matchmasks)):
         mask = '^*{}$'.format(mask).replace('.', '\.').replace('*', '.*')
         if bool(re.match(mask, hostmask)):
-            print '{} - {}'.format(mask, hostmask)
+            print('{} - {}'.format(mask, hostmask))
             return True
     return False
 
@@ -834,7 +837,7 @@ def invite(
         # slows down legit invites but better than getting uguu kicked
         # still possible to get uguu kicked but much harder
         if throttle <= 10:
-            sleeptime = len(users) / 3
+            sleeptime = old_div(len(users), 3)
             # just an extra fuck you to people who do huge invites
             if len(users) >= 20:
                 sleeptime += len(users)
@@ -865,7 +868,7 @@ def invite(
 @hook.command(permissions=["op_rem", "op"], channeladminonly=True)
 def remove(inp, chan=None, conn=None):
     """remove [channel] <user> [message] -- Force a user to part from a channel."""
-    print inp
+    print(inp)
     message = inp
     conn.send(u"REMOVE {} :{}".format(chan, message))
     return
@@ -874,9 +877,9 @@ def remove(inp, chan=None, conn=None):
 @hook.command(adminonly=True)
 def testdamnit(inp, bot=None, conn=None):
     channellist = bot.config["connections"][conn.name]["channels"]
-    print channellist
+    print(channellist)
     channellist2 = list(set(channellist))
-    print channellist2
+    print(channellist2)
     #for target in targets.split(" "):
     #    if not target.startswith("#"):
     #        target = "#{}".format(target)

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import re
 import urllib
 
@@ -58,7 +59,7 @@ def commands(inp, say=None, notice=None, input=None, conn=None, bot=None, db=Non
         else:
             output = ", ".join(output)
             # print(output)
-            print bot.config.get('api_keys', {}).get('pastebin')
+            print(bot.config.get('api_keys', {}).get('pastebin'))
             pastebin_vars = {
                 'api_dev_key': bot.config.get('api_keys', {}).get('pastebin'),
                 'api_option': 'paste',

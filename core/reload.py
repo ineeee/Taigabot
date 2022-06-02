@@ -1,3 +1,6 @@
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
 import collections
 import glob
 import os
@@ -14,7 +17,7 @@ if 'lastfiles' not in globals():
 
 
 def make_signature(f):
-    return f.func_code.co_filename, f.func_name, f.func_code.co_firstlineno
+    return f.__code__.co_filename, f.__name__, f.__code__.co_firstlineno
 
 
 def format_plug(plug, kind='', lpad=0):
@@ -63,14 +66,14 @@ def reload(init=False):
     fileset = set(glob.glob(os.path.join('plugins', '*.py')))
 
     # remove deleted/moved plugins
-    for name, data in bot.plugs.iteritems():
+    for name, data in bot.plugs.items():
         bot.plugs[name] = [x for x in data if x[0]._filename in fileset]
 
     for filename in list(mtimes):
         if filename not in fileset and filename not in core_fileset:
             mtimes.pop(filename)
 
-    for func, handler in list(bot.threads.iteritems()):
+    for func, handler in list(bot.threads.items()):
         if func._filename not in fileset:
             handler.stop()
             del bot.threads[func]
@@ -95,16 +98,16 @@ def reload(init=False):
             # output = '<module class="module" name="{}">\n\t<info>{}</info>\n\t'.format(filename.replace(".py",""), filename.replace(".py","<span>.py</span>"))
 
             # remove plugins already loaded from this filename
-            for name, data in bot.plugs.iteritems():
+            for name, data in bot.plugs.items():
                 bot.plugs[name] = [x for x in data
                                    if x[0]._filename != filename]
 
-            for func, handler in list(bot.threads.iteritems()):
+            for func, handler in list(bot.threads.items()):
                 if func._filename == filename:
                     handler.stop()
                     del bot.threads[func]
 
-            for obj in namespace.itervalues():
+            for obj in namespace.values():
                 if hasattr(obj, '_hook'):  # check for magic
                     if obj._thread:
                         bot.threads[obj] = Handler(obj)
@@ -114,7 +117,7 @@ def reload(init=False):
 
                         if not init:
                             # output+='<div class="command">{}</div>'.format(format_plug(data).replace('[','<opt>').replace(']','</opt>').replace('<','<req>').replace('>','</req>'))
-                            print '### new plugin (type: %s) loaded:' % type, format_plug(data)
+                            print('### new plugin (type: %s) loaded:' % type, format_plug(data))
 
                             # output += '</module>'
                             # with open('index.txt', 'a') as file:
@@ -127,12 +130,12 @@ def reload(init=False):
         for plug in bot.plugs['command']:
             name = plug[1]['name'].lower()
             if not re.match(r'^\w+$', name):
-                print '### ERROR: invalid command name "{}" ({})'.format(name, format_plug(plug))
+                print('### ERROR: invalid command name "{}" ({})'.format(name, format_plug(plug)))
                 continue
             if name in bot.commands:
-                print "### ERROR: command '{}' already registered ({}, {})".format(name,
+                print("### ERROR: command '{}' already registered ({}, {})".format(name,
                                                                                    format_plug(bot.commands[name]),
-                                                                                   format_plug(plug))
+                                                                                   format_plug(plug)))
                 continue
             bot.commands[name] = plug
 
@@ -142,31 +145,31 @@ def reload(init=False):
                 bot.events[event].append((func, args))
 
     if init:
-        print '  plugin listing:'
+        print('  plugin listing:')
 
         if bot.commands:
             # hack to make commands with multiple aliases
             # print nicely
 
-            print '    command:'
+            print('    command:')
             commands = collections.defaultdict(list)
 
-            for name, (func, args) in bot.commands.iteritems():
+            for name, (func, args) in bot.commands.items():
                 commands[make_signature(func)].append(name)
 
-            for sig, names in sorted(commands.iteritems()):
+            for sig, names in sorted(commands.items()):
                 names.sort(key=lambda x: (-len(x), x))  # long names first
                 out = ' ' * 6 + '%s:%s:%s' % sig
                 out += ' ' * (50 - len(out)) + ', '.join(names)
-                print out
+                print(out)
 
-        for kind, plugs in sorted(bot.plugs.iteritems()):
+        for kind, plugs in sorted(bot.plugs.items()):
             if kind == 'command':
                 continue
-            print '    {}:'.format(kind)
+            print('    {}:'.format(kind))
             for plug in plugs:
                 try:
-                    print format_plug(plug, kind=kind, lpad=6)
+                    print(format_plug(plug, kind=kind, lpad=6))
                 except UnicodeEncodeError:
                     pass
-        print
+        print()

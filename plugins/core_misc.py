@@ -1,3 +1,7 @@
+from __future__ import print_function
+from __future__ import division
+from builtins import str
+from past.utils import old_div
 import json
 import re
 import socket
@@ -29,25 +33,25 @@ def onjoin(paraml, conn=None, bot=None):
     # Join config-defined channels
     try:
         if len(conn.channels) > 30:
-            channels1 = conn.channels[:len(conn.channels) / 2]
+            channels1 = conn.channels[:old_div(len(conn.channels), 2)]
             conn.join(','.join(channels1))
-            channels2 = conn.channels[len(conn.channels) / 2:]
+            channels2 = conn.channels[old_div(len(conn.channels), 2):]
             conn.join(','.join(channels2))
             time.sleep(1)
-            print conn.channels
-            print channels1
-            print len(channels1)
-            print channels2
-            print len(channels2)
+            print(conn.channels)
+            print(channels1)
+            print(len(channels1))
+            print(channels2)
+            print(len(channels2))
         else:
             conn.join(','.join(conn.channels))
-        print len(conn.channels)
+        print(len(conn.channels))
     except:
         for channel in conn.channels:
             conn.join(channel)
             time.sleep(1)
 
-    print "Bot ready."
+    print("Bot ready.")
 
 
 # Auto-join on Invite (Configurable, defaults to True)
@@ -142,7 +146,7 @@ def onnick(paraml, conn=None, raw=None):
     new_nick = str(paraml[0])
     if old_nick == conn.nick:
         conn.nick = new_nick
-        print "Bot nick changed from '{}' to '{}'.".format(old_nick, new_nick)
+        print("Bot nick changed from '{}' to '{}'.".format(old_nick, new_nick))
 
 
 @hook.event("MODE")

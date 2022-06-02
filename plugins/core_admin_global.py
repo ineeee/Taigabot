@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 import os
 import re
@@ -245,7 +246,7 @@ def part(inp, conn=None, chan=None, notice=None, bot=None):
             notice(u"Attempting to leave {}...".format(target))
             conn.part(target)
             channellist.remove(target.lower().strip())
-            print 'Deleted {} from channel list.'.format(target)
+            print('Deleted {} from channel list.'.format(target))
         else:
             notice(u"Not in {}!".format(target))
 

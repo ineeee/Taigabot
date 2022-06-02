@@ -1,7 +1,9 @@
 """
 log.py: written by Scaevolus 2009
 """
+from __future__ import print_function
 
+from builtins import str
 import os
 import codecs
 import time
@@ -113,4 +115,4 @@ def log(paraml, input=None, bot=None):
         fd = get_log_fd(bot.persist_dir, input.server, input.chan)
         fd.write(timestamp + ' ' + beau + '\n')
 
-    print timestamp, input.chan, beau.encode('utf8', 'ignore')
+    print(timestamp, input.chan, beau.encode('utf8', 'ignore'))

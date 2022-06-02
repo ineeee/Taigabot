@@ -1,4 +1,6 @@
+from __future__ import print_function
 # Plugin by neersighted
+from builtins import str
 import time
 import re
 from util import hook, database, user
@@ -106,8 +108,8 @@ def pingip(inp, reply=None):
     try:
         pingcmd = subprocess.check_output(["ping", "-c", count, host])
     except Exception as e:
-        print '[!] error while executing a system command'
-        print e
+        print('[!] error while executing a system command')
+        print(e)
         return 'error: ping command exited unexpectedly'
 
     if "request timed out" in pingcmd or "unknown host" in pingcmd:
@@ -123,7 +125,7 @@ def pingip(inp, reply=None):
 def ctcp_event(paraml, input=None, bot=None, conn=None):
     inpkind = input.msg.split(" ")[0].strip()
     if re.search("VERSION", inpkind, re.I) or re.search("PING", inpkind, re.I):
-        inpnick = filter(None, input.nick)
+        inpnick = [_f for _f in input.nick if _f]
         inpresult = input.msg.replace(inpkind, '').replace('\x01', '').strip()
         if ctcpcache:
             for x in ctcpcache:
