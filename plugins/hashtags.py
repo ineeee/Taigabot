@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Written by Scaevolus 2010
 # ^ this guy eval()s user input, what a mad lad
 from util import hook, text, database

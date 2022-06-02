@@ -1,3 +1,4 @@
+from __future__ import print_function
 # fuck my life plugin by ine (2020)
 # updated 04/2022
 from util import hook
@@ -8,7 +9,7 @@ cache = []
 
 
 def refresh_cache():
-    print "[+] refreshing fmylife cache"
+    print("[+] refreshing fmylife cache")
     html = request.get('https://www.fmylife.com/random')
     soup = BeautifulSoup(html, 'lxml')
     posts = soup.find_all('a', attrs={'class': 'block text-blue-500 my-4'})

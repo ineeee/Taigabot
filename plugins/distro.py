@@ -1,3 +1,4 @@
+from __future__ import print_function
 # distrowatch ranking plugin by ine (2020)
 from util import hook
 from utilities import request, iterable
@@ -20,7 +21,7 @@ allowed_datasets = [
 
 
 def refresh_cache():
-    print '[+] refreshing distrowatch cache'
+    print('[+] refreshing distrowatch cache')
     output = '[DistroWatch]'
 
     def parse_table(data):

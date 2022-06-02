@@ -1,3 +1,4 @@
+from __future__ import print_function
 # bash.org plugin by ine (2020)
 # checked 04/2022
 from util import hook
@@ -9,7 +10,7 @@ cache = []
 
 def refresh_cache():
     "gets a page of random bash.org quotes and puts them into a dictionary "
-    print "[+] refreshing bash cache"
+    print("[+] refreshing bash cache")
     html = request.get('http://bash.org/?random1')
     soup = BeautifulSoup(html, 'lxml')
     quote_infos = soup.find_all('p', {'class': 'quote'})

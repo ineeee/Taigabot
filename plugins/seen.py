@@ -1,4 +1,5 @@
 " seen.py: written by sklnd in about two beers July 2009"
+from __future__ import print_function
 
 import time
 import re
@@ -133,7 +134,7 @@ def seen(inp, nick='', chan='', db=None, input=None, bot=None):
         if last_seen[0] != inp.lower():  # for glob matching
             inp = last_seen[0]
         if last_seen[2][0:1] == "\x01":
-            print 'notelse'
+            print('notelse')
             return u'{} was last seen {} ago: * {} {}'.format(inp, reltime, inp,
                                                              last_seen[2][8:-1]).encode('utf-8')
         else:
