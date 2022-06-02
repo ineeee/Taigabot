@@ -33,7 +33,7 @@ class crlf_tcp(object):
     "Handles tcp connections that consist of utf-8 lines ending with crlf"
 
     def __init__(self, host, port, timeout=300):
-        self.ibuffer = b""
+        self.ibuffer = b""  # TODO check if this should be just a string
         self.obuffer = b""
         self.oqueue = queue.Queue()    # lines to be sent out
         self.iqueue = queue.Queue()    # lines that were received
@@ -87,7 +87,7 @@ class crlf_tcp(object):
                     return
                 continue
 
-            while b'\r\n' in self.ibuffer:
+            while b'\r\n' in self.ibuffer:  # TODO check if this should be a string
                 line, self.ibuffer = self.ibuffer.split(b'\r\n', 1)
                 self.iqueue.put(decode(line))
 
@@ -161,8 +161,7 @@ class IRC(object):
         self.set_nick(self.nick)
         self.cmd("USER", [
             conf.get('user', 'uguubot'), "3", "*",
-            conf.get('realname',
-                     'UguuBot - http://github.com/infinitylabs/UguuBot')
+            conf.get('realname', 'UguuBot - http://github.com/infinitylabs/UguuBot')
         ])
 
     def parse_loop(self):
