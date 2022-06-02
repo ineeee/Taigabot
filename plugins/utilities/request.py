@@ -1,7 +1,9 @@
+from future import standard_library
+standard_library.install_aliases()
 import requests
 from json import loads as json_load
 
-from urllib import quote  # python 2
+from urllib.parse import quote  # python 2
 # from urllib.parse import quote  # python 3
 
 # update this like once every few months

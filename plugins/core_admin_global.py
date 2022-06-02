@@ -341,7 +341,7 @@ def set(inp, conn=None, chan=None, db=None, notice=None):
 
     inpsplit = inp.split(" ")
 
-    if len(inpsplit) is 2:
+    if len(inpsplit) == 2:
         field = inp.split(" ")[0].strip()
         value = inp.split(" ")[1].strip()
 
@@ -384,7 +384,7 @@ def set(inp, conn=None, chan=None, db=None, notice=None):
                 'woeid' in field or\
                 'snapchat' in field:
                 #if type(value) is list: value = value[0]
-                if value.lower() is 'none':
+                if value.lower() == 'none': ## ????????????????WTF IS THIS SHIT SHJOULDNT IT BE `if is None`=??????
                     database.set(db, 'users', field, '', 'nick', nick)
                 else:
                     database.set(db, 'users', field, value, 'nick', nick)
