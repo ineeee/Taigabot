@@ -4,13 +4,16 @@
     <http://code.djangoproject.com/svn/django/trunk/django/utils/text.py>
 """
 
+from builtins import chr
+from builtins import map
+from builtins import range
 import re
 
 
 def munge(text, munge_count=0):
     "munges up text."
     reps = 0
-    for n in xrange(len(text)):
+    for n in range(len(text)):
         rep = character_replacements.get(text[n])
         if rep:
             text = text[:n] + rep.decode('utf8') + text[n + 1:]
@@ -260,7 +263,7 @@ def fix_bad_unicode(text):
         >>> print fix_bad_unicode(u'This text was never Unicode at all\x85')
         This text was never Unicode at all…
     """
-    if not isinstance(text, unicode):
+    if not isinstance(text, str):
         raise TypeError("This isn't even decoded into Unicode yet. "
                         "Decode it first.")
     if len(text) == 0:
@@ -336,12 +339,12 @@ def text_badness(text):
     - Improbable single-byte characters, such as ƒ or ¬
     - Letters in somewhat rare scripts
     '''
-    assert isinstance(text, unicode)
+    assert isinstance(text, str)
     errors = 0
     very_weird_things = 0
     weird_things = 0
     prev_letter_script = None
-    for pos in xrange(len(text)):
+    for pos in range(len(text)):
         char = text[pos]
         index = ord(char)
         if index < 256:
@@ -430,7 +433,7 @@ WINDOWS_1252_GREMLINS = [
 ]
 
 # a list of Unicode characters that might appear in Windows-1252 text
-WINDOWS_1252_CODEPOINTS = range(256) + WINDOWS_1252_GREMLINS
+WINDOWS_1252_CODEPOINTS = list(range(256)) + WINDOWS_1252_GREMLINS
 
 # Rank the characters typically represented by a single byte -- that is, in
 # Latin-1 or Windows-1252 -- by how weird it would be to see them in running
@@ -474,8 +477,8 @@ SINGLE_BYTE_WEIRDNESS = (
 # Pre-cache the Unicode data saying which of these first 256 characters are
 # letters. We'll need it often.
 SINGLE_BYTE_LETTERS = [
-    unicodedata.category(unichr(i)).startswith('L')
-    for i in xrange(256)
+    unicodedata.category(chr(i)).startswith('L')
+    for i in range(256)
 ]
 
 # A table telling us how to interpret the first word of a letter's Unicode
