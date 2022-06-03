@@ -1,3 +1,4 @@
+from __future__ import print_function
 # IMDb lookup plugin by Ghetto Wizard (2011).
 
 from util import hook, http
@@ -42,7 +43,7 @@ def get_series_info(seriesname):
     try:
         series_id = query.xpath('//id/text()')
     except:
-        print "Failed"
+        print("Failed")
 
     if not series_id:
         result = "\x02Could not find show:\x02 %s" % seriesname

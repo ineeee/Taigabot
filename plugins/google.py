@@ -1,3 +1,4 @@
+from __future__ import print_function
 import re
 
 from util import hook, web
@@ -53,5 +54,5 @@ def image(inp, bot=None):
     try:
         return web.isgd(result)
     except Exception as e:
-        print '[!] Error while shortening:', e
+        print('[!] Error while shortening:', e)
         return result

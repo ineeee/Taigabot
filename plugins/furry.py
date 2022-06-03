@@ -1,3 +1,4 @@
+from __future__ import print_function
 # furry booru plugin by ararouge (2020)
 from util import hook
 from utilities import request
@@ -8,7 +9,7 @@ lastsearch = ''
 
 
 def refresh_cache(inp):
-    print "[+] refreshing furry cache"
+    print("[+] refreshing furry cache")
 
     global cache
     global lastsearch

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import random
 import re
 import time
@@ -69,7 +70,7 @@ def get_video_description(key, video_id, bot):
     try:
         upload_time = time.strptime(data['snippet']['publishedAt'], "%Y-%m-%dT%H:%M:%S.000Z")
     except Exception as e:
-        print e
+        print(e)
         upload_time = time.strptime(data['snippet']['publishedAt'], "%Y-%m-%dT%H:%M:%SZ")
     out += u' - \x02{}\x02 on \x02{}\x02'.format(uploader, time.strftime("%Y.%m.%d", upload_time))
 
@@ -98,7 +99,7 @@ def randomtube(inp, bot=None):
             f.close()
             return url + ' - ' + description
         except Exception as e:
-            print url
+            print(url)
             description = get_video_description(key, url.split('/', bot)[-1])
             f.close()
             return url + ' - ' + description
@@ -133,7 +134,7 @@ def youtube(inp, bot=None, input=None):
 
     video_id = request['items'][0]['id']['videoId']
     if input['trigger'] == u'hooktube' or input['trigger'] == u'ht':
-        print "penis"
+        print("penis")
         return get_video_description(key, video_id) + u" - " + video_url.replace(
             'youtu.be', 'hooktube.com', bot) % video_id
     else:

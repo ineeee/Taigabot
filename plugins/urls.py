@@ -1,3 +1,4 @@
+from __future__ import print_function
 import re
 import urllib2
 from urlparse import urlparse
@@ -258,8 +259,8 @@ def unmatched_url(url, parsed, bot, chan, db):
     try:
         req = requests.get(url, headers=headers, allow_redirects=True, stream=True, timeout=8)
     except Exception as e:
-        print '[!] WARNING couldnt fetch url'
-        print e
+        print('[!] WARNING couldnt fetch url')
+        print(e)
         return
 
     # parsing
@@ -272,7 +273,7 @@ def unmatched_url(url, parsed, bot, chan, db):
         try:
             title = parse_html(req)
         except Exception as e:
-            print '[!] WARNING the url caused a parser error'
+            print('[!] WARNING the url caused a parser error')
             title = 'Untitled'
 
         # TODO handle titles with html entities

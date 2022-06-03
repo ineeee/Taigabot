@@ -1,3 +1,4 @@
+from __future__ import print_function
 # BING translation plugin by Lukeroge and neersighted
 from util import hook
 from util import http
@@ -22,7 +23,7 @@ def gengo_translate(text, source, target):
             'tier': 'machine',
         })
         translated = translation['response']['job']['body_tgt']
-        print translated
+        print(translated)
         return u"%s" % translated
     except mygengo.MyGengoError:
         return "error: could not translate"

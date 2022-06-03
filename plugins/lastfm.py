@@ -1,3 +1,4 @@
+from __future__ import print_function
 from util import hook, http, database
 import time
 from datetime import datetime
@@ -5,7 +6,7 @@ from datetime import datetime
 @hook.command
 def band(inp, bot=None):
     artist = inp
-    print artist
+    print(artist)
     api_key = bot.config['api_keys']['lastfm']
     api_url = 'http://ws.audioscrobbler.com/2.0/?format=json'
     query_params = {'method': 'artist.getInfo',

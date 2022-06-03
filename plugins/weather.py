@@ -1,3 +1,4 @@
+from __future__ import print_function
 from util import hook, database
 import urllib
 import json
@@ -7,7 +8,7 @@ import pytz
 
 
 def getlocation(db, location):
-    print location
+    print(location)
     try:
         location = location.decode("utf-8")
     except:

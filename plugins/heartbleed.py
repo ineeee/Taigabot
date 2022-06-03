@@ -10,6 +10,7 @@
 # See: https://blog.mozilla.org/security/2014/04/12/testing-for-heartbleed-vulnerability-without-exploiting-the-server/
 
 # Usage example: python ssltest.py example.com
+from __future__ import print_function
 from util import hook
 
 # import sys
@@ -125,7 +126,7 @@ def recvall(s, length, timeout=5):
         if s in r:
             try:
                 data = s.recv(remain)
-            except Exception, e:
+            except Exception as e:
                 return None
             # EOF?
             if not data:
@@ -149,7 +150,7 @@ def recvmsg(s):
 def hit_hb(s):
     try:
         s.send(hb)
-    except Exception, e:
+    except Exception as e:
         return False
     while True:
         typ, ver, pay = recvmsg(s)
@@ -175,7 +176,7 @@ def is_vulnerable(host, timeout):
     s.settimeout(int(timeout))
     try:
         s.connect((host, 443))
-    except Exception, e:
+    except Exception as e:
         return None
     s.send(hello)
     while True:
@@ -226,7 +227,7 @@ def scan_host(host):
     result = is_vulnerable(host, opts.timeout)
     message = store_results(host, result)
     if opts.verbose:
-        print message
+        print(message)
     return message
 
 
