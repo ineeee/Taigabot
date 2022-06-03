@@ -1,6 +1,10 @@
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
+from builtins import object
 import random
 import re
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from xml.dom import minidom
 
 from util import formatting, hook, http
@@ -29,7 +33,7 @@ __version__ = '1.1-devel'
 # import simplejson as json
 
 
-class WolframAlphaEngine:
+class WolframAlphaEngine(object):
     def __init__(self, appid='', server=''):
         self.appid = appid
         self.server = server
@@ -51,14 +55,14 @@ class WolframAlphaEngine:
     def PerformQuery(self, query=''):
 
         try:
-            result = urllib2.urlopen(self.server, query)
+            result = urllib.request.urlopen(self.server, query)
             result = result.read()
         except:
             result = '<error>urllib2.urlopen ' + self.server + ' ' + query + '</error>'
         return result
 
 
-class WolframAlphaQuery:
+class WolframAlphaQuery(object):
     def __init__(self, query='', appid=''):
         self.Query = query
         self.appid = appid
@@ -101,7 +105,7 @@ class WolframAlphaQuery:
         return
 
 
-class WolframAlphaQueryResult:
+class WolframAlphaQueryResult(object):
     def __init__(self, result=''):
         self.XmlResult = result
         self.dom = minidom.parseString(result)
@@ -172,7 +176,7 @@ class WolframAlphaQueryResult:
         return scanbranches(self.tree, 'sources')
 
 
-class Pod:
+class Pod(object):
     def __init__(self, pod=''):
         self.pod = pod
         return
@@ -208,7 +212,7 @@ class Pod:
         return self.pod
 
 
-class Subpod:
+class Subpod(object):
     def __init__(self, subpod=''):
         self.subpod = subpod
         return
@@ -223,7 +227,7 @@ class Subpod:
         return scanbranches(self.subpod, 'img')
 
 
-class Assumption:
+class Assumption(object):
     def __init__(self, assumption=''):
         self.assumption = assumption
         return

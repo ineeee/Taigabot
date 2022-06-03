@@ -1,3 +1,4 @@
+from builtins import str
 from util import hook
 from random import randint
 
@@ -88,7 +89,7 @@ def peachypeach(inp, nick=None, db=None, me=None, notice=None):
     bank_subtract(db, nick, "peach")
     bank_add(db, inp, "peach")
 
-    me(u'gives \U0001F351 to ' + unicode(inp))
+    me(u'gives \U0001F351 to ' + str(inp))
     notice(u"sent one (1) \U0001F351 peachy peach to {}".format(inp))
 
 
@@ -111,9 +112,9 @@ def roseyrose(inp, nick=None, db=None, me=None, notice=None):
     bank_add(db, inp, "rose")
 
     if inp.lower() == 'ru':
-        me(u'gives \U0001F940 to ' + unicode(inp))
+        me(u'gives \U0001F940 to ' + str(inp))
     else:
-        me(u'gives \U0001F339 to ' + unicode(inp))
+        me(u'gives \U0001F339 to ' + str(inp))
     notice(u"sent one (1) \U0001F339 rosey rose to {}".format(inp))
 
 
@@ -140,5 +141,5 @@ def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
     bank_subtract(db, nick, "cum")
     bank_add(db, inp, "cum")
 
-    me(u'gives \U0001F4A6 to ' + unicode(inp))
+    me(u'gives \U0001F4A6 to ' + str(inp))
     notice(u"sent one (1) \U0001F4A6 daddies cummies to {}".format(inp))

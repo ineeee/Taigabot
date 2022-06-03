@@ -1,3 +1,5 @@
+from builtins import str
+from builtins import object
 from util import hook
 from json import loads as json_loads
 from utilities import request

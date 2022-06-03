@@ -11,6 +11,7 @@
 
 # Usage example: python ssltest.py example.com
 from __future__ import print_function
+from builtins import str
 from util import hook
 
 # import sys
@@ -235,7 +236,7 @@ def print_summary():
     """ Print summary of previously stored json data to screen """
 
     counter = defaultdict(int)
-    for host, data in host_status.items():
+    for host, data in list(host_status.items()):
         friendly_status = "unknown"
         status = data.get('status', "Not scanned")
         if status is None:

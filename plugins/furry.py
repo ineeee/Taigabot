@@ -1,5 +1,6 @@
 from __future__ import print_function
 # furry booru plugin by ararouge (2020)
+from builtins import range
 from util import hook
 from utilities import request
 import random

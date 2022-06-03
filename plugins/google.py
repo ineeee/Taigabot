@@ -34,7 +34,7 @@ def google(inp, bot=None):
 @hook.command('gi')
 def image(inp, bot=None):
     """image <query> -- Returns the first Google Image result for <query>."""
-    if type(inp) is unicode:
+    if type(inp) is str:
         filetype = None
     else:
         inp, filetype = inp.string[1:].split('.')

@@ -1,3 +1,4 @@
+from builtins import filter
 import re
 import random
 from util import hook
@@ -54,7 +55,7 @@ def ai_sieve(paraml, input=None, notice=None, db=None, bot=None, nick=None, conn
         match = pattern[0].replace('{name}', bot.config['connections'][server.title()]['user'].lower())
         if re.match(match, input.msg.lower()):
             # print "Matched: {}".format(pattern[0])
-            wildcards = filter(bool, re.split(pattern[0], input.msg.lower()))
+            wildcards = list(filter(bool, re.split(pattern[0], input.msg.lower())))
             # replace pronouns
             wildcards = [' '.join(pronouns.get(word, word) for word in wildcard.split()) for wildcard in wildcards]
 

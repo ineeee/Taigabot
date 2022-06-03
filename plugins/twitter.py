@@ -1,7 +1,9 @@
+from future import standard_library
+standard_library.install_aliases()
 import re
 import random
 from datetime import datetime
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 import tweepy
 

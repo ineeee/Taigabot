@@ -1,8 +1,10 @@
 from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
 import random
 import re
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from util import hook, http, timeformat
 
@@ -33,8 +35,8 @@ def get_video_description(key, video_id, bot):
 
     data = request['items'][0]
 
-    title = filter(None, data['snippet']['title'].split(' '))
-    title = ' '.join(map(lambda s: s.strip(), title))
+    title = [_f for _f in data['snippet']['title'].split(' ') if _f]
+    title = ' '.join([s.strip() for s in title])
     out = u'\x02{}\x02'.format(title)
 
     try:

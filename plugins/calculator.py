@@ -1,3 +1,4 @@
+from past.builtins import cmp
 import re
 import math
 import operator

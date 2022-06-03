@@ -33,10 +33,10 @@ radios = {
 @hook.command
 def radio(id):
     if id == "":
-        return "pick a radio: " + ", ".join(radios.keys())
+        return "pick a radio: " + ", ".join(list(radios.keys()))
 
     if id not in radios:
-        return "we dont support that radio. try one of the following: " + ", ".join(radios.keys())
+        return "we dont support that radio. try one of the following: " + ", ".join(list(radios.keys()))
 
     radio = radios[id]
 

@@ -1,7 +1,10 @@
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import random
 import re
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from util import hook, user
 from utilities.services import paste, paste_litterbox

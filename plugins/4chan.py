@@ -1,3 +1,6 @@
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import re
 from threading import *
 from collections import deque
@@ -18,7 +21,7 @@ def process_text(string):
     except: pass
     string = re.sub('&gt;&gt;\d*[\s]','',string) #remove quoted posts
     string = re.sub('(&gt;&gt;\d*)','',string)
-    try: string = unicode(string, "utf8")
+    try: string = str(string, "utf8")
     except: pass
     try: string = strip_html(string)
     except: pass
@@ -62,7 +65,7 @@ def search_thread(results_deque, thread_num, search_specifics):
     if thread_json is not None:
         re_search = None
         for post in thread_json["posts"]:
-            user_text = "".join([post[s] for s in search_specifics["sections"] if s in post.keys()])
+            user_text = "".join([post[s] for s in search_specifics["sections"] if s in list(post.keys())])
             re_search = re.search(search_specifics["string"], user_text, re.UNICODE + re.IGNORECASE)
             if re_search is not None:
                 results_deque.append("{0}#p{1}".format(thread_num, post["no"]))
@@ -72,7 +75,7 @@ def search_page(results_deque, page, search_specifics):
     """Will be run by the threading module. Searches all the
     4chan threads on a page and adds matching results to synchronised queue"""
     for thread in page['threads']:
-        user_text = "".join([thread[s] for s in search_specifics["sections"] if s in thread.keys()])
+        user_text = "".join([thread[s] for s in search_specifics["sections"] if s in list(thread.keys())])
         if re.search(search_specifics["string"], user_text, re.UNICODE + re.IGNORECASE) is not None:
             results_deque.append(thread["no"])
 

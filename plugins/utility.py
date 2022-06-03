@@ -1,3 +1,4 @@
+from builtins import str
 import collections
 import hashlib
 import re
@@ -152,9 +153,9 @@ def munge(inp):
 
 
 def make_rainbow(inp):
-    inp = unicode(inp)
+    inp = str(inp)
     inp = strip(inp)
-    col = colors.items()
+    col = list(colors.items())
     out = ""
     l = len(colors)
     for i, t in enumerate(inp):
@@ -194,8 +195,8 @@ def gayfiglet(inp, reply=None):
 
 @hook.command
 def wrainbow(inp):
-    inp = unicode(inp)
-    col = colors.items()
+    inp = str(inp)
+    col = list(colors.items())
     inp = strip(inp).split(' ')
     out = []
     l = len(colors)

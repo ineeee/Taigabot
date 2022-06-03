@@ -1,6 +1,11 @@
 from __future__ import print_function
+from __future__ import division
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from past.utils import old_div
 from util import hook, database
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import json
 from geopy.geocoders import Nominatim
 from datetime import datetime
@@ -80,7 +85,7 @@ def weather(inp, bot=None, reply=None, db=None, nick=None, notice=None, paraml=N
     secret = bot.config.get("api_keys", {}).get("darksky")
     baseurl = 'https://api.darksky.net/forecast/{}/{},{}?exclude=minutely,flags,hourly'.format(
         secret, latlong[0], latlong[1])
-    reply = json.loads(urllib.urlopen(baseurl).read())
+    reply = json.loads(urllib.request.urlopen(baseurl).read())
     current = reply['currently']
     daily_current = reply['daily']['data'][0]
 
@@ -109,9 +114,9 @@ def weather(inp, bot=None, reply=None, db=None, nick=None, notice=None, paraml=N
             'place': address,
             'summary': current['summary'],
             'high_f': int(round(daily_current['temperatureMax'])),
-            'high_c': int(round((daily_current['temperatureMax'] - 32) * 5 / 9)),
+            'high_c': int(round(old_div((daily_current['temperatureMax'] - 32) * 5, 9))),
             'low_f': int(round(daily_current['temperatureMin'])),
-            'low_c': int(round((daily_current['temperatureMin'] - 32) * 5 / 9)),
+            'low_c': int(round(old_div((daily_current['temperatureMin'] - 32) * 5, 9))),
             'humidity': (str(current['humidity'])[2:] if len(str(current['humidity'])) >3 else ('100' if current['humidity'] == 1 else str(current['humidity'])[2:] + '0')),
             'wind_text': wind_type(current['windSpeed']),
             'wind_mph': int(round(current['windSpeed'])),
@@ -132,9 +137,9 @@ def weather(inp, bot=None, reply=None, db=None, nick=None, notice=None, paraml=N
 
         if command != 'forecast':
             weather_data['temp_f'] = int(round(current['temperature']))
-            weather_data['temp_c'] = int(round((current['temperature'] - 32) * 5 / 9))
+            weather_data['temp_c'] = int(round(old_div((current['temperature'] - 32) * 5, 9)))
             weather_data['feel_f'] = int(round(current['apparentTemperature']))
-            weather_data['feel_c'] = int(round((current['apparentTemperature'] - 32) * 5 / 9, 1))
+            weather_data['feel_c'] = int(round(old_div((current['apparentTemperature'] - 32) * 5, 9), 1))
         #uv index, moon phase, cloud cover, preasure, dew point, wind gust, sunset time, sunrise time, ozone,
         # precip intencity, precip probabilyty, precip type, precip intencity max
         output = "\x02{place}\x02: {summary}, {forecast}".format(

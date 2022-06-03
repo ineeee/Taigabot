@@ -155,7 +155,7 @@ def translate(inp):
         from_language = inp.split()[1]
         to_language = inp.split()[3]
         to_translate = inp.split(to_language)[1].strip()
-        if to_language in langs.keys():
+        if to_language in list(langs.keys()):
             to_language = langs[to_language]
             from_language = langs[from_language]
     elif inp.startswith('from'):

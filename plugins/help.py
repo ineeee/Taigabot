@@ -1,6 +1,9 @@
 from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import re
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from util import hook, user, web
 
@@ -11,7 +14,7 @@ def commands(inp, say=None, notice=None, input=None, conn=None, bot=None, db=Non
     funcs = {}
     disabled = bot.config.get('disabled_plugins', [])
     disabled_comm = bot.config.get('disabled_commands', [])
-    for command, (func, args) in bot.commands.iteritems():
+    for command, (func, args) in bot.commands.items():
         fn = re.match(r'^plugins.(.+).py$', func._filename)
 
         if fn.group(1).lower(
@@ -29,7 +32,7 @@ def commands(inp, say=None, notice=None, input=None, conn=None, bot=None, db=Non
                 else:
                     funcs[func] = command
 
-    commands = dict((value, key) for key, value in funcs.iteritems())
+    commands = dict((value, key) for key, value in funcs.items())
 
     if not inp:
         output = []
@@ -65,8 +68,8 @@ def commands(inp, say=None, notice=None, input=None, conn=None, bot=None, db=Non
                 'api_option': 'paste',
                 'api_paste_code': output.encode('utf-8')
             }
-            response = urllib.urlopen('https://pastebin.com/api/api_post.php',
-                                      urllib.urlencode(pastebin_vars))
+            response = urllib.request.urlopen('https://pastebin.com/api/api_post.php',
+                                      urllib.parse.urlencode(pastebin_vars))
             url = response.read()
             #haste = web.haste("{}\n\n{}".format(output, help))
             notice("Commands you have access to ({}): {}".format(len(well), url))

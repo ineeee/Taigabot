@@ -1,5 +1,6 @@
 # urban dictionary plugin by ine (2020)
 # checked 04/2022
+from builtins import str
 from util import hook
 from utilities import request, formatting
 

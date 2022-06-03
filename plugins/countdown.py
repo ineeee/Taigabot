@@ -1,3 +1,4 @@
+from builtins import range
 from util import hook
 import time
 

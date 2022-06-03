@@ -71,7 +71,7 @@ def is_number(s):
 def unicode_dictreader(utf8_data, **kwargs):
     csv_reader = csv.DictReader(utf8_data, **kwargs)
     for row in csv_reader:
-        yield dict([(key.lower(), str(value, 'utf-8')) for key, value in row.items()])
+        yield dict([(key.lower(), str(value, 'utf-8')) for key, value in list(row.items())])
 
 
 @hook.command('sc')
