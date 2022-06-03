@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 __author__ = "InfinityLabs"
 __authors__ = ["Infinity"]
@@ -17,15 +17,21 @@ import sys
 import time
 import platform
 
+if not sys.version_info >= (2, 7):
+    print 'Taigabot only runs on python 2.7'
+    sys.exit(1)
+
+
 sys.path += ['plugins']  # so 'import hook' works without duplication
-sys.path += ['lib']
 os.chdir(sys.path[0] or '.')  # do stuff relative to the install directory
 
 
 class Bot(object):
-    pass
+    def __init__(self):
+        self.start_time = time.time()
+        self.conns = {}
 
-print 'UguuBot %s (%s) <http://github.com/infinitylabs/UguuBot>' % (__version__, __status__)
+print 'Taigabot <https://github.com/inexist3nce/Taigabot>'
 
 # print debug info
 opsys = platform.platform()
@@ -33,18 +39,14 @@ python_imp = platform.python_implementation()
 python_ver = platform.python_version()
 architecture = ' '.join(platform.architecture())
 
-print "Operating System: %s, Python " \
-        "Version: %s %s, Architecture: %s" \
-        "" % (opsys, python_imp, python_ver, architecture)
+print "OS: %s, Python: %s %s, Arch: %s" % (opsys, python_imp, python_ver, architecture)
 
 bot = Bot()
-bot.start_time = time.time()
 
 print 'Loading plugins...'
 
-# bootstrap the reloader
-eval(compile(open(os.path.join('core', 'reload.py'), 'U').read(),
-    os.path.join('core', 'reload.py'), 'exec'))
+# bootstrap the reloader (why can't we just import this?)
+eval(compile(open('core/reload.py', 'U').read(), 'core/reload.py', 'exec'))
 reload(init=True)
 
 config()
@@ -53,21 +55,29 @@ if not hasattr(bot, 'config'):
 
 print 'Connecting to IRC...'
 
-bot.conns = {}
-
 try:
     for name, conf in bot.config['connections'].iteritems():
         print 'Connecting to server: %s' % conf['server']
         if conf.get('ssl'):
-            bot.conns[name] = SSLIRC(name, conf['server'], conf['nick'], conf=conf,
-                    port=conf.get('port', 6697), channels=conf['channels'],
-                    ignore_certificate_errors=conf.get('ignore_cert', True))
+            bot.conns[name] = SSLIRC(name,
+                                     conf['server'],
+                                     conf['nick'],
+                                     conf=conf,
+                                     port=conf.get('port', 6697),
+                                     channels=conf['channels'],
+                                     ignore_certificate_errors=conf.get('ignore_cert', True)
+                                    )
         else:
-            bot.conns[name] = IRC(name, conf['server'], conf['nick'], conf=conf,
-                    port=conf.get('port', 6667), channels=conf['channels'])
+            bot.conns[name] = IRC(name,
+                                  conf['server'],
+                                  conf['nick'],
+                                  conf=conf,
+                                  port=conf.get('port', 6667),
+                                  channels=conf['channels']
+                                 )
 except Exception as e:
     print 'ERROR: malformed config file', e
-    sys.exit()
+    sys.exit(1)
 
 bot.persist_dir = os.path.abspath('persist')
 if not os.path.exists(bot.persist_dir):
