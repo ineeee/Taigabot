@@ -1,3 +1,6 @@
+from __future__ import division
+from builtins import str
+from past.utils import old_div
 import os
 import psutil
 import re
@@ -9,7 +12,7 @@ from datetime import timedelta
 
 def convert_kilobytes(kilobytes):
     if kilobytes >= 1024:
-        megabytes = kilobytes / 1024
+        megabytes = old_div(kilobytes, 1024)
         size = '%.2f MB' % megabytes
     else:
         size = '%.2f KB' % kilobytes
@@ -39,7 +42,7 @@ def memory(inp, notice=None):
     """memory -- Displays the bot's current memory usage."""
     p = psutil.Process()
     mem = p.memory_info()
-    rss, vms, heap = mem.rss/1000000, mem.vms/1000000, mem.data/1000000
+    rss, vms, heap = old_div(mem.rss,1000000), old_div(mem.vms,1000000), old_div(mem.data,1000000)
     notice('%s %s %s' % (rss, vms, heap))
     if os.name == "posix":
         # get process info

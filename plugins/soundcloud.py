@@ -1,6 +1,9 @@
 from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 from util import hook, http, web, text
-from urllib import urlencode
+from urllib.parse import urlencode
 import re
 
 sc_re = (r'(.*:)//(www.)?(soundcloud.com)(.*)', re.I)

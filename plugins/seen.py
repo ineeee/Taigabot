@@ -1,6 +1,7 @@
 " seen.py: written by sklnd in about two beers July 2009"
 from __future__ import print_function
 
+from builtins import str
 import time
 import re
 import sys
