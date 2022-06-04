@@ -1,16 +1,12 @@
-import inspect
 import json
 import os
 
 
-def save(conf):
-    json.dump(conf, open('config', 'w'), sort_keys=True, indent=2)
-
 if not os.path.exists('config'):
     print "Please rename 'config.default' to 'config' to set up your bot!"
-    print "For help, see https://github.com/infinitylabs/UguuBot"
-    print "Thank you for using UguuBot!"
-    sys.exit()
+    print "For help, see https://github.com/inexist3nce/Taigabot"
+    print "Thank you for using Taigabot!"
+    sys.exit(1)
 
 
 def config():
@@ -20,7 +16,7 @@ def config():
         try:
             bot.config = json.load(open('config'))
             bot._config_mtime = config_mtime
-        except ValueError, e:
+        except ValueError as e:
             print 'error: malformed config', e
 
 

@@ -242,7 +242,7 @@ class SSLIRC(IRC):
                  name,
                  server,
                  nick,
-                 port=6667,
+                 port=6697,
                  channels=[],
                  conf={},
                  ignore_certificate_errors=True):
