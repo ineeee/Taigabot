@@ -11,17 +11,16 @@ _thread.stack_size(1024 * 512)    # reduce vm size
 
 
 class Input(dict):
-
     def __init__(self, conn, raw, prefix, command, params, nick, user, host, mask, paraml, msg):
 
         chan = paraml[0].lower()
-        if chan == conn.nick.lower():    # is a PM
+        if chan == conn.nick.lower():  # is a PM
             chan = nick
 
         def say(msg):
             conn.msg(chan, msg)
 
-        def pm(msg):
+        def pm(msg):  # seems unused
             conn.msg(nick, msg)
 
         def reply(msg):
@@ -136,7 +135,6 @@ class Handler(object):
             try:
                 run(self.func, input)
             except:
-                import traceback
                 traceback.print_exc()
 
     def stop(self):
@@ -152,8 +150,7 @@ def dispatch(input, kind, func, args, autohelp=False):
         if input == None:
             return
 
-    if autohelp and args.get('autohelp', True) and not input.inp \
-      and func.__doc__ is not None:
+    if autohelp and args.get('autohelp', True) and not input.inp and func.__doc__ is not None:
         input.notice(input.conn.conf["command_prefix"] + func.__doc__)
         return
 
@@ -202,7 +199,7 @@ def main(conn, out):
 
             if isinstance(command, list):    # multiple potential matches
                 input = Input(conn, *out)
-                if trigger not in ('b', 'p', 'd', 'pa', 'uj'):
+                if trigger not in ('b', 'p', 'd', 'pa', 'uj'):  # unobot commands exempt from suggestions
                     input.notice("Did you mean %s or %s?" % (', '.join(command[:-1]), command[-1]))
             elif command in bot.commands:
                 input = Input(conn, *out)
