@@ -47,7 +47,7 @@ bot.start_time = time.time()
 print('Loading plugins...')
 
 # bootstrap the reloader
-eval(compile(open(os.path.join('core', 'reload.py'), 'U').read(),
+eval(compile(open(os.path.join('core', 'reload.py'), 'r').read(),
     os.path.join('core', 'reload.py'), 'exec'))
 reload(init=True)
 

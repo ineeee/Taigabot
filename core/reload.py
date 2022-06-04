@@ -51,7 +51,7 @@ def reload(init=False):
             changed = True
 
             try:
-                eval(compile(open(filename, 'U').read(), filename, 'exec'),
+                eval(compile(open(filename, 'r').read(), filename, 'exec'),
                      globals())
             except Exception:
                 traceback.print_exc()
@@ -88,7 +88,7 @@ def reload(init=False):
             changed = True
 
             try:
-                code = compile(open(filename, 'U').read(), filename, 'exec')
+                code = compile(open(filename, 'r').read(), filename, 'exec')
                 namespace = {}
                 eval(code, namespace)
             except Exception:

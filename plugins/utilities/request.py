@@ -3,25 +3,14 @@ standard_library.install_aliases()
 import requests
 from json import loads as json_load
 
-from urllib.parse import quote  # python 2
-# from urllib.parse import quote  # python 3
+from urllib.parse import quote
 
 # update this like once every few months
 fake_ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36'
 
 
 def urlencode(inp):
-    def force_decode(string):
-        for i in ['utf8', 'cp1252']:
-            try:
-                return string.decode(i)
-            except UnicodeDecodeError:
-                pass
-
-    if isinstance(inp, str):
-        inp = force_decode(inp)
-
-    return quote(inp.encode('utf8'))
+    return quote(inp)
 
 
 def get_json(url, **kwargs):
