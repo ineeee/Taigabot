@@ -4,7 +4,7 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import str
 from builtins import chr
-import http.cookiejar
+from http.cookiejar import CookieJar
 import json
 import urllib.request, urllib.parse, urllib.error
 import urllib.request, urllib.error, urllib.parse
@@ -24,7 +24,7 @@ ua_internetexplorer = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
 ua_chrome = 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.4 (KHTML, ' \
             'like Gecko) Chrome/22.0.1229.79 Safari/537.4'
 
-jar = http.cookiejar.CookieJar()
+jar = CookieJar()
 
 
 def get(*args, **kwargs):
