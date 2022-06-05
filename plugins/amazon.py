@@ -86,7 +86,7 @@ def amazon(inp):
         title = title[:80] + '...'
 
     # \x03 = color, 03 = green
-    return u'[Amazon] {} \x0303{}\x03 {}'.format(title, price, url)
+    return f'[Amazon] {title} \x0303{price}\x03 {url}'
 
 
 AMAZON_RE = (r"https?:\/\/(www\.)?amazon.com\/[^\s]*dp\/([A-Za-z0-9]+)[^\s]*", re.I)
@@ -102,4 +102,4 @@ def amazon_url(match):
     if len(title) > 80:
         title = title[:80] + '...'
 
-    return u'[Amazon] {} \x0303{}\x03 {}'.format(title, price, url)
+    return f'[Amazon] {title} \x0303{price}\x03 {url}'

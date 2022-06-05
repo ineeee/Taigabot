@@ -32,29 +32,30 @@ radios = {
 
 @hook.command
 def radio(id):
-    if id == "":
-        return "pick a radio: " + ", ".join(list(radios.keys()))
+    if id == '':
+        return 'pick a radio: ' + ', '.join(list(radios.keys()))
 
     if id not in radios:
-        return "we dont support that radio. try one of the following: " + ", ".join(list(radios.keys()))
+        return 'we dont support that radio. try one of the following: ' + ', '.join(list(radios.keys()))
 
     radio = radios[id]
 
     try:
         data = request.get_json(radio['api'])
     except ValueError:
-        return "the radio " + id + " has some server issues right now. try again later"
+        return f'the radio {id} has some server issues right now. try again later'
 
     sources = data.get('icestats', {}).get('source', False)
 
     if sources is False:
-        return "the radio " + id + " is offline"
+        return f'the radio {id} is offline'
 
     def build_message(source):
         title = source.get('title', 'Untitled')
         listeners = source.get('listeners', 0)
         #genre = sourc.get('genre', 'unknown')
-        return u'{} is playing \x02{}\x02 for {} listeners. listen: {}'.format(id, title, listeners, radio['homepage'])
+        url = radio['homepage']
+        return f'{id} is playing \x02{title}\x02 for {listeners} listeners. listen: {url}'
 
     # the icecast api returns either one object (for one stream)
     # or a list of sources (for multiple streams available)
@@ -68,7 +69,7 @@ def radio(id):
                 return build_message(source)
 
     # didn't find it
-    return "the radio " + id + " is offline"
+    return f'the radio {id} is offline'
 
 
 @hook.command
@@ -82,7 +83,7 @@ def aradio(inp):
 @hook.command(autohelp=False)
 @hook.command('mutantradio', autohelp=False)
 def muradio(inp):
-    "radio [url]-- Returns current mutantradio song"
+    """radio [url]-- Returns current mutantradio song"""
     url = 'https://chiru.no:8080/status.xsl'
     page = request.get_text(url)
     soup = BeautifulSoup(page, 'lxml')
@@ -93,5 +94,5 @@ def muradio(inp):
     listeners = stats[2].text
     genre = stats[4].text
     # url = stats[5].text
-    song = stats[6].text.encode('utf-8').strip()
-    return u"[muradio] Playing: {}, Genre: {}, Listening: {}, URL: https://chiru.no/".format(song, genre, listeners)
+    song = stats[6].text.encode('utf-8').strip()  # TODO remove py2 encode stuff
+    return u'[muradio] Playing: {}, Genre: {}, Listening: {}, URL: https://chiru.no/'.format(song, genre, listeners)

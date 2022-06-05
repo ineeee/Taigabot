@@ -1,7 +1,6 @@
 from future import standard_library
 standard_library.install_aliases()
 from builtins import range
-from builtins import object
 import random
 import re
 import urllib.request, urllib.error, urllib.parse
@@ -33,7 +32,7 @@ __version__ = '1.1-devel'
 # import simplejson as json
 
 
-class WolframAlphaEngine(object):
+class WolframAlphaEngine:
     def __init__(self, appid='', server=''):
         self.appid = appid
         self.server = server
@@ -62,7 +61,7 @@ class WolframAlphaEngine(object):
         return result
 
 
-class WolframAlphaQuery(object):
+class WolframAlphaQuery:
     def __init__(self, query='', appid=''):
         self.Query = query
         self.appid = appid
@@ -105,10 +104,10 @@ class WolframAlphaQuery(object):
         return
 
 
-class WolframAlphaQueryResult(object):
+class WolframAlphaQueryResult:
     def __init__(self, result=''):
         self.XmlResult = result
-        self.dom = minidom.parseString(result)
+        self.dom = minidom.parseString(result)  # TODO fix
         self.tree = runtree(self.dom.documentElement)
 
     def JsonResult(self):
@@ -176,7 +175,7 @@ class WolframAlphaQueryResult(object):
         return scanbranches(self.tree, 'sources')
 
 
-class Pod(object):
+class Pod:
     def __init__(self, pod=''):
         self.pod = pod
         return
@@ -212,7 +211,7 @@ class Pod(object):
         return self.pod
 
 
-class Subpod(object):
+class Subpod:
     def __init__(self, subpod=''):
         self.subpod = subpod
         return
@@ -227,7 +226,7 @@ class Subpod(object):
         return scanbranches(self.subpod, 'img')
 
 
-class Assumption(object):
+class Assumption:
     def __init__(self, assumption=''):
         self.assumption = assumption
         return
@@ -297,7 +296,7 @@ def wolframalpha(inp, bot=None):
     """wa <query> -- Computes <query> using Wolfram Alpha."""
 
     if 'weight of j' in inp:
-        return formatting.output('WolframAlpha', ['Over 9000'.encode('utf-8')])
+        return formatting.output('WolframAlpha', ['Over 9000'])
 
     server = 'http://api.wolframalpha.com/v2/query.jsp'
     api_key = bot.config.get("api_keys", {}).get("wolframalpha", None)
@@ -305,21 +304,20 @@ def wolframalpha(inp, bot=None):
     if not api_key:
         return formatting.output('WolframAlpha', ['error: missing api key'])
 
-    import time
-
-    start = time.clock()
+    #import time
+    #start = time.clock()
 
     scantimeout = '3.0'
     podtimeout = '4.0'
     formattimeout = '8.0'
-    async = 'True'
+    asyncc = 'True'
 
     waeo = WolframAlphaEngine(api_key, server)
 
     waeo.ScanTimeout = scantimeout
     waeo.PodTimeout = podtimeout
     waeo.FormatTimeout = formattimeout
-    waeo.Async = async
+    waeo.Async = asyncc
 
     query = waeo.CreateQuery(http.quote_plus(inp))
     result = waeo.PerformQuery(query)
@@ -340,6 +338,6 @@ def wolframalpha(inp, bot=None):
             waresult = ' '.join(results[2][0].splitlines()).replace(u'\xc2 ', '')
         else:
             waresult = ' '.join(results[1][0].splitlines()).replace(u'\xc2 ', '')
-        return formatting.output('WolframAlpha', [waquery.encode('utf-8'), waresult.encode('utf-8')])
+        return formatting.output('WolframAlpha', [waquery, waresult])
     except:
         return formatting.output('WolframAlpha', [random.choice(errors)])

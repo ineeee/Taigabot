@@ -73,9 +73,9 @@ def command_wrapper(instance, inp):
         output = output[:OUTPUT_LIMIT] + '...'
 
     if title == real_title:
-        return u'\x02{} -\x02 {} \x02-\x02 {}'.format(title, output, url)
+        return f'\x02{title} -\x02 {output} \x02-\x02 {url}'
     else:
-        return u'\x02{} -\x02 {} \x02-\x02 {} (redirected from {})'.format(real_title, output, url, title)
+        return f'\x02{real_title} -\x02 {output} \x02-\x02 {url} (redirected from {title})'
 
 
 def url_wrapper(instance, url):
@@ -84,7 +84,7 @@ def url_wrapper(instance, url):
     if len(output) > OUTPUT_LIMIT:
         output = output[:OUTPUT_LIMIT] + '...'
 
-    return u'\x02{} -\x02 {}'.format(title, output)
+    return f'\x02{title} -\x02 {output}'
 
 
 @hook.regex(INSTANCES['encyclopediadramatica']['regex'])
@@ -96,7 +96,7 @@ def drama_url(match):
 @hook.command('encyclopediadramatica')
 @hook.command
 def drama(inp):
-    "drama <article> -- search an Encyclopedia Dramatica article"
+    """drama <article> -- search an Encyclopedia Dramatica article"""
     return command_wrapper('encyclopediadramatica', inp)
 
 
@@ -109,5 +109,5 @@ def wikipedia_url(match):
 @hook.command('wiki')
 @hook.command
 def wikipedia(inp):
-    "wikipedia <article> -- search a wikipedia article"
+    """wikipedia <article> -- search a wikipedia article"""
     return command_wrapper('wikipedia_en', inp)

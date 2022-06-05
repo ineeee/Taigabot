@@ -36,18 +36,18 @@
 - [_] log.py
 - [o] lyrics.py
 - [_] major_league_baseball.py
-- [_] marketing.py
-- [_] masshighlight.py
-- [_] media.py
-- [_] mediawiki.py
+- [o] marketing.py
+- [_] masshighlight.py: i have no way of testing this
+- [b] media.py: what the fuck is StringIO(initial_value)
+- [o] mediawiki.py
 - [_] metacritic.py
 - [_] mygengo_translate.py
 - [_] namegen.py
 - [_] newegg.py
 - [_] nfl.py
-- [_] quote.py
-- [_] radio.py
-- [_] religion.py
+- [b] quote.py: seems to work mostly, channel search is broken
+- [o] radio.py
+- [o] religion.py
 - [_] reminder.py
 - [_] seen.py
 - [_] soundcloud.py
