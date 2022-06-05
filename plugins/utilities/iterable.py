@@ -6,7 +6,11 @@ def limit(j: int, arr):
     iterable = iter(arr)
 
     while True:
-        yield next(iterable)
+        try:
+            yield next(iterable)
+        except StopIteration:
+            break
+
         i = i + 1
         if i == j:
             break
