@@ -24,7 +24,12 @@ def make_signature(f):
 
 
 def format_plug(plug, kind='', lpad=0):
-    out = ' ' * lpad + '{}:{}:{}'.format(*make_signature(plug[0]))
+    msg_filename, msg_function, msg_lineno = make_signature(plug[0])
+
+    if msg_filename.startswith('plugins/'):
+        msg_filename = msg_filename.replace('plugins/', '')
+
+    out = ' ' * lpad + f'{msg_filename}:{msg_function}:{msg_lineno}'
     if kind == 'command':
         out += ' ' * (50 - len(out)) + plug[1]['name']
 
