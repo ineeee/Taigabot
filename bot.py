@@ -10,7 +10,14 @@
 #               |___/     irc bot
 
 __author__ = 'inexistence'
-__credits__ = ['infinity', 'thenoodle', '_frozen', 'rmmh', '676339784', 'adedomin', 'eskimo', 'blompf']
+__credits__ = [
+    # the og guys (i think)
+    'infinity', 'thenoodle', '_frozen', 'rmmh',
+    # much love weds <3 kept this shit running for many years
+    'wednesday', 'frozenpigs',
+    # we mantain this bot now
+    '676339784', 'adedomin', 'ararouge', 'eskimo', 'blompf', 'DemonOnFishy'
+]
 __license__ = 'GPL v3'
 
 import os
