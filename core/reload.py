@@ -9,6 +9,9 @@ import sys
 import traceback
 
 
+# FUCK this entire file.
+# what the fuck even
+
 if 'mtimes' not in globals():
     mtimes = {}
 
@@ -34,7 +37,7 @@ def format_plug(plug, kind='', lpad=0):
     return out
 
 
-def reload(init=False):
+def reload(init: bool = False):
     changed = False
 
     if init:
@@ -122,8 +125,6 @@ def reload(init=False):
                             # output += '</module>'
                             # with open('index.txt', 'a') as file:
                                 # file.write(u'{}\n'.format(output).encode('utf-8'))
-
-
 
     if changed:
         bot.commands = {}

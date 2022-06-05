@@ -1,5 +1,3 @@
-from future import standard_library
-standard_library.install_aliases()
 import os
 import sqlite3
 import _thread
@@ -7,7 +5,7 @@ import _thread
 threaddbs = {}
 
 
-def get_db_connection(conn, name=''):
+def get_db_connection(conn, name: str = ''):
     "returns an sqlite3 connection to a persistent database"
 
     if not name:
@@ -24,5 +22,6 @@ def get_db_connection(conn, name=''):
     else:
         threaddbs[name] = {threadid: db}
     return db
+
 
 bot.get_db_connection = get_db_connection

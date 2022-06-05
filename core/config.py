@@ -1,6 +1,6 @@
-from __future__ import print_function
 import json
 import os
+import sys
 
 
 if not os.path.exists('config'):
@@ -10,7 +10,7 @@ if not os.path.exists('config'):
     sys.exit(1)
 
 
-def config():
+def config() -> None:
     # reload config from file if file has changed
     config_mtime = os.stat('config').st_mtime
     if bot._config_mtime != config_mtime:

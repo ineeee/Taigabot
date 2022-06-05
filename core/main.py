@@ -1,8 +1,3 @@
-from __future__ import print_function
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import object
 import re
 import _thread
 import traceback
@@ -93,10 +88,7 @@ def run(func, input):
     else:
         out = func(input.inp)
     if out is not None:
-        try:
-            input.reply(out) ## ???????
-        except UnicodeEncodeError:
-            input.reply(str(out))
+        input.reply(out)
 
 
 def do_sieve(sieve, bot, input, func, type, args):
@@ -108,7 +100,7 @@ def do_sieve(sieve, bot, input, func, type, args):
         return None
 
 
-class Handler(object):
+class Handler:
     '''Runs plugins in their own threads (ensures order)'''
 
     def __init__(self, func):

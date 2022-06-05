@@ -11,7 +11,7 @@ import time
 from ssl import CERT_NONE, CERT_REQUIRED, SSLError, wrap_socket
 
 
-def decode(txt):
+def decode(txt):  # TODO remove this shit
     for codec in ('utf-8', 'iso-8859-1', 'shift_jis', 'cp1252'):
         try:
             return txt.decode(codec)
@@ -20,7 +20,7 @@ def decode(txt):
     return txt.decode('utf-8', 'ignore')
 
 
-def censor(text):
+def censor(text: str) -> str:
     replacement = '[censored]'
     if 'censored_strings' in bot.config:
         words = list(map(re.escape, bot.config['censored_strings']))
@@ -29,10 +29,10 @@ def censor(text):
     return text
 
 
-class crlf_tcp(object):
+class crlf_tcp:
     "Handles tcp connections that consist of utf-8 lines ending with crlf"
 
-    def __init__(self, host, port, timeout=300):
+    def __init__(self, host: str, port: int, timeout: int = 300):
         self.ibuffer = b""  # TODO check if this should be just a string
         self.obuffer = b""
         self.oqueue = queue.Queue()    # lines to be sent out
@@ -52,10 +52,11 @@ class crlf_tcp(object):
             print('Timed out')
             time.sleep(5)
             self.run()
+
         _thread.start_new_thread(self.recv_loop, ())
         _thread.start_new_thread(self.send_loop, ())
 
-    def recv_from_socket(self, nbytes):
+    def recv_from_socket(self, nbytes: int = 4096):
         return self.socket.recv(nbytes)
 
     def get_timeout_exception_type(self):
@@ -114,7 +115,7 @@ class crlf_ssl_tcp(crlf_tcp):
             server_side=False,
             cert_reqs=CERT_NONE if self.ignore_cert_errors else CERT_REQUIRED)
 
-    def recv_from_socket(self, nbytes):
+    def recv_from_socket(self, nbytes: int = 4096):
         return self.socket.read(nbytes)
 
     def get_timeout_exception_type(self):
@@ -133,10 +134,10 @@ irc_netmask_rem = re.compile(r':?([^!@]*)!?([^@]*)@?(.*)').match
 irc_param_ref = re.compile(r'(?:^|(?<= ))(:.*|[^ ]+)').findall
 
 
-class IRC(object):
+class IRC:
     "handles the IRC protocol"
 
-    def __init__(self, name, server, nick, port=6667, channels=[], conf={}):
+    def __init__(self, name: str, server: str, nick: str, port: int = 6667, channels: list = [], conf: dict = {}):
         self.name = name
         self.channels = channels
         self.conf = conf
@@ -195,14 +196,14 @@ class IRC(object):
             if command == "PING":
                 self.cmd("PONG", paramlist)
 
-    def set_pass(self, password):
+    def set_pass(self, password: str):
         if password:
             self.cmd("PASS", [password])
 
-    def set_nick(self, nick):
+    def set_nick(self, nick: str):
         self.cmd("NICK", [nick])
 
-    def join(self, channel, key=None):
+    def join(self, channel: str, key: str = None):
         """ makes the bot join a channel """
         if key:
             out = "JOIN " + channel + " " + key
@@ -214,43 +215,42 @@ class IRC(object):
             if ',' not in channel:
                 self.channels.append(channel)
 
-    def part(self, channel):
+    def part(self, channel: str):
         """ makes the bot leave a channel """
         self.cmd("PART", [channel])
         if channel in self.channels:
             self.channels.remove(channel)
 
-    def msg(self, target, text):
+    def msg(self, target: str, text: str):
         """ makes the bot send a message to a user """
         self.cmd("PRIVMSG", [target, text])
 
-    def ctcp(self, target, ctcp_type, text):
+    def ctcp(self, target: str, ctcp_type: str, text: str):
         """ makes the bot send a PRIVMSG CTCP to a target """
-        out = u"\x01{} {}\x01".format(ctcp_type, text)
-        self.cmd("PRIVMSG", [target, out])
+        self.cmd("PRIVMSG", [target, f"\x01{ctcp_type} {text}\x01"])
 
-    def cmd(self, command, params=None):
+    def cmd(self, command: str, params=None):   # i think params is a list of strings?
         if params:
             params[-1] = ':' + params[-1]
             self.send(command + ' ' + ' '.join(map(censor, params)))
         else:
             self.send(command)
 
-    def send(self, str):
-        self.conn.oqueue.put(str)
+    def send(self, text: str):
+        self.conn.oqueue.put(text)
 
 
 class SSLIRC(IRC):
 
     def __init__(self,
-                 name,
-                 server,
-                 nick,
-                 port=6697,
-                 channels=[],
-                 conf={},
-                 ignore_certificate_errors=True):
-        self.ignore_cert_errors = ignore_certificate_errors
+                 name: str,
+                 server: str,
+                 nick: str,
+                 port: int = 6697,
+                 channels: list = [],
+                 conf: dict = {},
+                 ignore_certs: bool = True):
+        self.ignore_cert_errors = ignore_certs
         IRC.__init__(self, name, server, nick, port, channels, conf)
 
     def create_connection(self):
