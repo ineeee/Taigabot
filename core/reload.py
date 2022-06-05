@@ -54,12 +54,11 @@ def reload(init: bool = False):
             changed = True
 
             try:
-                eval(compile(open(filename, 'r').read(), filename, 'exec'),
-                     globals())
+                eval(compile(open(filename, 'r').read(), filename, 'exec'), globals())
             except Exception:
                 traceback.print_exc()
                 if init:        # stop if there's an error (syntax?) in a core
-                    sys.exit()  # script on startup
+                    sys.exit(1)  # script on startup
                 continue
 
             if filename == os.path.join('core', 'reload.py'):
@@ -120,7 +119,7 @@ def reload(init: bool = False):
 
                         if not init:
                             # output+='<div class="command">{}</div>'.format(format_plug(data).replace('[','<opt>').replace(']','</opt>').replace('<','<req>').replace('>','</req>'))
-                            print('### new plugin (type: %s) loaded:' % type, format_plug(data))
+                            print(f'### new plugin (type: {type}) loaded:', format_plug(data))
 
                             # output += '</module>'
                             # with open('index.txt', 'a') as file:

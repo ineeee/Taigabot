@@ -1,19 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from __future__ import print_function
-from future import standard_library
-standard_library.install_aliases()
+#    _        _             _           _
+#   | |      (_)           | |         | |
+#   | |_ __ _ _  __ _  __ _| |__   ___ | |_
+#   | __/ _` | |/ _` |/ _` | '_ \ / _ \| __|
+#   | || (_| | | (_| | (_| | |_) | (_) | |_
+#    \__\__,_|_|\__, |\__,_|_.__/ \___/ \__|
+#                __/ |
+#               |___/     irc bot
 
-__author__ = "InfinityLabs"
-__authors__ = ["Infinity"]
-__copyright__ = "Copyright 2013, InfinityLabs"
-__copyright__ = "Copyright 2012, ClouDev"
-__credits__ = ["infinity","thenoodle", "_frozen", "rmmh"]
-__license__ = "GPL v3"
-__version__ = "DEV"
-__maintainer__ = "InfinityLabs"
-__email__ = "root@infinitylabs.us"
-__status__ = "Development"
+__author__ = 'inexistence'
+__credits__ = ['infinity', 'thenoodle', '_frozen', 'rmmh', '676339784', 'adedomin', 'eskimo', 'blompf']
+__license__ = 'GPL v3'
 
 import os
 import queue
@@ -22,12 +20,12 @@ import time
 import platform
 
 sys.path += ['plugins']  # so 'import hook' works without duplication
-sys.path += ['lib']
 os.chdir(sys.path[0] or '.')  # do stuff relative to the install directory
 
 
 class Bot:
     pass
+
 
 print('Taigabot <https://github.com/inexist3nce/Taigabot>')
 
@@ -37,7 +35,7 @@ python_imp = platform.python_implementation()
 python_ver = platform.python_version()
 architecture = ' '.join(platform.architecture())
 
-print("Operating System: %s, Python %s %s, Architecture: %s" % (opsys, python_imp, python_ver, architecture))
+print(f'Operating System: {opsys}, Python {python_imp} {python_ver}, Architecture: {architecture}')
 
 bot = Bot()
 bot.start_time = time.time()
@@ -45,8 +43,7 @@ bot.start_time = time.time()
 print('Loading plugins...')
 
 # bootstrap the reloader
-eval(compile(open(os.path.join('core', 'reload.py'), 'r').read(),
-    os.path.join('core', 'reload.py'), 'exec'))
+eval(compile(open(os.path.join('core', 'reload.py'), 'r').read(), os.path.join('core', 'reload.py'), 'exec'))
 reload(init=True)
 
 config()
