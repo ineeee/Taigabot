@@ -5,8 +5,8 @@ import sys
 
 if not os.path.exists('config'):
     print("Please rename 'config.default' to 'config' to set up your bot!")
-    print("For help, see https://github.com/inexist3nce/Taigabot")
-    print("Thank you for using Taigabot!")
+    print('For help, see https://github.com/inexist3nce/Taigabot')
+    print('Thank you for using Taigabot!')
     sys.exit(1)
 
 

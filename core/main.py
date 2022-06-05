@@ -25,11 +25,11 @@ class Input(dict):
             else:
                 try:
                     conn.msg(chan, re.match(r'\.*(\w+.*)', msg).group(1))  # ??
-                except:
+                except Exception:  # IndexError?
                     conn.msg(chan, msg)
 
         def me(msg: str):
-            conn.msg(chan, f"\x01ACTION {msg}\x01")
+            conn.msg(chan, f'\x01ACTION {msg}\x01')
 
         def ctcp(msg: str, ctcp_type: str, target: str = chan):
             """sends an ctcp to the current channel/user or a specific channel/user"""
@@ -101,7 +101,7 @@ def do_sieve(sieve, bot, input, func, type, args):
 
 
 class Handler:
-    '''Runs plugins in their own threads (ensures order)'''
+    """Runs plugins in their own threads (ensures order)"""
 
     def __init__(self, func):
         self.func = func
@@ -139,11 +139,11 @@ class Handler:
 def dispatch(input, kind, func, args, autohelp=False):
     for sieve, in bot.plugs['sieve']:
         input = do_sieve(sieve, bot, input, func, kind, args)
-        if input == None:
+        if input is None:
             return
 
     if autohelp and args.get('autohelp', True) and not input.inp and func.__doc__ is not None:
-        input.notice(input.conn.conf["command_prefix"] + func.__doc__)
+        input.notice(input.conn.conf['command_prefix'] + func.__doc__)
         return
 
     if func._thread:
@@ -176,9 +176,9 @@ def main(conn, out):
     if inp.command == 'PRIVMSG':
         # COMMANDS
         if inp.chan == inp.nick:    # private message, no command prefix
-            prefix = '^(?:[%s]?|' % command_prefix
+            prefix = '^(?:[' + command_prefix + ']?|'
         else:
-            prefix = '^(?:[%s]|' % command_prefix
+            prefix = '^(?:[' + command_prefix + ']|'
 
         command_re = prefix + inp.conn.nick
         command_re += r'[,;:]+\s+)(\w+)(?:$|\s+)(.*)'

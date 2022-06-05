@@ -6,7 +6,7 @@ threaddbs = {}
 
 
 def get_db_connection(conn, name: str = ''):
-    "returns an sqlite3 connection to a persistent database"
+    """returns an sqlite3 connection to a persistent database"""
 
     if not name:
         name = '{}.db'.format(conn.name)

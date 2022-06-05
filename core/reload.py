@@ -1,6 +1,3 @@
-from __future__ import print_function
-from future import standard_library
-standard_library.install_aliases()
 import collections
 import glob
 import os
@@ -117,6 +114,7 @@ def reload(init: bool = False):
             for obj in list(namespace.values()):
                 if hasattr(obj, '_hook'):  # check for magic
                     if obj._thread:
+                        # this is the line that actually loads and runs plugins
                         bot.threads[obj] = Handler(obj)
 
                     for type, data in obj._hook:
