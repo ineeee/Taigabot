@@ -149,7 +149,7 @@ class IRC:
         self.set_nick(self.nick)
         self.cmd('USER', [
             conf.get('user', 'uguubot'),
-            '3',  # cool magic values mate
+            '0',
             '*',
             conf.get('realname', 'Taigabot')
         ])
