@@ -10,7 +10,6 @@
 # See: https://blog.mozilla.org/security/2014/04/12/testing-for-heartbleed-vulnerability-without-exploiting-the-server/
 
 # Usage example: python ssltest.py example.com
-from __future__ import print_function
 from builtins import str
 from util import hook
 
@@ -89,7 +88,7 @@ opts, args = options.parse_args()
 
 
 def h2bin(x):
-    return x.replace(' ', '').replace('\n', '').decode('hex')
+    return bytes.fromhex(x.replace(' ', '').replace('\n', ''))
 
 
 hello = h2bin(
@@ -108,16 +107,16 @@ c0 02 00 05 00 04 00 15  00 12 00 09 00 14 00 11
 00 0b 00 0c 00 18 00 09  00 0a 00 16 00 17 00 08
 00 06 00 07 00 14 00 15  00 04 00 05 00 12 00 13
 00 01 00 02 00 03 00 0f  00 10 00 11 00 23 00 00
-00 0f 00 01 01                                  
+00 0f 00 01 01
 '''
 )
 
-hb = "\x18\x03\x02N#\x01N " + "\x01" * 20000
+hb = b'\x18\x03\x02N#\x01N ' + b'\x01' * 20000
 
 
 def recvall(s, length, timeout=5):
     endtime = time.time() + timeout
-    rdata = ''
+    rdata = b''
     remain = length
     while remain > 0:
         rtime = endtime - time.time()
@@ -151,7 +150,7 @@ def recvmsg(s):
 def hit_hb(s):
     try:
         s.send(hb)
-    except Exception as e:
+    except Exception:
         return False
     while True:
         typ, ver, pay = recvmsg(s)
@@ -177,7 +176,7 @@ def is_vulnerable(host, timeout):
     s.settimeout(int(timeout))
     try:
         s.connect((host, 443))
-    except Exception as e:
+    except Exception:
         return None
     s.send(hello)
     while True:
@@ -185,7 +184,7 @@ def is_vulnerable(host, timeout):
         if typ is None:
             return None
         # Look for server hello done message.
-        if typ == 22 and ord(pay[0]) == 0x0E:
+        if typ == 22 and pay[0] == 0x0E:
             break
 
     s.send(hb)
@@ -235,7 +234,7 @@ def scan_host(host):
 def print_summary():
     """ Print summary of previously stored json data to screen """
 
-    counter = defaultdict(int)
+    #counter = defaultdict(int)
     for host, data in list(host_status.items()):
         friendly_status = "unknown"
         status = data.get('status', "Not scanned")
@@ -252,13 +251,12 @@ def print_summary():
             continue
         elif opts.only_unscanned and 'status' in data:
             continue
-        return "[{}] {}".format(host, friendly_status)
+        return f'[Heartbleed] {host}: {friendly_status}'
     return
 
 
 @hook.command(autohelp=False)
 def heartbleed(inp, reply=None):
-    "bash <id> -- Gets a random quote from Bash.org, or returns a specific id."
     global host_status
     host_status = {}
 

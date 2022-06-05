@@ -1,11 +1,8 @@
-from __future__ import print_function
 # Written by Scaevolus 2010
-# ^ this guy eval()s user input, what a mad lad
 from util import hook, text, database
 import string
 import re
-from utilities import request
-from utilities.services import paste, paste_litterbox
+from utilities.services import paste_litterbox
 
 re_lineends = re.compile(r'[\r\n]*')
 
@@ -14,7 +11,7 @@ shortcodes = {'[b]': '\x02', '[/b]': '\x02', '[u]': '\x1F', '[/u]': '\x1F', '[i]
 
 
 def db_init(db):
-    db.execute("create table if not exists mem(word, data, nick," " primary key(word))")
+    db.execute("create table if not exists mem(word, data, nick, primary key(word))")
     db.commit()
 
 
@@ -29,11 +26,11 @@ def get_memory(db, word):
 
 # @hook.regex(r'(.*) is (.*)')
 # @hook.regex(r'(.*) are (.*)')
-@hook.command("learn", adminonly=False)
-@hook.command("r", adminonly=False)
+@hook.command('learn', adminonly=False)
+@hook.command('r', adminonly=False)
 @hook.command(adminonly=False)
 def remember(inp, nick='', db=None, say=None, input=None, notice=None):
-    "remember <word> <data> -- Remembers <data> with <word>."
+    """remember <word> <data> -- Remembers <data> with <word>."""
     db_init(db)
 
     append = False
@@ -63,23 +60,23 @@ def remember(inp, nick='', db=None, say=None, input=None, notice=None):
         else:
             data = old_data + ' and ' + new_data
 
-    db.execute("replace into mem(word, data, nick) values" " (lower(?),?,?)", (word, data.replace('<py>', ''), nick))
+    db.execute("replace into mem(word, data, nick) values (lower(?), ?, ?)", (word, data, nick))
     db.commit()
 
     if old_data:
         if append:
-            notice("Appending \x02%s\x02 to \x02%s\x02" % (new_data, old_data))
+            notice(f'Appending \x02{new_data}\x02 to \x02{old_data}\x02')
         else:
-            notice('Remembering \x02%s\x02 for \x02%s\x02. Type ?%s to see it.' % (data, word, word))
-            notice('Previous data was \x02%s\x02' % old_data)
+            notice(f'Remembering \x02{data}\x02 for \x02{word}\x02. Type ?{word} to see it.')
+            notice(f'Previous data was \x02{old_data}\x02')
     else:
-        notice('Remembering \x02%s\x02 for \x02%s\x02. Type ?%s to see it.' % (data, word, word))
+        notice(f'Remembering \x02{data}\x02 for \x02{word}\x02. Type ?{word} to see it.')
 
 
-@hook.command("f", adminonly=True)
+@hook.command('f', adminonly=True)
 @hook.command(adminonly=True)
 def forget(inp, db=None, input=None, notice=None):
-    "forget <word> -- Forgets a remembered <word>."
+    """forget <word> -- Forgets a remembered <word>."""
 
     db_init(db)
     data = get_memory(db, inp)
@@ -96,7 +93,7 @@ def forget(inp, db=None, input=None, notice=None):
 
 @hook.command
 def info(inp, notice=None, db=None):
-    "info <word> -- Shows the source of a factoid."
+    """info <word> -- Shows the source of a factoid."""
 
     db_init(db)
 
@@ -106,16 +103,16 @@ def info(inp, notice=None, db=None):
     if data:
         notice(data)
     else:
-        notice("Unknown Factoid.")
+        notice('Unknown hashtag, not found')
 
 
 # @hook.regex(r'^(\b\S+\b)\?$')
 @hook.regex(r'^\#(\b\S+\b)')
 @hook.regex(r'^\? ?(.+)')
 def hashtag(inp, say=None, db=None, bot=None, me=None, conn=None, input=None, chan=None, notice=None):
-    "<word>? -- Shows what data is associated with <word>."
+    """?<word> -- Shows what data is associated with <word>."""
     disabledhashes = database.get(db, 'channels', 'disabledhashes', 'chan', chan)
-    split = inp.group(1).strip().split(" ")
+    split = inp.group(1).strip().split(' ')
 
     try:
         if chan[0] != '#':
@@ -138,15 +135,10 @@ def hashtag(inp, say=None, db=None, bot=None, me=None, conn=None, input=None, ch
     # split up the input
     split = inp.group(1).strip().split(" ")
     factoid_id = split[0]
-
-    if len(split) >= 1:
-        arguments = " ".join(split[1:])
-    else:
-        arguments = ""
-
     data = get_memory(db, factoid_id)
 
     if data:
+        # TODO remove all of these fucking lines
         # factoid preprocessors
         if data.startswith("<py>"):
             # don't execute code
@@ -158,16 +150,16 @@ def hashtag(inp, say=None, db=None, bot=None, me=None, conn=None, input=None, ch
             result = data
 
         # factoid postprocessors
-        result = text.multiword_replace(result, shortcodes)
+        result = text.multiword_replace(result, shortcodes) # TODO check this
 
-        if result.startswith("<act>"):
+        if result.startswith('<act>'):
             result = result[5:].strip()
             me(result)
         else:
             if prefix_on:
-                say("\x02[%s]:\x02 %s" % (factoid_id, result))
+                say(f'\x02[{factoid_id}]:\x02 {result}')
             else:
-                say("\x02%s\x02 %s" % (factoid_id, result))
+                say(f'\x02{factoid_id}\x02 {result}')
 
 
 @hook.command(r'keys')
@@ -184,15 +176,14 @@ def hashes(inp, say=None, db=None, bot=None, me=None, conn=None, input=None):
         rows = db.execute(search).fetchall()
 
     if len(rows) == 0:
-        return "No results"
+        return 'No results'
 
     output = [x[0] for x in rows]
 
     if len(rows) < 8:
-        output = ", ".join(output)
-        return "Hashes: " + output
+        output = ', '.join(output)
+        return f'Hashes: {output}'
     else:
-        output = "\n".join(output)
-        output = output.encode('utf-8')
+        output = '\n'.join(output)
         url = paste_litterbox(output)
-        return "Hashes: " + url
+        return f'Hashes: {url}'

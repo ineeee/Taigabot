@@ -12,13 +12,28 @@ def gb_refresh_cache(inp):
     global gelbooru_cache
     gelbooru_cache = []
     num = 0
-    search = (
-        inp.replace(' ', '+').replace('explicit', 'rating:explicit').replace(
-            'nsfw', 'rating:explicit').replace('safe', 'rating:safe').replace('sfw', 'rating:safe'))
+
+    replaces = [
+        ('explicit', 'rating:explicit'),
+        ('nsfw', 'rating:explicit'),
+        (' ', '+'),
+        ('safe', 'rating:safe'),
+        ('sfw', 'rating:safe'),
+    ]
+
+    search = f'{inp}'
+
+    for a, b in replaces:
+        search = search.replace(a, b)
 
     posts = request.get_json(
-        u'https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=20&json=1',
+        'https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=20&json=1',
         params={'tags': search})
+
+    if 'post' not in posts:
+        return
+
+    posts = posts['post']
 
     while num < len(posts):
         gelbooru_cache.append((
@@ -37,13 +52,15 @@ def gb_refresh_cache(inp):
 #@hook.command('sb', autohelp=False)
 @hook.command('gb', autohelp=False)
 @hook.command('loli', autohelp=False)
+@hook.command('lolicon', autohelp=False)
 @hook.command('shota', autohelp=False)
+@hook.command('shotacon', autohelp=False)
 @hook.command('trap', autohelp=False)
 @hook.command('futa', autohelp=False)
 @hook.command('futanari', autohelp=False)
 @hook.command(autohelp=False)
 def gelbooru(inp, reply=None, input=None):
-    "gelbooru <tags> -- Gets a random image from gelbooru.com"
+    """gelbooru <tags> -- Gets a random image from gelbooru.com"""
     global gb_lastsearch
     global gelbooru_cache
     inp = inp.split(' ')
@@ -60,24 +77,28 @@ def gelbooru(inp, reply=None, input=None):
     else:
         inp = ''.join(inp)
 
-    if input.trigger == u'loli':
-        search = 'loli' + '+' + inp.lower()
-    elif input.trigger == u'shota':
-        search = 'shota' + '+' + inp.lower()
-    elif input.trigger == u'futa' or input.trigger == u'futanari':
-        search = 'futanari' + '+' + inp.lower()
-    elif input.trigger == u'trap':
-        search = 'trap' + '+' + inp.lower()
+    if input.trigger == 'loli' or input.trigger == 'lolicon':
+        search = 'loli ' + inp.lower()
+    elif input.trigger == 'shota' or input.trigger == 'shotacon':
+        search = 'shota ' + inp.lower()
+    elif input.trigger == 'futa' or input.trigger == 'futanari':
+        search = 'futanari ' + inp.lower()
+    elif input.trigger == 'trap':
+        search = 'trap ' + inp.lower()
     else:
         search = inp.lower()
+
     search = search.split(' ')
     for i, n in enumerate(search):
-        if n == u'gif':
+        if n == 'gif':
             search[i] = 'animated_gif'
+
     if len(search) >= 2:
         search = ' '.join(search)
     else:
         search = ''.join(search)
+
+    # is this !(search or len) or (!search or len)?
     if not search in gb_lastsearch or len(gelbooru_cache) < 2:
         gb_refresh_cache(search)
     gb_lastsearch = search
@@ -99,19 +120,17 @@ def gelbooru(inp, reply=None, input=None):
                 counter += 1
                 gb_refresh_cache(search)
 
-    if rating == 'e':
-        rating = "\x02\x034NSFW\x03\x02"
-    elif rating == 'q':
-        rating = "\x02\x037Questionable\x03\x02"
+    if rating == 'explicit':
+        rating = '\x02\x034NSFW\x03\x02'
+    elif rating == 'sensitive':
+        rating = '\x02\x037Questionable\x03\x02'
     elif rating == 's':
-        rating = "\x02\x033Safe\x03\x02"
+        rating = '\x02\x033Safe\x03\x02'
 
     try:
-        return u'\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {}'.format(
-            id, score, rating, web.isgd(url))
-    except:
-        return u'\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {}'.format(id, score, rating, url)
-    # return u'\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {} - {}'.format(id, score, rating, url, tags[:75].strip())
+        return '\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {}'.format(id, score, rating, web.isgd(url))
+    except:  # TODO fix this catch
+        return '\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {}'.format(id, score, rating, url)
 
 
 # shows website title, just let urls.py handle it
@@ -138,12 +157,11 @@ def gelbooru_url(match):
         posts[0].get('tags'),
     )
 
-    if rating == 'e':
-        rating = "\x02\x034NSFW\x03\x02"
-    elif rating == 'q':
-        rating = "\x02\x037Questionable\x03\x02"
+    if rating == 'explicit':
+        rating = '\x02\x034NSFW\x03\x02'
+    elif rating == 'sensitive':
+        rating = '\x02\x037Questionable\x03\x02'
     elif rating == 's':
-        rating = "\x02\x033Safe\x03\x02"
+        rating = '\x02\x033Safe\x03\x02'
 
-    return u'\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {} - {}'.format(
-        id, score, rating, url, tags[:75].strip())
+    return '\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {} - {}'.format(id, score, rating, url, tags[:75].strip())

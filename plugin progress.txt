@@ -1,6 +1,6 @@
 - [_] 4chan.py
 - [_] ai.py
-- [b] amazon.py
+- [b] amazon.py: amazon changed html, scraper broke
 - [o] bank.py
 - [o] bash.py
 - [o] booru.py
@@ -14,7 +14,7 @@
 - [_] core_misc.py
 - [_] core_sieve.py
 - [_] core_user.py
-- [b] countdown.py
+- [b] countdown.py: its not counting down
 - [o] cypher.py
 - [_] datafiles.py
 - [o] debt.py
@@ -24,17 +24,17 @@
 - [o] distro.py
 - [o] duckduckgo.py
 - [o] fmylife.py
-- [_] furry.py
-- [_] gelbooru.py
-- [_] geoip.py
-- [_] google.py
-- [_] hashtags.py
-- [_] heartbleed.py
+- [o] furry.py
+- [b] gelbooru.py: TODO check new api, lots of "Not found"
+- [o] geoip.py
+- [o] google.py
+- [o] hashtags.py
+- [o] heartbleed.py
 - [_] help.py
-- [_] kernel.py
-- [_] lastfm.py
+- [o] kernel.py
+- [o] lastfm.py
 - [_] log.py
-- [_] lyrics.py
+- [o] lyrics.py
 - [_] major_league_baseball.py
 - [_] marketing.py
 - [_] masshighlight.py
@@ -69,6 +69,6 @@
 - [_] validate.py
 - [_] vimeo.py
 - [_] weather.py
-- [_] wolframalpha.py
+- [b] wolframalpha.py: i cant tell why it doesnt work
 - [_] wordoftheday.py
 - [_] youtube.py
