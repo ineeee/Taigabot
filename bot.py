@@ -71,9 +71,10 @@ try:
         else:
             bot.conns[name] = IRC(name, conf['server'], conf['nick'], conf=conf,
                     port=conf.get('port', 6667), channels=conf['channels'])
-except Exception as e:
-    print('ERROR: malformed config file', e)
-    sys.exit()
+except Exception as fatal:
+    print('ERROR: exception caught while creating the connection')
+    raise fatal
+    sys.exit(1)
 
 bot.persist_dir = os.path.abspath('persist')
 if not os.path.exists(bot.persist_dir):

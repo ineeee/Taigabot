@@ -7,15 +7,22 @@ import time
 from ssl import CERT_NONE, CERT_REQUIRED, SSLError, wrap_socket
 
 
-def censor(text: str) -> str:
-    replacement = '[censored]'
+def censor(text: str) -> bytes:
     if 'censored_strings' in bot.config:
         words = list(map(re.escape, bot.config['censored_strings']))
         words = '|'.join(words)
         regex = re.compile(f'({words})')
-        text = regex.sub(replacement, text)
+        text = regex.sub('[censored]', text)
 
     return text
+
+
+def hack_cast_str_to_bytes(text: str) -> bytes:
+    return text.encode('utf-8', 'replace')
+
+
+def hack_cast_bytes_to_str(data: bytes) -> str:
+    return data.decode('utf-8', 'replace')
 
 
 class crlf_tcp:
@@ -79,13 +86,13 @@ class crlf_tcp:
 
             while b'\r\n' in self.ibuffer:
                 line, self.ibuffer = self.ibuffer.split(b'\r\n', 1)
-                self.iqueue.put(line.decode('utf-8', 'replace'))  # cast bytes[] to str
+                self.iqueue.put(hack_cast_bytes_to_str(line))  # cast bytes[] to str
 
     def send_loop(self):
         while True:
             line = self.oqueue.get().splitlines()[0][:500]  # wut?
             print(f'>>> {line}')
-            self.obuffer += line.encode('utf-8', 'replace') + b'\r\n'  # cast str to bytes[]
+            self.obuffer += hack_cast_str_to_bytes(line) + b'\r\n'  # cast str to bytes[]
             while self.obuffer:
                 sent = self.socket.send(self.obuffer)
                 self.obuffer = self.obuffer[sent:]
@@ -219,6 +226,10 @@ class IRC:
 
     def cmd(self, command: str, params=None):   # params: ?list
         if params:
+            if isinstance(params[-1], bytes):
+                params[-1] = hack_cast_bytes_to_str(params[-1])
+
+            # try to accept arguments as str
             params[-1] = ':' + params[-1]
             self.send(command + ' ' + ' '.join(map(censor, params)))
         else:
