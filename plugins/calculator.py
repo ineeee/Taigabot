@@ -2,9 +2,8 @@ from past.builtins import cmp
 import re
 import math
 import operator
-from decimal import *
 from util import hook
-from pyparsing import Literal, CaselessLiteral, Word, Combine, Group, Optional, ZeroOrMore, Forward, nums, alphas
+from pyparsing import Literal, CaselessLiteral, Word, Combine, Optional, ZeroOrMore, Forward, nums, alphas
 
 # Global Vars
 exprStack = []
@@ -122,7 +121,7 @@ def c(inp):
         try:
             val = "{:20,.17f}".format(val)
             val = re.search(r'^(.*\...[1-9+]*).*$', val).group(1)
-        except:
+        except IndexError:
             val = val
-    # return u"{} = {}".format(inp, val)
-    return u"{}".format(val)
+
+    return val

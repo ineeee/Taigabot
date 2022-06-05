@@ -1,4 +1,3 @@
-from __future__ import print_function
 # fuck my life plugin by ine (2020)
 # updated 04/2022
 from util import hook

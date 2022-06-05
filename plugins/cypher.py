@@ -1,23 +1,26 @@
-'''
+"""
 Plugin which (de)cyphers a string
 Doesn't cypher non-alphanumeric strings yet.
 by instanceoftom
-'''
+"""
 
 from util import hook
-chars = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+chars = 'abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ '
 len_chars = len(chars)
 
 
 @hook.command
 def cypher(inp):
-    "cypher <pass> <string> -- Cyphers <string> with <password>."
+    """cypher <pass> <string> -- Cyphers <string> with <password>."""
 
-    passwd = inp.split(" ")[0]
+    passwd = inp.split(' ')[0]
     len_passwd = len(passwd)
-    inp = " ".join(inp.split(" ")[1:])
+    inp = ' '.join(inp.split(' ')[1:])
 
-    out = ""
+    if inp == '':
+        return 'Nothing to cypher'
+
+    out = ''
     passwd_index = 0
     for character in inp:
         try:
@@ -38,11 +41,14 @@ def cypher(inp):
 
 @hook.command
 def decypher(inp):
-    "decypher <pass> <string> -- Decyphers <string> with <password>."
+    """decypher <pass> <string> -- Decyphers <string> with <password>."""
 
-    passwd = inp.split(" ")[0]
+    passwd = inp.split(' ')[0]
     len_passwd = len(passwd)
-    inp = " ".join(inp.split(" ")[1:])
+    inp = ' '.join(inp.split(' ')[1:])
+
+    if inp == '':
+        return 'Nothing to decypher'
 
     passwd_index = 0
     for character in inp:
@@ -55,7 +61,7 @@ def decypher(inp):
     passwd_index = passwd_index - 1
     reversed_message = inp[::-1]
 
-    out = ""
+    out = ''
     for character in reversed_message:
         try:
             chr_index = chars.index(character)

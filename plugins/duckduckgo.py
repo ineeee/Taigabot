@@ -1,5 +1,3 @@
-from builtins import str
-from builtins import object
 from util import hook
 from json import loads as json_loads
 from utilities import request
@@ -8,7 +6,7 @@ __version__ = 0.243
 
 
 def query(query,
-          useragent='python-duckduckgo ' + str(__version__),
+          useragent=f'python-duckduckgo {__version__}',
           safesearch=False,
           html=False,
           meanings=True,
@@ -38,7 +36,7 @@ def query(query,
     html = '0' if html else '1'
     meanings = '0' if meanings else '1'
     params = {
-        'q': query.encode('utf-8'),
+        'q': query,
         'o': 'json',
         'kp': safesearch,
         'no_redirect': '1',
@@ -52,7 +50,7 @@ def query(query,
     return Results(json)
 
 
-class Results(object):
+class Results:
 
     def __init__(self, json):
         self.type = {
@@ -82,7 +80,7 @@ class Results(object):
         self.image = Image({'Result': json.get('Image', '')})
 
 
-class Abstract(object):
+class Abstract:
 
     def __init__(self, json):
         self.html = json.get('Abstract', '')
@@ -91,13 +89,13 @@ class Abstract(object):
         self.source = json.get('AbstractSource')
 
 
-class Redirect(object):
+class Redirect:
 
     def __init__(self, json):
         self.url = json.get('Redirect', '')
 
 
-class Result(object):
+class Result:
 
     def __init__(self, json):
         self.topics = json.get('Topics', [])
@@ -115,7 +113,7 @@ class Result(object):
             self.icon = None
 
 
-class Image(object):
+class Image:
 
     def __init__(self, json):
         self.url = json.get('Result')
@@ -123,14 +121,14 @@ class Image(object):
         self.width = json.get('Width', None)
 
 
-class Answer(object):
+class Answer:
 
     def __init__(self, json):
         self.text = json.get('Answer')
         self.type = json.get('AnswerType', '')
 
 
-class Definition(object):
+class Definition:
 
     def __init__(self, json):
         self.text = json.get('Definition', '')
@@ -183,7 +181,5 @@ def get_zci(q,
 
 @hook.command
 def ddg(inp):
-    if len(inp) < 2:
-        return 'Usage: .ddg <query>'
-
+    """.ddg <search> -- search something on duckduckgo"""
     return get_zci(inp)

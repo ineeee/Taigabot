@@ -23,4 +23,4 @@ def debt(inp):
     html = request.get(url)
     amount = parse(html)
 
-    return "Current US Debt: \x02{}\x02".format(amount)
+    return f"Current US Debt: \x02{amount}\x02"
