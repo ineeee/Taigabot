@@ -17,7 +17,7 @@ class ShortenError(Exception):
 
 def isgd(url):
     """ shortens a URL with the is.gd API """
-    url = urlnorm.normalize(url.encode('utf-8'), assume_scheme='http')
+    url = urlnorm.normalize(url, assume_scheme='http')
     req = requests.get("http://is.gd/create.php", params={'format': 'json', 'url': url})
 
     try:
