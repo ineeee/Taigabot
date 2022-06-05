@@ -5,7 +5,7 @@ user = 'taigabot'
 HEADERS = {'User-Agent': 'taigabot, python irc bot'}
 
 
-def paste_taigalink(text, title='Paste'):
+def paste_taigalink(text: str, title: str = 'Paste'):
     data = {
         'title': title,
         'uploader': 'taigabot',
@@ -14,7 +14,7 @@ def paste_taigalink(text, title='Paste'):
     res = requests.post('https://taiga.link/p/upload', headers=HEADERS, data=data)
     return res.text
 
-def paste_litterbox(text):
+def paste_litterbox(text: str):
 
     files = {
         'reqtype': (None, 'fileupload'),
@@ -32,7 +32,7 @@ def paste_litterbox(text):
 
 
 # leaving this one here in case taigalink dies
-def paste_pastebin(text, title='Paste', config={}):
+def paste_pastebin(text: str, title: str = 'Paste', config={}):
     # sadly we need to pass bot.config because of the api keys
     api_key = config.get('api_keys', {}).get('pastebin', False)
 
@@ -52,7 +52,7 @@ def paste_pastebin(text, title='Paste', config={}):
     return response.text
 
 
-def shorten_taigalink(url):
+def shorten_taigalink(url: str):
     data = {
         'title': title,
         'uploader': 'taigabot',
@@ -64,9 +64,9 @@ def shorten_taigalink(url):
 
 # upload any text to pastebin
 # please use this function so you don't have to modify 40 plugins when the api changes
-def paste(text, title='Paste'):  # paste(*args, **kwargs)?
+def paste(text: str, title: str = 'Paste'):  # paste(*args, **kwargs)?
     return paste_taigalink(text, title)
 
 
-def shorten(url):
+def shorten(url: str):
     return shorten_taigalink(url)

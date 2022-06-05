@@ -6,22 +6,22 @@ from json import loads as json_load
 from urllib.parse import quote
 
 # update this like once every few months
-fake_ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36'
+fake_ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36'
 
 
 def urlencode(inp):
     return quote(inp)
 
 
-def get_json(url, **kwargs):
+def get_json(url: str, **kwargs):
     return json_load(get_text(url, **kwargs))
 
 
-def get_html(url, **kwargs):
+def get_html(url: str, **kwargs):
     return get(url, **kwargs)
 
 
-def get_text(url, **kwargs):
+def get_text(url: str, **kwargs):
     return get(url, **kwargs)
 
 
@@ -40,7 +40,7 @@ def get_text(url, **kwargs):
 #    get('http://example.org', headers={'X-secret-key': 'hunter2'})
 # a fake user-agent of a popular browser will be used if none is provided
 #
-def get(url, **kwargs):
+def get(url: str, **kwargs):
     # accept custom headers
     if 'headers' in kwargs:
         headers = kwargs.pop('headers')
@@ -50,11 +50,13 @@ def get(url, **kwargs):
     else:
         headers = {'User-Agent': fake_ua}
 
+    print(f"Running request: {url}")
+
     r = requests.get(url, headers=headers, timeout=8, **kwargs)
     return r.text
 
 
-def post(url, **kwargs):
+def post(url: str, **kwargs):
     if 'data' not in kwargs:
         return None
 
@@ -73,7 +75,7 @@ def post(url, **kwargs):
 
 # upload any text to pastebin
 # please use this function so you don't have to modify 40 plugins when the api changes
-def upload_paste(text, title='Paste', config={}):
+def upload_paste(text: str, title: str = 'Paste', config={}):
     # sadly we need to pass bot.config because of the api keys
     api_key = config.get('api_keys', {}).get('pastebin', False)
 
