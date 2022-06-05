@@ -3,7 +3,7 @@
 from __future__ import print_function
 from future import standard_library
 standard_library.install_aliases()
-from builtins import object
+
 __author__ = "InfinityLabs"
 __authors__ = ["Infinity"]
 __copyright__ = "Copyright 2013, InfinityLabs"
@@ -26,10 +26,10 @@ sys.path += ['lib']
 os.chdir(sys.path[0] or '.')  # do stuff relative to the install directory
 
 
-class Bot(object):
+class Bot:
     pass
 
-print('UguuBot %s (%s) <http://github.com/infinitylabs/UguuBot>' % (__version__, __status__))
+print('Taigabot <https://github.com/inexist3nce/Taigabot>')
 
 # print debug info
 opsys = platform.platform()
@@ -37,9 +37,7 @@ python_imp = platform.python_implementation()
 python_ver = platform.python_version()
 architecture = ' '.join(platform.architecture())
 
-print("Operating System: %s, Python " \
-        "Version: %s %s, Architecture: %s" \
-        "" % (opsys, python_imp, python_ver, architecture))
+print("Operating System: %s, Python %s %s, Architecture: %s" % (opsys, python_imp, python_ver, architecture))
 
 bot = Bot()
 bot.start_time = time.time()

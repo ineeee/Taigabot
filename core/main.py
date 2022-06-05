@@ -1,6 +1,7 @@
 import re
 import _thread
 import traceback
+import queue
 
 _thread.stack_size(1024 * 512)    # reduce vm size
 
@@ -12,30 +13,29 @@ class Input(dict):
         if chan == conn.nick.lower():  # is a PM
             chan = nick
 
-        def say(msg):
+        def say(msg: str):
             conn.msg(chan, msg)
 
-        def pm(msg):  # seems unused
+        def pm(msg: str):  # seems unused
             conn.msg(nick, msg)
 
-        def reply(msg):
+        def reply(msg: str):
             if chan == nick:    # PMs don't need prefixes
                 conn.msg(chan, msg)
             else:
-                #conn.msg(chan, '(' + nick + ') ' + msg)
                 try:
-                    conn.msg(chan, re.match(r'\.*(\w+.*)', msg).group(1))
+                    conn.msg(chan, re.match(r'\.*(\w+.*)', msg).group(1))  # ??
                 except:
                     conn.msg(chan, msg)
 
-        def me(msg):
-            conn.msg(chan, "\x01%s %s\x01" % ("ACTION", msg))
+        def me(msg: str):
+            conn.msg(chan, f"\x01ACTION {msg}\x01")
 
-        def ctcp(message, ctcp_type, target=chan):
+        def ctcp(msg: str, ctcp_type: str, target: str = chan):
             """sends an ctcp to the current channel/user or a specific channel/user"""
-            conn.ctcp(target, ctcp_type, message)
+            conn.ctcp(target, ctcp_type, msg)
 
-        def notice(msg):
+        def notice(msg: str):
             conn.cmd('NOTICE', [nick, msg])
 
         dict.__init__(
