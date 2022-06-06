@@ -49,21 +49,21 @@
 - [o] radio.py
 - [o] religion.py
 - [_] reminder.py
-- [_] seen.py
+- [o] seen.py
 - [_] soundcloud.py
-- [_] spellcheck.py
+- [o] spellcheck.py
 - [_] spotify.py
 - [_] steam.py
 - [_] stock.py
 - [_] stupid.py
-- [_] system.py
-- [_] tell.py
+- [o] system.py: did not test windows code
+- [o] tell.py: it works but i didnt test or clean it
 - [_] times.py
 - [_] todo.py
-- [_] translate.py
-- [_] twitch.py
+- [o] translate.py
+- [o] twitch.py
 - [_] twitter.py
-- [_] urbandict.py
+- [o] urbandict.py
 - [_] urls.py
 - [_] utility.py
 - [_] validate.py

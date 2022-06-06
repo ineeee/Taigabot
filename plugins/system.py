@@ -93,10 +93,9 @@ def pid(inp):
 
 @hook.command(autohelp=False)
 def bots(inp):
-    return "Reporting in! [Python] See http://uguubot.com"
+    return "Reporting in! [Python 3] See http://uguubot.com"
 
 
 @hook.command(autohelp=False)
 def source(inp):
-    return "\x02Taigabot\x02 - Fuck my shit up nigga https://github.com/FrozenPigs/Taigabot"
-    
+    return "\x02Taigabot\x02 - Fuck my shit up nigga https://github.com/inexist3nce/Taigabot"

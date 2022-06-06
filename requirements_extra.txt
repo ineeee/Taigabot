@@ -2,8 +2,9 @@ geopy==1.22.0
 pytz==2020.1
 tweepy==3.5.0
 mygengo
-pyparsing==3.0.*
-# this doesn't work on the dockerfile, comment out
-pyenchant==1.6.11
 httplib2
 psutil
+
+# updated plugins for python 3
+pyparsing==3.0.*
+pyenchant==3.2.2
