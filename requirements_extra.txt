@@ -1,10 +1,15 @@
 geopy==1.22.0
-pytz==2020.1
 tweepy==3.5.0
 mygengo
-httplib2
-psutil
 
-# updated plugins for python 3
+# used by weather, timezones and mlb
+pytz==2022.1
+
+# system plugin, used to get bot memory usage
+psutil==5.9.*
+
+# calculator plugin, optional
 pyparsing==3.0.*
+
+# spellcheck plugin, optional
 pyenchant==3.2.2
