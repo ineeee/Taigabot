@@ -77,13 +77,13 @@ def ping(inp, nick=None, chan=None, conn=None, notice=None, reply=None):
         curtime = time.time()
         ctcpcache.append(("PING", user, chan))
         # ctcpcache_timer
-        conn.send(u"PRIVMSG {} :\x01PING {}\x01".format(user, str(curtime)))
+        conn.send("PRIVMSG {} :\x01PING {}\x01".format(user, str(curtime)))
     return
 
 
 @hook.command(adminonly=True)
 def pingip(inp, reply=None):
-    "ping <host> [count] -- Pings <host> [count] times."
+    """ping <host> [count] -- Pings <host> [count] times."""
 
     if os.name == "nt":
         return "Sorry, this command is not supported on Windows systems."
@@ -125,7 +125,7 @@ def pingip(inp, reply=None):
 def ctcp_event(paraml, input=None, bot=None, conn=None):
     inpkind = input.msg.split(" ")[0].strip()
     if re.search("VERSION", inpkind, re.I) or re.search("PING", inpkind, re.I):
-        inpnick = input.nick  # TODO check if this is ok
+        inpnick = input.nick
         inpresult = input.msg.replace(inpkind, '').replace('\x01', '').strip()
         if ctcpcache:
             for x in ctcpcache:
@@ -142,15 +142,16 @@ def ctcp_event(paraml, input=None, bot=None, conn=None):
                         if senttime:
                             diff = (curtime - float(senttime.group(0)))
                             if diff <= 1:
-                                conn.send(u"PRIVMSG {} :[{}] {}: {} ms".format(channel, kind, nick, diff * 1000))
+                                conn.send("PRIVMSG {} :[{}] {}: {:.6f} ms".format(channel, kind, nick, diff * 1000))
                             else:
-                                conn.send(u"PRIVMSG {} :[{}] {}: {} seconds".format(channel, kind, nick, diff))
+                                conn.send("PRIVMSG {} :[{}] {}: {} seconds".format(channel, kind, nick, diff))
                             return
                         else:
                             return
     return
 
 
+# TODO fix this command, broken in python 3
 @hook.command
 def host(inp, nick=None, conn=None, db=None):
     # User is checking own host (i.e. using .host w/o args)

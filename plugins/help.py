@@ -1,12 +1,7 @@
-from __future__ import print_function
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
 import re
-import urllib.request, urllib.parse, urllib.error
 
-from util import hook, user, web
-
+from util import hook, user
+from utilities import request
 
 @hook.command(autohelp=False)
 def commands(inp, say=None, notice=None, input=None, conn=None, bot=None, db=None):
@@ -47,32 +42,30 @@ def commands(inp, say=None, notice=None, input=None, conn=None, bot=None, db=Non
 
         for command in well:
             if output == [] and line == []:
-                line.append("Commands you have access to ({}): {}".format(len(well), str(command)))
+                line.append("Commands you have access to ({}): {}".format(len(well), command))
             else:
-                line.append(str(command))
+                line.append(command)
+
             if len(", ".join(line)) > 405:
                 output.append(", ".join(line))
                 line = []
+
         if len(line) > 0:
             output.append(", ".join(line))
+
         if len(output) == 1:
             output.append(help)
             for line in output:
                 notice(line)
         else:
             output = ", ".join(output)
-            # print(output)
-            print(bot.config.get('api_keys', {}).get('pastebin'))
             pastebin_vars = {
                 'api_dev_key': bot.config.get('api_keys', {}).get('pastebin'),
                 'api_option': 'paste',
-                'api_paste_code': output.encode('utf-8')
+                'api_paste_code': output
             }
-            response = urllib.request.urlopen('https://pastebin.com/api/api_post.php',
-                                      urllib.parse.urlencode(pastebin_vars))
-            url = response.read()
-            #haste = web.haste("{}\n\n{}".format(output, help))
-            notice("Commands you have access to ({}): {}".format(len(well), url))
+            response = request.post('https://pastebin.com/api/api_post.php', data=pastebin_vars)
+            notice("Commands you have access to ({}): {}".format(len(well), response))
     elif inp in commands:
         notice("{}{}".format(conn.conf["command_prefix"], commands[inp].__doc__))
     return

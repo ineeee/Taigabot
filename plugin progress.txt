@@ -1,3 +1,7 @@
+- o: works
+- b: broken
+- x: cant test
+
 - [_] 4chan.py
 - [_] ai.py
 - [b] amazon.py: amazon changed html, scraper broke
@@ -8,15 +12,15 @@
 - [o] choose.py
 - [o] coin.py
 - [o] coins.py
-- [_] core_admin_channel.py
-- [_] core_admin_global.py
-- [_] core_ctcp.py
-- [_] core_misc.py
-- [_] core_sieve.py
+- [b] core_admin_channel.py: broken completely
+- [o] core_admin_global.py: all works except .set
+- [o] core_ctcp.py: all works except .host
+- [x] core_misc.py: cant test
+- [x] core_sieve.py: cant test
 - [_] core_user.py
 - [b] countdown.py: its not counting down
 - [o] cypher.py
-- [_] datafiles.py
+- [o] datafiles.py
 - [o] debt.py
 - [o] dice.py
 - [o] dictionary.py
@@ -30,14 +34,14 @@
 - [o] google.py
 - [o] hashtags.py
 - [o] heartbleed.py
-- [_] help.py
+- [o] help.py
 - [o] kernel.py
 - [o] lastfm.py
 - [_] log.py
 - [o] lyrics.py
-- [_] major_league_baseball.py
+- [b] major_league_baseball.py: the api was deprecated, unrelated to python 3
 - [o] marketing.py
-- [_] masshighlight.py: i have no way of testing this
+- [x] masshighlight.py: cant test
 - [b] media.py: what the fuck is StringIO(initial_value)
 - [o] mediawiki.py
 - [_] metacritic.py

@@ -191,17 +191,15 @@ def restart(inp, nick=None, conn=None, bot=None):
             ])
         else:
             bot.conns[botcon].cmd("QUIT", ["Restarted by {}.".format(nick)])
-    time.sleep(5)
-    #os.execl("./bot", "bot", "restart")
-    args = sys.argv[:]
-    args.insert(0, sys.executable)
-    os.execv(sys.executable, args)
+
+    sys.exit(0)
 
 
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
 def clearlogs(inp, input=None):
     """clearlogs -- Clears the bots log(s)."""
-    subprocess.call(["./bot", "clear"])
+    return "not implemented"
+    #subprocess.call(["./bot", "clear"])
 
 
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
@@ -356,7 +354,7 @@ def set(inp, conn=None, chan=None, db=None, notice=None):
         # value = inp.replace(field,'').replace(nick,'').strip()
         value = inp.strip()
         vsplit = value.split()
-        if vsplit[1:] >= 2:
+        if len(vsplit[1:]) >= 2:
             value = ' '.join(vsplit[2:])
         else:
             value = ''.join(vsplit[2:])
@@ -384,7 +382,7 @@ def set(inp, conn=None, chan=None, db=None, notice=None):
                 'woeid' in field or\
                 'snapchat' in field:
                 #if type(value) is list: value = value[0]
-                if value.lower() == 'none': ## ????????????????WTF IS THIS SHIT SHJOULDNT IT BE `if is None`=??????
+                if value.lower() == 'none':
                     database.set(db, 'users', field, '', 'nick', nick)
                 else:
                     database.set(db, 'users', field, value, 'nick', nick)
