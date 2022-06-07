@@ -18,7 +18,7 @@
 - [x] core_misc.py: cant test
 - [x] core_sieve.py: cant test
 - [o] core_user.py: all works except horoscope scraping
-- [b] countdown.py: its not counting down
+- [o] countdown.py: adrift fixed it
 - [o] cypher.py
 - [o] datafiles.py
 - [o] debt.py
