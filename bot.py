@@ -26,13 +26,17 @@ import sys
 import time
 import platform
 
+if not sys.version_info >= (3, 9):
+    print('Taigabot only runs on python 3.9+')
+    sys.exit(1)
+
+
 sys.path += ['plugins']  # so 'import hook' works without duplication
 os.chdir(sys.path[0] or '.')  # do stuff relative to the install directory
 
 
 class Bot:
     pass
-
 
 print('Taigabot <https://github.com/inexist3nce/Taigabot>')
 
@@ -45,7 +49,6 @@ architecture = ' '.join(platform.architecture())
 print(f'Operating System: {opsys}, Python {python_imp} {python_ver}, Architecture: {architecture}')
 
 bot = Bot()
-bot.start_time = time.time()
 
 print('Loading plugins...')
 
@@ -59,15 +62,18 @@ if not hasattr(bot, 'config'):
 
 print('Connecting to IRC...')
 
-bot.conns = {}
-
 try:
     for name, conf in list(bot.config['connections'].items()):
         print('Connecting to server: %s' % conf['server'])
         if conf.get('ssl'):
-            bot.conns[name] = SSLIRC(name, conf['server'], conf['nick'], conf=conf,
-                    port=conf.get('port', 6697), channels=conf['channels'],
-                    ignore_certificate_errors=conf.get('ignore_cert', True))
+            bot.conns[name] = SSLIRC(name,
+                                     conf['server'],
+                                     conf['nick'],
+                                     conf=conf,
+                                     port=conf.get('port', 6697),
+                                     channels=conf['channels'],
+                                     ignore_certificate_errors=conf.get('ignore_cert', True)
+                                    )
         else:
             bot.conns[name] = IRC(name, conf['server'], conf['nick'], conf=conf,
                     port=conf.get('port', 6667), channels=conf['channels'])
