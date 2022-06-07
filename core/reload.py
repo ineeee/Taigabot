@@ -51,6 +51,7 @@ def reload(init: bool = False):
     for filename in core_fileset:
         mtime = os.stat(filename).st_mtime
         if mtime != mtimes.get(filename):
+            print(f'Loading {filename}')
             mtimes[filename] = mtime
 
             changed = True
