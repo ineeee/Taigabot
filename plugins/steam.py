@@ -1,10 +1,9 @@
-from future import standard_library
-standard_library.install_aliases()
 from builtins import str
 import re
-from util import hook, http, web, text
+from util import hook, http, text
 from bs4 import BeautifulSoup
-
+import csv
+import io
 
 steam_re = (r'(.*:)//(store.steampowered.com)(:[0-9]+)?(.*)', re.I)
 
@@ -41,10 +40,6 @@ def steamsearch(inp):
     result = soup.find('a', {'class': 'search_result_row'})
     return get_steam_info(result['href']) + " - " + result['href']
 
-    
-
-import csv
-import io
 
 gauge_url = "http://www.mysteamgauge.com/search?username={}"
 

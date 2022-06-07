@@ -2,8 +2,8 @@
 - b: broken
 - x: cant test
 
-- [_] 4chan.py
-- [_] ai.py
+- [o] 4chan.py: all works except regex search
+- [o] ai.py
 - [b] amazon.py: amazon changed html, scraper broke
 - [o] bank.py
 - [o] bash.py
@@ -17,7 +17,7 @@
 - [o] core_ctcp.py: all works except .host
 - [x] core_misc.py: cant test
 - [x] core_sieve.py: cant test
-- [_] core_user.py
+- [o] core_user.py: all works except horoscope scraping
 - [b] countdown.py: its not counting down
 - [o] cypher.py
 - [o] datafiles.py
@@ -37,33 +37,33 @@
 - [o] help.py
 - [o] kernel.py
 - [o] lastfm.py
-- [_] log.py
+- [o] log.py
 - [o] lyrics.py
 - [b] major_league_baseball.py: the api was deprecated, unrelated to python 3
 - [o] marketing.py
 - [x] masshighlight.py: cant test
 - [b] media.py: what the fuck is StringIO(initial_value)
 - [o] mediawiki.py
-- [_] metacritic.py
-- [_] mygengo_translate.py
-- [_] namegen.py
+- [b] metacritic.py: scraper broke, metacritic changed html
+- [x] mygengo_translate.py: cant test, i cant get the mygengo package installed
+- [o] namegen.py
 - [_] newegg.py
 - [o] nfl.py: i saw adrift test it
 - [b] quote.py: seems to work mostly, channel search is broken
 - [o] radio.py
 - [o] religion.py
-- [_] reminder.py
+- [o] reminder.py
 - [o] seen.py
-- [_] soundcloud.py
+- [x] soundcloud.py: cant test, i dont have an api key
 - [o] spellcheck.py
 - [o] spotify.py
-- [_] steam.py
+- [b] steam.py: scraper broke, steam changed html
 - [o] stock.py
 - [o] stupid.py: all works (i think cash stuff has problems: bet, sell, mug, donate, pay, owed)
 - [o] system.py: did not test windows code
 - [o] tell.py: it works but i didnt test or clean it
 - [o] times.py
-- [_] todo.py
+- [o] todo.py
 - [o] translate.py
 - [o] twitch.py
 - [o] twitter.py

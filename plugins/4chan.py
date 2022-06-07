@@ -17,10 +17,15 @@ def sanitise(string):
 
 # this absolute garbage was copypasted from util.http just because we want to remove that import
 def process_text(string):
-    try: string = string.replace('<br/>','  ').replace('\n','  ')
-    except: pass
-    string = re.sub('&gt;&gt;\d*[\s]','',string) #remove quoted posts
-    string = re.sub('(&gt;&gt;\d*)','',string)
+    if isinstance(string, bytes):
+        string = string.decode('utf-8')
+
+    try:
+        string = string.replace('<br/>', '  ').replace('\n', '  ').replace('<wbr>', '')
+    except:
+        pass
+    string = re.sub(r'&gt;&gt;\d*[\s]', '', string)  #remove quoted posts
+    string = re.sub(r'(&gt;&gt;\d*)', '', string)
     try: string = str(string, "utf8")
     except: pass
     try: string = strip_html(string)
@@ -50,7 +55,7 @@ def get_title(url):
 def sprunge(data):
     sprunge_data = {"sprunge": data}
     response = request.post("http://sprunge.us", data=sprunge_data)
-    message = response.text.encode().strip('\n')
+    message = response.text.strip('\n')
     return message
 
 
@@ -100,12 +105,12 @@ def process_results(board, string, results_deque):
         if len(urls) > max_num_urls_displayed:
             for url in urls:
                 title = get_title(url)
-                urllist.append("{}".format(title).encode('ascii', 'ignore'))
+                urllist.append("{}".format(title))
             message = sprunge('\n\n'.join(urllist))
         else:
             for url in urls:
                 title = get_title(url)
-                urllist.append("{}".format(title[: int(120)].encode('ascii', 'ignore')))
+                urllist.append("{}".format(title[: int(120)]))
             message = " \x03|\x03 ".join(urllist[:max_num_urls_displayed])
 
     return message
