@@ -30,15 +30,31 @@ if not sys.version_info >= (3, 9):
     print('Taigabot only runs on python 3.9+')
     sys.exit(1)
 
+print('Taigabot <https://github.com/inexist3nce/Taigabot>')
 
 sys.path += ['plugins']  # so 'import hook' works without duplication
 os.chdir(sys.path[0] or '.')  # do stuff relative to the install directory
 
 
 class Bot:
-    pass
+    def __init__(self):
+        self.start_time = time.time()
+        self.config = {}
+        self.config_mtime = 0
+        self.conns = {}
 
-print('Taigabot <https://github.com/inexist3nce/Taigabot>')
+        # folder used to store database and logs
+        self.persist_dir = os.path.abspath('persist')
+
+    def ensure_files(self):
+        if not os.path.exists(self.persist_dir):
+            os.mkdir(self.persist_dir)
+
+        if not os.path.exists('config'):
+            print('ERROR: no config file found!')
+            print("Please rename 'config.default' to 'config' to set up your bot!")
+            sys.exit(1)
+
 
 # print debug info
 opsys = platform.platform()
@@ -49,21 +65,19 @@ architecture = ' '.join(platform.architecture())
 print(f'Operating System: {opsys}, Python {python_imp} {python_ver}, Architecture: {architecture}')
 
 bot = Bot()
-bot.start_time = time.time()
+bot.ensure_files()
 
 print('Loading plugins...')
 
 # bootstrap the reloader
-eval(compile(open(os.path.join('core', 'reload.py'), 'r').read(), os.path.join('core', 'reload.py'), 'exec'))
-reload(init=True)
+# afaik this basically "includes" the file right in here, same namespace
+reloader_path = os.path.join('core', 'reload.py')
+eval(compile(open(reloader_path, 'r').read(), reloader_path, 'exec'))
 
+reload(init=True)
 config()
-if not hasattr(bot, 'config'):
-    exit()
 
 print('Connecting to IRC...')
-
-bot.conns = {}
 
 try:
     for name, conf in list(bot.config['connections'].items()):
@@ -75,19 +89,19 @@ try:
                                      conf=conf,
                                      port=conf.get('port', 6697),
                                      channels=conf['channels'],
-                                     ignore_certificate_errors=conf.get('ignore_cert', True)
-                                    )
+                                     ignore_certificate_errors=conf.get('ignore_cert', True))
         else:
-            bot.conns[name] = IRC(name, conf['server'], conf['nick'], conf=conf,
-                    port=conf.get('port', 6667), channels=conf['channels'])
+            bot.conns[name] = IRC(name,
+                                  conf['server'],
+                                  conf['nick'],
+                                  conf=conf,
+                                  port=conf.get('port', 6667),
+                                  channels=conf['channels'])
 except Exception as fatal:
     print('ERROR: exception caught while creating the connection')
     raise fatal
     sys.exit(1)
 
-bot.persist_dir = os.path.abspath('persist')
-if not os.path.exists(bot.persist_dir):
-    os.mkdir(bot.persist_dir)
 
 print('Connection(s) made, starting main loop.')
 
