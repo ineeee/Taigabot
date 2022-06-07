@@ -1,30 +1,26 @@
 # Taigabot
 
 * 13+ year old code
-* Only runs on python 2
+* Runs on Python 3
 * Extremely stable, has been running for literally over a decade
-* Easy to use wrapper
 * Intuitive configuration
 * Fully controlled from IRC
 * Fully compatable with existing skybot plugins
 * Easily extendable
-  * Thorough documentation
-  * Cross-platform
 * Muti-threaded, efficient
   * Automatic reloading
   * Little boilerplate
+  * Misbehaving plugins don't crash the bot
 
 ### Installation
-Taigabot runs only on Python 2.7. See [install.md](install.md#instructions) for [ubuntu](install.md#ubuntu) or [alpine](install.md#alpine) instructions.
+Taigabot runs only on Python 3.9 or 3.10. See [install.md](install.md#instructions) for [ubuntu](install.md#ubuntu) or [alpine](install.md#alpine) instructions.
 
 The biggest hurdle is `lxml` which needs a compiler and a bunch of libraries.
 
 #### Other dependencies
-Some commands require extra python packages, more information can be found on [install.md § specific dependencies](install.md#specific-dependencies).
+Some plugins require extra python packages, more information can be found on [install.md § specific dependencies](install.md#specific-dependencies).
 
-Some commands also require API keys,
-
-The system packages `daemon` or `screen` are recomended for the launcher to run optimally.
+**Many** plugins require API keys from different services. Currently we have 34 api keys.
 
 
 ### Run
@@ -32,45 +28,13 @@ Once you have installed the required dependencies, you need to create a config f
 
     cp config.default config
     vim config
-    python2 bot.py
+    python3 bot.py
 
-There are two ways you can run the bot:
-
-#### Launcher
-
-**Note:** Due to some issues with the launcher we recommend you run the bot manually as detailed below.
-
-**Note:** If migrating from an older version please look in the modules/Admin.py at the migrate_old_db command. MAKE SURE TO USE A COPY OF THE ORIGINAL DB.
-
-The launcher will start the bot as a background process, and allow the bot to close and restart itself. This is only supported on unix-like machines (not Windows).
-
-For the launcher to work properly, install `screen`, or `daemon` (daemon is recommended):
-
-`apt-get install screen`
-
-`apt-get install daemon`
-
-Once you have installed either `screen` or `daemon`, run the start command:
-
-`./uguubot start`
-
-It will generate a default config for you.  Once you have edited the config, run it again with the same command:
-
-`./uguubot start`
-
-This will start up your bot as a background process. To stop it, use `./uguubot stop`.)
-
-#### Manually
-
-To manually run the bot and get console output, run it with:
-
-`python bot.py`
-
-(note: running the bot without the launcher breaks the start and restart commands)
+It is highly recommended to use a virtual environment.
 
 ## License
 
-UguuBot is **licensed** under the **GPL v3** license. The terms are as follows.
+UguuBot (also taigabot) is **licensed** under the **GPL v3** license. The terms are as follows.
 
     UguuBot/DEV
     Copyright © 2013-2013 Infinity - <https://github.com/infinitylabs/UguuBot>
