@@ -1,6 +1,3 @@
-from __future__ import print_function
-from future import standard_library
-standard_library.install_aliases()
 from builtins import range
 import re
 import urllib.request, urllib.error, urllib.parse
@@ -216,7 +213,7 @@ headers = {'User-Agent': user_agent}
 
 
 def parse_html(stream):
-    data = ''
+    data = b''
     for chunk in stream.iter_content(chunk_size=256):
         data = data + chunk
 
@@ -225,7 +222,7 @@ def parse_html(stream):
 
     # try to quickly grab the content between <title> and </title>
     # should match most cases, if not just fall back to lxml
-    if '<title>' in data and '</title>' in data:
+    if b'<title>' in data and b'</title>' in data:
         try:
             quick_title = data[data.find('<title>') + 7:data.find('</title>')]
             return quick_title.strip()
@@ -277,6 +274,7 @@ def unmatched_url(url, parsed, bot, chan, db):
             title = parse_html(req)
         except Exception as e:
             print('[!] WARNING the url caused a parser error')
+            print(e)
             title = 'Untitled'
 
         # TODO handle titles with html entities

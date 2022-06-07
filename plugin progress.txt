@@ -56,19 +56,19 @@
 - [o] seen.py
 - [_] soundcloud.py
 - [o] spellcheck.py
-- [_] spotify.py
+- [o] spotify.py
 - [_] steam.py
-- [_] stock.py
-- [_] stupid.py
+- [o] stock.py
+- [o] stupid.py: all works (i think cash stuff has problems: bet, sell, mug, donate, pay, owed)
 - [o] system.py: did not test windows code
 - [o] tell.py: it works but i didnt test or clean it
-- [_] times.py
+- [o] times.py
 - [_] todo.py
 - [o] translate.py
 - [o] twitch.py
 - [o] twitter.py
 - [o] urbandict.py
-- [_] urls.py
+- [o] urls.py: random page/image links work, but didnt test thoroughly
 - [o] utility.py: works ok, base64/unicode stuff broken
 - [o] validate.py
 - [o] vimeo.py

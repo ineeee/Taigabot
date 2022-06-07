@@ -23,6 +23,17 @@ from utilities import formatting, request
 # HONK HONK
 # HONK HONK
 # HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
 actions = {
     "honk": ["honked at", "honking"],
     "pet": ["pet", "petting"],
@@ -451,7 +462,7 @@ def vendingmachine(inp, nick=None, me=None):
 def hug(inp, nick=None):
     "hug <nick> -- hugs someone"
     if not inp: inp = nick
-    return '\x02\x034♥♡❤♡♥\x03 {} \x034♥♡❤♡♥\x03\x02'.format(inp).decode('UTF-8')
+    return f'\x02\x034♥♡❤♡♥\x03 {inp} \x034♥♡❤♡♥\x03\x02'
 
 
 @hook.command(autohelp=False)
@@ -479,7 +490,7 @@ def nigger(inp, nick=None):
 def kiss(inp, nick=None):
     "hug <nick> -- hugs someone"
     if not inp: inp = nick
-    return '(づ｡◕‿‿◕｡)づ\x02\x034。。・゜゜・。。・゜❤ {} ❤\x03\x02 '.format(inp).decode('UTF-8')
+    return '(づ｡◕‿‿◕｡)づ\x02\x034。。・゜゜・。。・゜❤ {} ❤\x03\x02 '.format(inp)
 
 
 @hook.regex(r'^\[(.*)\]$')
