@@ -16,7 +16,7 @@ def munge(text, munge_count=0):
     for n in range(len(text)):
         rep = character_replacements.get(text[n])
         if rep:
-            text = text[:n] + rep.decode('utf8') + text[n + 1:]
+            text = text[:n] + rep + text[n + 1:]
             reps += 1
             if reps == munge_count:
                 break

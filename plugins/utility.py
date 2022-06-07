@@ -69,63 +69,63 @@ def swapcase(inp):
     return inp.swapcase()
 
 
-# encoding
-@hook.command
-def rot13(inp):
-    """rot13 <string> -- Encode <string> with rot13."""
-    return inp.encode('rot13')
+# # encoding
+# @hook.command
+# def rot13(inp):
+#     """rot13 <string> -- Encode <string> with rot13."""
+#     return inp.encode('rot13')
 
 
-@hook.command
-def base64(inp):
-    """base64 <string> -- Encode <string> with base64."""
-    return inp.encode('base64')
+# @hook.command
+# def base64(inp):
+#     """base64 <string> -- Encode <string> with base64."""
+#     return inp.encode('base64')
 
 
-@hook.command
-def unbase64(inp):
-    """unbase64 <string> -- Decode <string> with base64."""
-    return inp.decode('base64')
+# @hook.command
+# def unbase64(inp):
+#     """unbase64 <string> -- Decode <string> with base64."""
+#     return inp.decode('base64')
 
 
-@hook.command
-def checkbase64(inp):
-    try:
-        decoded = inp.decode('base64')
-        recoded = decoded.encode('base64').strip()
-        is_base64 = recoded == inp
-    except:
-        is_base64 = False
+# @hook.command
+# def checkbase64(inp):
+#     try:
+#         decoded = inp.decode('base64')
+#         recoded = decoded.encode('base64').strip()
+#         is_base64 = recoded == inp
+#     except:
+#         is_base64 = False
 
-    if is_base64:
-        return '"{}" is base64 encoded'.format(recoded)
-    else:
-        return '"{}" is not base64 encoded'.format(inp)
-
-
-@hook.command
-def unescape(inp):
-    """unescape <string> -- Unescapes <string>."""
-    try:
-        return inp.decode('unicode-escape')
-    except Exception as e:
-        return "Error: {}".format(e)
+#     if is_base64:
+#         return '"{}" is base64 encoded'.format(recoded)
+#     else:
+#         return '"{}" is not base64 encoded'.format(inp)
 
 
-@hook.command
-def escape(inp):
-    """escape <string> -- Escapes <string>."""
-    try:
-        return inp.encode('unicode-escape')
-    except Exception as e:
-        return "Error: {}".format(e)
+# @hook.command
+# def unescape(inp):
+#     """unescape <string> -- Unescapes <string>."""
+#     try:
+#         return inp.decode('unicode-escape')
+#     except Exception as e:
+#         return "Error: {}".format(e)
+
+
+# @hook.command
+# def escape(inp):
+#     """escape <string> -- Escapes <string>."""
+#     try:
+#         return inp.encode('unicode-escape')
+#     except Exception as e:
+#         return "Error: {}".format(e)
 
 
 # length
 @hook.command
 def length(inp):
     """length <string> -- gets the length of <string>"""
-    return "The length of that string is {} characters.".format(len(inp))
+    return f'The length of that string is {len(inp)} characters.'
 
 
 # reverse
@@ -139,7 +139,7 @@ def reverse(inp):
 @hook.command
 def hash(inp):
     """hash <string> -- Returns hashes of <string>."""
-    return ', '.join(x + ": " + getattr(hashlib, x)(inp).hexdigest() for x in ['md5', 'sha1', 'sha256'])
+    return ', '.join(x + ': ' + getattr(hashlib, x)(inp.encode('utf-8')).hexdigest() for x in ['md5', 'sha1', 'sha256'])
 
 
 # novelty
@@ -185,12 +185,12 @@ def gaycow(inp, reply=None):
     reply(make_rainbow('              ||     ||'))
 
 
-@hook.command
-def gayfiglet(inp, reply=None):
-    inp = inp.encode('utf-8')[:11]
-    for line in subprocess.check_output(['figlet', '{0}'.format(inp)]).split('\n'):
-        if line != ' ' * (len(line)):
-            reply(make_rainbow(line))
+# @hook.command
+# def gayfiglet(inp, reply=None):
+#     inp = inp.encode('utf-8')[:11]
+#     for line in subprocess.check_output(['figlet', '{0}'.format(inp)]).split('\n'):
+#         if line != ' ' * (len(line)):
+#             reply(make_rainbow(line))
 
 
 @hook.command

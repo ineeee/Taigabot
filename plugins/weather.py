@@ -14,25 +14,20 @@ import pytz
 
 def getlocation(db, location):
     print(location)
-    try:
-        location = location.decode("utf-8")
-    except:
-        pass
     latlong = database.get(db, 'location', 'latlong', 'location', location)
     address = database.get(db, 'location', 'address', 'location', location)
     if not latlong:
-        location = location.encode('utf-8')
         locator = Nominatim(user_agent="Taiga").geocode(location)
         latlong = (locator.latitude, locator.longitude)
         database.set(db, 'location', 'latlong', '{},{}'.format(latlong[0], latlong[1]),
                      'location', location)
         address = locator.address.replace('United States of America', 'USA').replace(
-            'United Kingdom', 'UK').encode('utf-8')
+            'United Kingdom', 'UK')
         database.set(db, 'location', 'address', address, 'location', location)
     else:
         latlong = latlong.split(',')
     return latlong, address
-    
+
 
 
 @hook.command('alerts', autohelp=False)
@@ -51,8 +46,7 @@ def weather(inp, bot=None, reply=None, db=None, nick=None, notice=None, paraml=N
         userloc = database.get(db, 'users', 'location', 'nick', nick)
         latlong, address = getlocation(db, userloc)
         if not userloc:
-            return "No location stored for {}.".format(
-                nick.encode('ascii', 'ignore'))
+            return "No location stored for {}.".format(nick)
     else:
         userloc = database.get(db, 'users', 'location', 'nick', nick)
         try:
@@ -79,9 +73,8 @@ def weather(inp, bot=None, reply=None, db=None, nick=None, notice=None, paraml=N
             return
 
     if inp and save:
-        database.set(db, 'users', 'location', inp.encode('utf-8'), 'nick',
-                     nick)
-        
+        database.set(db, 'users', 'location', inp, 'nick', nick)
+
     secret = bot.config.get("api_keys", {}).get("darksky")
     baseurl = 'https://api.darksky.net/forecast/{}/{},{}?exclude=minutely,flags,hourly'.format(
         secret, latlong[0], latlong[1])
@@ -99,16 +92,16 @@ def weather(inp, bot=None, reply=None, db=None, nick=None, notice=None, paraml=N
         else:
             for alert in reply['alerts']:
                 tz = pytz.timezone(reply['timezone'])
-                output += '\x02{}\x02: \x02Starts:\x02 {}, \x02Ends:\x02 {}, \x02Severity:\x02 {}'.format(alert['title'].encode('utf-8'), datetime.fromtimestamp(alert['time'], tz).strftime('%Y-%m-%d %H:%M:%S'), datetime.fromtimestamp(alert['expires'], tz).strftime('%Y-%m-%d %H:%M:%S'), alert['severity'])
+                output += '\x02{}\x02: \x02Starts:\x02 {}, \x02Ends:\x02 {}, \x02Severity:\x02 {}'.format(alert['title'], datetime.fromtimestamp(alert['time'], tz).strftime('%Y-%m-%d %H:%M:%S'), datetime.fromtimestamp(alert['expires'], tz).strftime('%Y-%m-%d %H:%M:%S'), alert['severity'])
                 if len(reply['alerts']) > 1 and reply['alerts'].index(alert) != len(reply['alerts']) -1:
                     output += ', '
-                
+
             return output
     elif command == 'time' or command == 't':
         tz = pytz.timezone(reply['timezone'])
         time = datetime.fromtimestamp(current['time'], tz)
         return '\x02{}\x02: {}/{}'.format(address, time.strftime('%Y-%m-%d %I:%M:%S %p'), time.strftime('%H:%M:%S'))
-    else: 
+    else:
         tz = pytz.timezone(reply['timezone'])
         weather_data = {
             'place': address,
@@ -126,7 +119,7 @@ def weather(inp, bot=None, reply=None, db=None, nick=None, notice=None, paraml=N
             'uv_index': current['uvIndex']
         }
         try:
-            weather_data['forecast'] = daily_current['summary'][:-1].encode('utf-8')
+            weather_data['forecast'] = daily_current['summary'][:-1]
             weather_data['sunrise'] = datetime.fromtimestamp(daily_current['sunriseTime'], tz).strftime('%I:%M:%S %p')
             weather_data['sunset'] = datetime.fromtimestamp(daily_current['sunsetTime'], tz).strftime('%I:%M:%S %p')
 
@@ -173,6 +166,7 @@ def weather(inp, bot=None, reply=None, db=None, nick=None, notice=None, paraml=N
             output += ', \x0304\x02Alerts:\x02 {} (.alerts)\x03'.format(len(reply['alerts']))
         return output
 
+
 def wind_dir(direction):
     if direction == 0 or direction == 360:
         return 'N'
@@ -190,7 +184,8 @@ def wind_dir(direction):
         return 'W'
     else:
         return 'NW'
-        
+
+
 def wind_type(mph):
     if mph < 1:
         return 'Calm'

@@ -18,7 +18,7 @@ def wordoftheday(inp):
     for paragraph in iterable.limit(4, paragraphs):
         definitions.append(paragraph.text.strip())
 
-    output = u"The word of the day is \x02{}\x02: {}".format(word, u'; '.join(definitions))
+    output = 'The word of the day is \x02{}\x02: {}'.format(word, '; '.join(definitions))
 
     if len(output) > 300:
         output = output[:300] + '... More at https://www.merriam-webster.com/word-of-the-day'

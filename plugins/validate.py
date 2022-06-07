@@ -20,7 +20,7 @@ def validate(inp):
     sys_errors = soup.find('li', attrs={'class': 'non-document-error'})
 
     if sys_errors is not None:
-        return "[w3c] The validator returned an error: {}".format(sys_errors.get_text())
+        return f'[w3c] The validator returned an error: {sys_errors.get_text()}'
 
     results = soup.find('div', attrs={'id': 'results'})
 
@@ -32,6 +32,6 @@ def validate(inp):
     info = len(results.find_all('li', attrs={'class': 'info'}))
 
     if errors == 0 and warns == 0 and info == 0:
-        return "[w3c] Successfully validated with no errors"
+        return '[w3c] Successfully validated with no errors'
 
-    return "[w3c] Found {} errors, {} warnings and {} notices.".format(errors, warns, info)
+    return f'[w3c] Found {errors} errors, {warns} warnings and {info} notices.'

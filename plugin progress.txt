@@ -48,7 +48,7 @@
 - [_] mygengo_translate.py
 - [_] namegen.py
 - [_] newegg.py
-- [_] nfl.py
+- [o] nfl.py: i saw adrift test it
 - [b] quote.py: seems to work mostly, channel search is broken
 - [o] radio.py
 - [o] religion.py
@@ -66,13 +66,13 @@
 - [_] todo.py
 - [o] translate.py
 - [o] twitch.py
-- [_] twitter.py
+- [o] twitter.py
 - [o] urbandict.py
 - [_] urls.py
-- [_] utility.py
-- [_] validate.py
-- [_] vimeo.py
-- [_] weather.py
+- [o] utility.py: works ok, base64/unicode stuff broken
+- [o] validate.py
+- [o] vimeo.py
+- [o] weather.py
 - [b] wolframalpha.py: i cant tell why it doesnt work
-- [_] wordoftheday.py
-- [_] youtube.py
+- [o] wordoftheday.py
+- [o] youtube.py: all works, didnt test playlist titles
