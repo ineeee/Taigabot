@@ -116,4 +116,8 @@ while True:
         except queue.Empty:
             pass
     while all(conn.out.empty() for conn in list(bot.conns.values())):
-        time.sleep(.1)
+        try:
+            time.sleep(.1)
+        except KeyboardInterrupt:
+            print('Caught keyboard interrupt, exiting')
+            sys.exit(0)
