@@ -49,6 +49,7 @@ architecture = ' '.join(platform.architecture())
 print(f'Operating System: {opsys}, Python {python_imp} {python_ver}, Architecture: {architecture}')
 
 bot = Bot()
+bot.start_time = time.time()
 
 print('Loading plugins...')
 
@@ -61,6 +62,8 @@ if not hasattr(bot, 'config'):
     exit()
 
 print('Connecting to IRC...')
+
+bot.conns = {}
 
 try:
     for name, conf in list(bot.config['connections'].items()):
