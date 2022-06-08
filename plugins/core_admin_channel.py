@@ -1,11 +1,16 @@
 from __future__ import print_function
 from __future__ import division
+from pickle import FALSE
 # Plugin made by Infinity, Lukeroge and neersighted
 from past.utils import old_div
 import re
 from time import sleep
 
 from util import database, hook, scheduler, user
+
+# oh my fucking god
+TRUE_ISH = 'yeah'
+FALSE_ISH = 'nope'
 
 
 # \binfinity@[^\s]*like.lolis\b
@@ -23,7 +28,7 @@ def format_hostmask(inp):
 
 def compare_hostmasks(hostmask, matchmasks):
     for mask in re.findall(r'(\b\S+\b)', ' '.join(matchmasks)):
-        mask = '^*{}$'.format(mask).replace('.', '\.').replace('*', '.*')
+        mask = '^*{}$'.format(mask).replace('.', r'\.').replace('*', '.*')
         if bool(re.match(mask, hostmask)):
             print('{} - {}'.format(mask, hostmask))
             return True
@@ -64,108 +69,163 @@ def match(inp, nick=None, chan=None, bot=None, input=None, db=None):
 ### Admin Commands ###
 
 
-@hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
-def admins(inp, notice=None, bot=None, chan=None, db=None):
+@hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
+def admins(inp, notice=None, chan=None, db=None):
     """admins [channel] -- Lists admins on channel."""
     admins = database.get(db, 'channels', 'admins', 'chan', chan)
-    if admins: notice(u"[{}]: Admins are: {}".format(chan, admins))
-    else: notice(u"[{}]: No nicks/hosts are currently admins.".format(chan))
+
+    if admins:
+        notice(f'[{chan}]: Admins are: {admins}')
+    else:
+        notice(f'[{chan}]: No nicks/hosts are currently admins.')
+
     return
 
 
-@hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
-def admin(inp, notice=None, bot=None, chan=None, db=None):
+@hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
+def admin(inp, notice=None, chan=None, db=None):
     """admin [channel] <add|del> <nick|host> -- Makes the user an admin."""
-    admins = database.get(db, 'channels', 'admins', 'chan', chan)
 
-    channel = chan.lower()
+    if len(inp) < 1:
+        notice('Missing subcommand. Usage: .admin <add/del> <nick/*>')
+        return
+
+    admins = database.get(db, 'channels', 'admins', 'chan', chan)
     command = inp.split()[0]
     nicks = inp.split()[1:]
+
+    if command not in ('add', 'del'):
+        notice('Unknown subcommand. Usage: .admin <add/del> <nick/*>')
+        return
+
+    if len(nicks) < 1:
+        notice('Missing nicks. Usage: .admin <add/del> <nick/*>')
+        return
 
     if 'add' in command:
         for nick in nicks:
             nick = user.get_hostmask(nick, db)
             if admins and nick in admins:
-                notice(u"[{}]: {} is already an admin.".format(chan, nick))
+                notice(f'[{chan}]: {nick} is already an admin.')
             else:
-                admins = '{} {}'.format(nick, admins).replace('False',
-                                                              '').strip()
+                admins = '{} {}'.format(nick, admins).replace('False', '').strip()
                 database.set(db, 'channels', 'admins', admins, 'chan', chan)
-                notice(u"[{}]: {} is now an admin.".format(chan, nick))
+                notice(f'[{chan}]: {nick} is now an admin.')
     elif 'del' in command:
         if '*' in nicks:
             database.set(db, 'channels', 'admins', '', 'chan', chan)
-            notice(u"[{}]: All admins have been removed.".format(chan))
-        else:
-            for nick in nicks:
-                nick = user.get_hostmask(nick, db)
-                if admins and nick in admins:
-                    admins = " ".join(
-                        admins.replace(nick, '').strip().split())
-                    database.set(db, 'channels', 'admins', admins, 'chan',
-                                 chan)
-                    notice(u"[{}]: {} is no longer an admin.".format(
-                        chan, nick))
-                else:
-                    notice(u"[{}]: {} is not an admin.".format(chan, nick))
+            notice(f'[{chan}]: All admins have been removed.')
+            return
+
+        for nick in nicks:
+            nick = user.get_hostmask(nick, db)
+            if admins and nick in admins:
+                admins = ' '.join(admins.replace(nick, '').strip().split())
+                database.set(db, 'channels', 'admins', admins, 'chan', chan)
+                notice(f'[{chan}]: {nick} is no longer an admin.')
+            else:
+                notice(f'[{chan}]: {nick} is not an admin.')
+
     return
 
 
 ######################
 ### Admin Commands ###
 
-# @hook.command('aops', channeladminonly=True, autohelp=False)
-# @hook.command(permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
-# def autoops(inp, notice=None, bot=None, chan=None, db=None):
-#     """aops [channel] -- Lists autoops on channel."""
-#
-#     autoops = database.get(db,'channels','autoops','chan',chan)
-#     if autoops: notice(u"[{}]: Auto ops are: {}".format(chan,autoops))
-#     else: notice(u"[{}]: No nicks/hosts are currently auto opped.".format(chan))
-#     return
+@hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
+def autoops(inp, notice=None, chan=None, db=None):
+    """aops [channel] -- Lists autoops on channel."""
 
+    autoops: str = database.get(db, 'channels', 'autoops', 'chan', chan)
+    should_autoop = database.get(db, 'channels', 'autoop', 'chan', chan)
+    autoop_status = 'enabled' if should_autoop == TRUE_ISH else 'disabled'
 
-@hook.command('aop', channeladminonly=True, autohelp=False)
-@hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
-def autoop(inp, notice=None, bot=None, chan=None, db=None):
-    """aop [channel] <enable|disable> OR <add|del> <nick|host> -- Add/Del Autoops."""
-    autoops = database.get(db, 'channels', 'autoops', 'chan', chan)
-
-    channel = chan.lower()
-    command = inp.split()[0]
-    if 'enable' in command:
-        database.set(db, 'channels', 'autoop', True, 'chan', chan)
-        notice(u"[{}]: Autoops is now enabled.".format(chan))
-    elif 'disable' in command:
-        database.set(db, 'channels', 'autoop', False, 'chan', chan)
-        notice(u"[{}]: Autoops is now disabled.".format(chan))
-    elif 'add' in command:
-        nicks = inp.split()[1:]
-        for nick in nicks:
-            nick = user.get_hostmask(nick, db)
-            if autoops and nick in autoops:
-                notice(u"[{}]: {} is already an autoop.".format(chan, nick))
-            else:
-                autoops = '{} {}'.format(nick, autoops).replace('False',
-                                                                '').strip()
-                database.set(db, 'channels', 'autoops', autoops, 'chan', chan)
-                notice(u"[{}]: {} is now an auto op.".format(chan, nick))
-    elif 'del' in command:
-        nicks = inp.split()[1:]
-        for nick in nicks:
-            nick = user.get_hostmask(nick, db)
-            if autoops and nick in autoops:
-                autoops = " ".join(autoops.replace(nick, '').strip().split())
-                database.set(db, 'channels', 'autoops', autoops, 'chan', chan)
-                notice(u"[{}]: {} is no longer an auto op.".format(
-                    chan, nick))
-            else:
-                notice(u"[{}]: {} is not an auto op.".format(chan, nick))
+    if autoops:
+        notice(f'[{chan}]: Auto ops are {autoop_status} and the list is {autoops}')
+    else:
+        notice(f'[{chan}]: Auto ops are {autoop_status} but no nicks/hosts are in the list.')
     return
 
+
+@hook.command(permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+def autoop(inp, notice=None, bot=None, chan=None, db=None):
+    """aop [channel] <enable|disable> OR <add|del> <nick|host> -- Add/Del Autoops."""
+
+    if len(inp) < 1:
+        notice('Missing subcommand. Usage: .autoop <enable/disable/add/del>')
+        return
+
+    autoops = database.get(db, 'channels', 'autoops', 'chan', chan)
+    command = inp.split()[0]
+
+    if command not in ('enable', 'disable', 'add', 'del'):
+        notice('Unknown subcommand. Usage: .autoop <enable/disable/add/del>')
+        return
+
+    if 'enable' in command:
+        database.set(db, 'channels', 'autoop', TRUE_ISH, 'chan', chan)
+        notice(f'[{chan}]: Autoops is now enabled.')
+    elif 'disable' in command:
+        database.set(db, 'channels', 'autoop', FALSE_ISH, 'chan', chan)
+        notice(f'[{chan}]: Autoops is now disabled.')
+    elif 'add' in command:
+        nicks = inp.split()[1:]
+
+        if len(nicks) < 1:
+            notice('Missing nicks. Usage: .autoop add <nick>')
+            return
+
+        for nick in nicks:
+            nick = user.get_hostmask(nick, db)
+            if autoops and nick in autoops:
+                notice(f'[{chan}]: {nick} is already an autoop.')
+            else:
+                autoops = '{} {}'.format(nick, autoops).replace('False', '').strip()
+                database.set(db, 'channels', 'autoops', autoops, 'chan', chan)
+                notice(f'[{chan}]: {nick} is now an auto op.')
+    elif 'del' in command:
+        nicks = inp.split()[1:]
+
+        if '*' in nicks:
+            database.set(db, 'channels', 'autoops', '', 'chan', chan)
+            notice(f'[{chan}]: All auto ops have been removed.')
+            return
+
+        for nick in nicks:
+            nick = user.get_hostmask(nick, db)
+            if autoops and nick in autoops:
+                autoops = ' '.join(autoops.replace(nick, '').strip().split())
+                database.set(db, 'channels', 'autoops', autoops, 'chan', chan)
+                notice(f'[{chan}]: {nick} is no longer an auto op.')
+            else:
+                notice(f'[{chan}]: {nick} is not an auto op.')
+    return
+
+
+@hook.event('JOIN')
+def event_handle_autoop(inp, input=None, db=None, chan=None, conn=None, reply=None, nick=None):
+    should_autoop = database.get(db, 'channels', 'autoop', 'chan', chan)
+
+    if should_autoop != TRUE_ISH:
+        # bail if auto_op isnt enabled
+        return
+
+    autoops: str = database.get(db, 'channels', 'autoops', 'chan', chan)
+
+    if len(autoops) == 0:
+        # bail if the list is empty
+        return
+
+    autoops = autoops.split(' ')
+
+    # nick!user@host of the user who just joined
+    current_mask = user.format_hostmask(input.mask)
+
+    for mask in autoops:
+        if mask == current_mask:
+            conn.send(f'MODE {input.chan} +o {input.nick}')
+
+    return
 
 ################################
 ### Ignore/Unignore Commands ###

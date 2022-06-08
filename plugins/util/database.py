@@ -3,6 +3,8 @@ from sqlite3 import OperationalError
 import traceback
 
 
+# these dont mean anything because when a column is accesed it is automatically auto-created
+# yes that's sad but idk i didnt make it
 channel_columns  = ['chan NOT NULL',
                     'admins',
                     'permissions',

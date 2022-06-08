@@ -33,7 +33,7 @@ def get_hostmask(inp, db):
 
 def compare_hostmasks(hostmask, matchmasks):
     for mask in re.findall(r'(\b\S+\b)', matchmasks):
-        mask = '^*{}$'.format(mask).replace('.', '\.').replace('*', '.*')
+        mask = '^*{}$'.format(mask).replace('.', r'\.').replace('*', '.*')
         if bool(re.match(mask.lower(), hostmask.lower())): return True
     return False
 

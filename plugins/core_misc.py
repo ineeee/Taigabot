@@ -106,17 +106,6 @@ def onjoined(inp, input=None, conn=None, chan=None, raw=None, db=None):
                 u"KICK {} {} :{}".format(
                     input.chan, input.nick, 'I dont think so Tim.'))
 
-    if 'autoop' not in disabled_commands:
-        # check if ops
-        autoop = database.get(db, 'channels', 'autoop', 'chan', chan)
-        if autoop:
-            autoops = database.get(db, 'channels', 'admins', 'chan', chan)
-        else:
-            autoops = database.get(db, 'channels', 'autoops', 'chan', chan)
-
-        if autoops and mask in autoops:
-            conn.send(u"MODE {} {} {}".format(input.chan, '+o', input.nick))
-
     if input.nick == "kimi":
         conn.send(
             'PRIVMSG {} :\x02[QUALITY OF CHANNEL SIGNIFICANTLY DECREASED]\x02'
