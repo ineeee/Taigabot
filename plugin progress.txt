@@ -73,6 +73,6 @@
 - [o] validate.py
 - [o] vimeo.py
 - [o] weather.py
-- [b] wolframalpha.py: i cant tell why it doesnt work
+- [o] wolframalpha.py
 - [o] wordoftheday.py
 - [o] youtube.py: all works, didnt test playlist titles
