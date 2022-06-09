@@ -1,28 +1,18 @@
 # convenience wrapper for urllib2 & friends
-
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
 from builtins import chr
 from http.cookiejar import CookieJar
 import json
 import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
-import urllib.parse
 import re
-from urllib.parse import quote, quote_plus as _quote_plus
+from urllib.parse import quote_plus as _quote_plus
 
 from lxml import etree, html
 from bs4 import BeautifulSoup
-from urllib.error import URLError, HTTPError
 
-ua_firefox = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/50.0' \
-             ' Firefox/50.0'
-ua_old_firefox = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; ' \
-    'rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6'
+ua_firefox = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/50.0 Firefox/50.0'
+ua_old_firefox = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6'
 ua_internetexplorer = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
-ua_chrome = 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.4 (KHTML, ' \
-            'like Gecko) Chrome/22.0.1229.79 Safari/537.4'
+ua_chrome = 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4'
 
 jar = CookieJar()
 
@@ -88,33 +78,16 @@ def prepare_url(url, queries):
 
         query = dict(urllib.parse.parse_qsl(query))
         query.update(queries)
-        query = urllib.parse.urlencode(dict((to_utf8(key), to_utf8(value))
-                                  for key, value in list(query.items())))
+        query = urllib.parse.urlencode(dict((key, value) for key, value in list(query.items())))
 
         url = urllib.parse.urlunsplit((scheme, netloc, path, query, fragment))
 
     return url
 
 
-def to_utf8(s):
-    if isinstance(s, str):
-        return s.encode('utf8', 'ignore')
-    else:
-        return str(s)
-
-# def quote(s):
-#     return urllib.quote(s)
-
 def quote_plus(s):
-    return _quote_plus(to_utf8(s))
+    return _quote_plus(s)
 
-def unquote(s):
-    return urllib.parse.unquote(s)
-
-def unescape(s):
-    if not s.strip():
-        return s
-    return html.fromstring(s).text_content()
 
 def strip_html(html):
     tag = False
@@ -122,16 +95,17 @@ def strip_html(html):
     out = ""
 
     for c in html:
-      if c == '<' and not quote: tag = True
-      elif c == '>' and not quote: tag = False
-      elif (c == '"' or c == "'") and tag: quote = not quote
-      elif not tag: out = out + c
+        if c == '<' and not quote: tag = True
+        elif c == '>' and not quote: tag = False
+        elif (c == '"' or c == "'") and tag: quote = not quote
+        elif not tag: out = out + c
 
     return out
 
+
 def decode_html(string):
     import re
-    entity_re = re.compile("&(#?)(\d{1,5}|\w{1,8});")
+    entity_re = re.compile(r'&(#?)(\d{1,5}|\w{1,8});')
 
     def substitute_entity(match):
         from html.entities import name2codepoint as n2cp
@@ -153,41 +127,23 @@ def clean_html(string):
     h = html.parser.HTMLParser()
     return h.unescape(string)
 
-    #clean up html chars
-    #out = HTMLParser.HTMLParser().unescape(out)
-    #out = out.replace("&amp;","&").replace("&quot;",'"').replace('&#039;',"'").replace("&lt;","<").replace("&gt;",">").replace("&#8211;","-").replace('&#47;','/')
 
-#.renderContents().strip().decode('utf-8').replace('<br/>', '  ')
-#    post = re.sub('[\s]{3,}','  ',post) #remove multiple spaces
 def process_text(string):
-    try: string = string.replace('<br/>','  ').replace('\n','  ')
+    try: string = string.replace('<br/>', '  ').replace('\n', '  ')
     except: pass
-    string = re.sub('&gt;&gt;\d*[\s]','',string) #remove quoted posts
-    string = re.sub('(&gt;&gt;\d*)','',string)
-    try: string = str(string, "utf8")
-    except: pass
+    string = re.sub(r'&gt;&gt;\d*[\s]', '', string)
+    string = re.sub(r'(&gt;&gt;\d*)', '', string)
     try: string = strip_html(string)
     except: pass
     try: string = decode_html(string)
     except: pass
-    try: string = string.decode('utf-8').strip()
+    try: string = string.strip()
     except: pass
-    string = re.sub('[\s]{3,}','  ',string)
+    string = re.sub(r'[\s]{3,}', '  ', string)
     return string
 
-def is_active(url):
-    try:
-        f = urllib.request.urlopen(urllib.request.Request(url))
-        return True
-    except:
-        return False
 
-
-def get_element(soup,element,idclass=None,selector=None):
+def get_element(soup, element, idclass=None, selector=None):
     if idclass: result = soup.find(element, {idclass: selector}).renderContents().strip()
     else: result = soup.find(element).renderContents().strip()
     return process_text(result)
-
-
-# while u',,' in page:
-#         page = page.replace(u',,', u',"",')
