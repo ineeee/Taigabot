@@ -1,6 +1,4 @@
-from __future__ import print_function
 from __future__ import division
-from pickle import FALSE
 # Plugin made by Infinity, Lukeroge and neersighted
 from past.utils import old_div
 import re
@@ -130,7 +128,7 @@ def admin(inp, notice=None, chan=None, db=None):
 
 
 ######################
-### Admin Commands ###
+### Auto op Commands ###
 
 @hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def autoops(inp, notice=None, chan=None, db=None):
@@ -147,8 +145,8 @@ def autoops(inp, notice=None, chan=None, db=None):
     return
 
 
-@hook.command(permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
-def autoop(inp, notice=None, bot=None, chan=None, db=None):
+@hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
+def autoop(inp, notice=None, chan=None, db=None):
     """aop [channel] <enable|disable> OR <add|del> <nick|host> -- Add/Del Autoops."""
 
     if len(inp) < 1:
@@ -231,43 +229,43 @@ def event_handle_autoop(inp, input=None, db=None, chan=None, conn=None, reply=No
 ### Ignore/Unignore Commands ###
 
 
-@hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
-def ignored(inp, notice=None, bot=None, chan=None, db=None):
+@hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
+def ignored(inp, notice=None, chan=None, db=None):
     """ignored [channel]-- Lists ignored channels/nicks/hosts."""
     ignorelist = database.get(db, 'channels', 'ignored', 'chan', chan)
+
     if ignorelist:
-        notice(u"[{}]: Ignored nicks/hosts are: {}".format(chan, ignorelist))
+        notice(f'[{chan}]: Ignored nicks/hosts are: {ignorelist}')
     else:
-        notice(u"[{}]: No nicks/hosts are currently ignored.".format(chan))
+        notice(f'[{chan}]: No nicks/hosts are currently ignored.')
+
     return
 
 
-@hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+@hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def ignore(inp, notice=None, bot=None, chan=None, db=None):
     """ignore [channel] <nick|host> -- Makes the bot ignore <nick|host>."""
     ignorelist = database.get(db, 'channels', 'ignored', 'chan', chan)
     targets = inp.split()
     for target in targets:
         target = user.get_hostmask(target, db)
-        if (user.is_admin(target, chan, db, bot)):
-            notice(u"[{}]: {} is an admin and cannot be ignored.".format(
-                chan, inp))
+        if user.is_admin(target, chan, db, bot):
+            notice(f'[{chan}]: {inp} is an admin and cannot be ignored.')
         else:
             if ignorelist and target in ignorelist:
-                notice(u"[{}]: {} is already ignored.".format(chan, target))
+                notice(f'[{chan}]: {target} is already ignored.')
             else:
-                ignorelist = '{} {}'.format(target, ignorelist)
-                database.set(db, 'channels', 'ignored', ignorelist, 'chan',
-                             chan)
+                if ignorelist is False:
+                    database.set(db, 'channels', 'ignored', target, 'chan', chan)
+                else:
+                    ignorelist = '{} {}'.format(target, ignorelist)
+                    database.set(db, 'channels', 'ignored', ignorelist, 'chan', chan)
 
-                notice(u"[{}]: {} has been ignored.".format(chan, target))
+                notice(f'[{chan}]: {target} has been ignored.')
     return
 
 
-@hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+@hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def unignore(inp, notice=None, bot=None, chan=None, db=None):
     """unignore [channel] <nick|host> -- Makes the bot listen to <nick|host>."""
     ignorelist = database.get(db, 'channels', 'ignored', 'chan', chan)
@@ -275,12 +273,11 @@ def unignore(inp, notice=None, bot=None, chan=None, db=None):
     for target in targets:
         target = user.get_hostmask(target, db)
         if ignorelist and target in ignorelist:
-            ignorelist = " ".join(
-                ignorelist.replace(target, '').strip().split())
+            ignorelist = ' '.join(ignorelist.replace(target, '').strip().split())
             database.set(db, 'channels', 'ignored', ignorelist, 'chan', chan)
-            notice(u"[{}]: {} has been unignored.".format(chan, target))
+            notice(f'[{chan}]: {target} has been unignored.')
         else:
-            notice(u"[{}]: {} is not ignored.".format(chan, target))
+            notice(f'[{chan}]: {target} is not ignored.')
     return
 
 
@@ -289,7 +286,7 @@ def unignore(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def disabled(inp, notice=None, bot=None, chan=None, db=None):
     """disabled [#channel] -- Lists disabled commands/."""
     disabledcommands = database.get(db, 'channels', 'disabled', 'chan', chan)
@@ -303,7 +300,7 @@ def disabled(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def disable(inp, notice=None, bot=None, chan=None, db=None):
     """disable [#channel] <commands> -- Disables commands for a channel.
     (you can disable multiple commands at once)"""
@@ -325,7 +322,7 @@ def disable(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def enable(inp, notice=None, bot=None, chan=None, db=None):
     """enable [#channel] <commands|all> -- Enables commands for a channel.
     (you can enable multiple commands at once)"""
@@ -361,7 +358,7 @@ def enable(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def disablehash(inp, notice=None, bot=None, chan=None, db=None):
     """disablehash [#channel] <hashtah> -- Disables hashtah for a channel.
     (you can disable multiple hastags at once, don't put # before the hashtag)"""
@@ -384,7 +381,7 @@ def disablehash(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def disabledhashes(inp, notice=None, bot=None, chan=None, db=None):
     """disabledhashes [#channel] -- Lists disabled hashtags."""
     disabledhashes = database.get(db, 'channels', 'disabledhashes', 'chan',
@@ -397,7 +394,7 @@ def disabledhashes(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def enablehash(inp, notice=None, bot=None, chan=None, db=None):
     """enablehash [#channel] <hashtag|all> -- Enables hashtags for a channel.
     (you can enable multiple hashtags at once, don't put # before the hashtag)"""
@@ -510,7 +507,7 @@ def cmdflood(inp, conn=None, chan=None, notice=None, db=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def badwords(inp, notice=None, bot=None, chan=None, db=None):
     """disabled [#channel] -- Lists disabled commands/."""
 
@@ -665,7 +662,7 @@ def speak(inp, conn=None, chan=None, notice=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def lock(inp, conn=None, chan=None, notice=None):
     """lock [channel] -- Makes the bot lock a channel.
     If [channel] is blank the bot will mute
@@ -674,7 +671,7 @@ def lock(inp, conn=None, chan=None, notice=None):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def unlock(inp, conn=None, chan=None, notice=None):
     """unlock [channel] -- Makes the bot unlock a channel..
     If [channel] is blank the bot will mute
@@ -707,7 +704,7 @@ def mode_cmd(mode, text, inp, chan, conn, notice):
 
 
 @hook.command(
-    permissions=["op_lock", "op"], channeladminonly=True, autohelp=False)
+    permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def bans(inp, notice=None, bot=None, chan=None, db=None):
     """bans -- Lists bans on channel."""
     bans = database.get(db, 'channels', 'bans', 'chan', chan)
