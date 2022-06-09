@@ -56,7 +56,7 @@ reloader_path = os.path.join('core', 'reload.py')
 eval(compile(open(reloader_path, 'r').read(), reloader_path, 'exec'))
 
 reload(init=True)
-config()
+bot.load_config()
 
 print('Connecting to IRC...')
 
@@ -88,7 +88,7 @@ print('Connection(s) made, starting main loop.')
 
 while True:
     reload()  # these functions only do things
-    config()  # if changes have occured
+    bot.load_config()  # if changes have occured
 
     for conn in list(bot.conns.values()):
         try:

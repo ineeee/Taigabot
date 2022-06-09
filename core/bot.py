@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import json
 
 
 class Bot:
@@ -21,3 +22,13 @@ class Bot:
             print('ERROR: no config file found!')
             print("Please rename 'config.default' to 'config' to set up your bot!")
             sys.exit(1)
+
+    def load_config(self):
+        # reload config from file if file has changed
+        config_mtime = os.stat('config').st_mtime
+        if self.config_mtime != config_mtime:
+            try:
+                self.config = json.load(open('config'))
+                self.config_mtime = config_mtime
+            except ValueError as e:
+                print('error: malformed config', e)
