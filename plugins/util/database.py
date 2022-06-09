@@ -89,7 +89,8 @@ def update(db):
         except OperationalError:
             pass
 
-def field_exists(db,table,matchfield,matchvalue):
+
+def field_exists(db, table: str, matchfield: str, matchvalue: str) -> bool:
     init(db)
     exists = db.execute("SELECT EXISTS(SELECT 1 FROM {} WHERE {}='{}' LIMIT 1);".format(table,matchfield,matchvalue)).fetchone()[0]
     if exists:
@@ -97,9 +98,10 @@ def field_exists(db,table,matchfield,matchvalue):
     else:
         return False
 
-def get(db,table,field,matchfield,matchvalue):
+
+def get(db, table: str, field: str, matchfield: str, matchvalue: str):
     init(db)
-    try:
+    try:  # ?
         matchvalue = matchvalue.lower()
     except Exception as e:
         print("[DB ERROR] start:", e)
@@ -107,7 +109,7 @@ def get(db,table,field,matchfield,matchvalue):
         print("[DB ERROR] end:", e)
         pass
     try:
-        result = db.execute("SELECT {} FROM {} WHERE {}='{}';".format(field,table,matchfield,matchvalue)).fetchone()
+        result = db.execute("SELECT {} FROM {} WHERE {}='{}';".format(field, table, matchfield, matchvalue)).fetchone()
         if result:
             return result[0]
         else:
@@ -116,10 +118,10 @@ def get(db,table,field,matchfield,matchvalue):
         print("[DB ERROR] start:", e)
         traceback.print_exc()
         print("[DB ERROR] end:", e)
-        log.log("***ERROR: SELECT {} FROM {} WHERE {}='{}';".format(field,table,matchfield,matchvalue))
+        log.log("***ERROR: SELECT {} FROM {} WHERE {}='{}';".format(field, table, matchfield, matchvalue))
 
 
-def set(db, table, field, value, matchfield, matchvalue):
+def set(db, table: str, field: str, value, matchfield: str, matchvalue: str):
     init(db)
     if value is None:
         value = ''
@@ -132,14 +134,14 @@ def set(db, table, field, value, matchfield, matchvalue):
         pass
 
     if type(value) is str:
-        value = value.replace("'", '').replace('\"', '')
+        value = value.replace("'", '').replace('"', '')
 
     try:
         db.execute("ALTER TABLE {} ADD COLUMN {};".format(table, field))
     except Exception as e:
-        print("[DB ERROR] start:", e)
-        traceback.print_exc()
-        print("[DB ERROR] end:", e)
+        # print("[DB ERROR] start:", e)
+        # traceback.print_exc()
+        # print("[DB ERROR] end:", e)
         pass
 
     try:
