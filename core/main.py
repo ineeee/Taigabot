@@ -1,8 +1,9 @@
 import re
-import thread
+import _thread
 import traceback
+import queue
 
-thread.stack_size(1024 * 512)    # reduce vm size
+_thread.stack_size(1024 * 512)    # reduce vm size
 
 
 class Input(dict):
@@ -12,30 +13,29 @@ class Input(dict):
         if chan == conn.nick.lower():  # is a PM
             chan = nick
 
-        def say(msg):
+        def say(msg: str):
             conn.msg(chan, msg)
 
-        def pm(msg):  # seems unused
+        def pm(msg: str):  # seems unused
             conn.msg(nick, msg)
 
-        def reply(msg):
+        def reply(msg: str):
             if chan == nick:    # PMs don't need prefixes
                 conn.msg(chan, msg)
             else:
-                #conn.msg(chan, '(' + nick + ') ' + msg)
                 try:
-                    conn.msg(chan, re.match(r'\.*(\w+.*)', msg).group(1))
-                except:
+                    conn.msg(chan, re.match(r'\.*(\w+.*)', msg).group(1))  # ??
+                except Exception:  # IndexError?
                     conn.msg(chan, msg)
 
-        def me(msg):
-            conn.msg(chan, "\x01%s %s\x01" % ("ACTION", msg))
+        def me(msg: str):
+            conn.msg(chan, f'\x01ACTION {msg}\x01')
 
-        def ctcp(message, ctcp_type, target=chan):
+        def ctcp(msg: str, ctcp_type: str, target: str = chan):
             """sends an ctcp to the current channel/user or a specific channel/user"""
-            conn.ctcp(target, ctcp_type, message)
+            conn.ctcp(target, ctcp_type, msg)
 
-        def notice(msg):
+        def notice(msg: str):
             conn.cmd('NOTICE', [nick, msg])
 
         dict.__init__(
@@ -88,28 +88,25 @@ def run(func, input):
     else:
         out = func(input.inp)
     if out is not None:
-        try:
-            input.reply(out.decode('utf8')) ## ??
-        except UnicodeEncodeError:
-            input.reply(unicode(out))
+        input.reply(out)
 
 
 def do_sieve(sieve, bot, input, func, type, args):
     try:
         return sieve(bot, input, func, type, args)
     except Exception:
-        print 'sieve error',
+        print('sieve error', end=' ')
         traceback.print_exc()
         return None
 
 
-class Handler(object):
-    '''Runs plugins in their own threads (ensures order)'''
+class Handler:
+    """Runs plugins in their own threads (ensures order)"""
 
     def __init__(self, func):
         self.func = func
-        self.input_queue = Queue.Queue()
-        thread.start_new_thread(self.start, ())
+        self.input_queue = queue.Queue()
+        _thread.start_new_thread(self.start, ())
 
     def start(self):
         uses_db = 'db' in self.func._args
@@ -142,24 +139,24 @@ class Handler(object):
 def dispatch(input, kind, func, args, autohelp=False):
     for sieve, in bot.plugs['sieve']:
         input = do_sieve(sieve, bot, input, func, kind, args)
-        if input == None:
+        if input is None:
             return
 
     if autohelp and args.get('autohelp', True) and not input.inp and func.__doc__ is not None:
-        input.notice(input.conn.conf["command_prefix"] + func.__doc__)
+        input.notice(input.conn.conf['command_prefix'] + func.__doc__)
         return
 
     if func._thread:
         bot.threads[func].put(input)
     else:
-        thread.start_new_thread(run, (func, input))
+        _thread.start_new_thread(run, (func, input))
 
 
 def match_command(command):
     commands = list(bot.commands)
 
     # do some fuzzy matching
-    prefix = filter(lambda x: x.startswith(command), commands)
+    prefix = [x for x in commands if x.startswith(command)]
     if len(prefix) == 1:
         return prefix[0]
     elif prefix and command not in prefix:
@@ -179,9 +176,9 @@ def main(conn, out):
     if inp.command == 'PRIVMSG':
         # COMMANDS
         if inp.chan == inp.nick:    # private message, no command prefix
-            prefix = '^(?:[%s]?|' % command_prefix
+            prefix = '^(?:[' + command_prefix + ']?|'
         else:
-            prefix = '^(?:[%s]|' % command_prefix
+            prefix = '^(?:[' + command_prefix + ']|'
 
         command_re = prefix + inp.conn.nick
         command_re += r'[,;:]+\s+)(\w+)(?:$|\s+)(.*)'

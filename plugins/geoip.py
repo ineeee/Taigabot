@@ -16,7 +16,7 @@ dumb_domain_re = r'([a-zA-Z0-9]+\.[a-zA-Z0-9]+)'
 
 @hook.command()
 def geoip(inp):
-    "geoip <host/ip> -- Gets the location of <host/ip>"
+    """geoip <host/ip> -- Gets the location of <host/ip>"""
 
     if re.match(dumb_ip_re, inp):
         return parse_ip(inp)
@@ -25,9 +25,9 @@ def geoip(inp):
             ip = gethostbyname(inp)
             return parse_ip(ip)
         except IOError:
-            return "[IP] cant resolve that domain to ipv4"
+            return '[IP] cant resolve that domain to ipv4'
     else:
-        return "[IP] doesnt look like a valid ip or domain"
+        return '[IP] doesnt look like a valid ip or domain'
 
 
 def parse_ip(ip):
@@ -50,4 +50,4 @@ def parse_ip(ip):
     ip = data.get('ip')  # 8.8.8.8
     org = data.get('org')  # Google LLC
 
-    return u"[IP] {} - {}, {}, {}".format(org, city, region, country)
+    return f'[IP] {org} - {city}, {region}, {country}'

@@ -1,3 +1,5 @@
-BeautifulSoup4==4.9.3
-lxml==3.6.4
-requests
+# these are used EVERYWHERE
+BeautifulSoup4==4.9.*
+lxml==4.8.0
+requests==2.27.*
+future

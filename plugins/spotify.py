@@ -1,4 +1,4 @@
-from util import formatting, hook, http, web
+from util import formatting, hook
 import re
 import requests
 
@@ -57,9 +57,9 @@ def spotify(inp, bot=None):
         artists = []
         for a in first_result["artists"]:
             artists.append(a["name"])
-        artist = ', '.join(artists).encode("utf-8")
-        track = first_result["name"].encode("utf-8")
-        album = first_result["album"]["name"].encode("utf-8")
+        artist = ', '.join(artists)
+        track = first_result["name"]
+        album = first_result["album"]["name"]
         url = first_result["external_urls"]["spotify"]
         uri = first_result["uri"]
         song_query_output = "\"{}\" by \x02{}\x02 from the album \x02{}\x02 - {} ({})".format(
@@ -100,8 +100,8 @@ def spalbum(inp, bot=None):
         artists = []
         for a in first_result["artists"]:
             artists.append(a["name"])
-        artist = ', '.join(artists).encode("utf-8")
-        album = first_result["name"].encode("utf-8")
+        artist = ', '.join(artists)
+        album = first_result["name"]
         url = first_result["external_urls"]["spotify"]
         uri = first_result["uri"]
         album_query_output = "\x02{}\x02 - \x02{}\x02 - {} ({})".format(
@@ -139,9 +139,9 @@ def spartist(inp, bot=None):
     # Parsing data and returning
     try:
         first_result = data["artists"]["items"][0]
-        artist = first_result["name"].encode("utf-8")
+        artist = first_result["name"]
 
-        genres = ', '.join(first_result["genres"]).encode("utf-8")
+        genres = ', '.join(first_result["genres"])
         url = first_result["external_urls"]["spotify"]
         uri = first_result["uri"]
 
@@ -194,9 +194,9 @@ def spotify_url(match, bot=None):
             artists = []
             for a in first_result["artists"]:
                 artists.append(a["name"])
-            artist = ', '.join(artists).encode("utf-8")
-            track = first_result["name"].encode("utf-8")
-            album = first_result["album"]["name"].encode("utf-8")
+            artist = ', '.join(artists)
+            track = first_result["name"]
+            album = first_result["album"]["name"]
             song_query_output = "\"{}\" by \x02{}\x02 from the album \x02{}\x02".format(
                 track, artist, album)
         except IndexError:
@@ -218,8 +218,8 @@ def spotify_url(match, bot=None):
             artists = []
             for a in first_result["artists"]:
                 artists.append(a["name"])
-            artist = ', '.join(artists).encode("utf-8")
-            album = first_result["name"].encode("utf-8")
+            artist = ', '.join(artists)
+            album = first_result["name"]
             album_query_output = "\x02{}\x02 - \x02{}\x02".format(
                 artist, album)
         except IndexError:
@@ -238,8 +238,8 @@ def spotify_url(match, bot=None):
 
         try:
             first_result = data
-            artist = first_result["name"].encode("utf-8")
-            genres = ', '.join(first_result["genres"]).encode("utf-8")
+            artist = first_result["name"]
+            genres = ', '.join(first_result["genres"])
             # Spotify has genre tags for many artists but not all
             if genres:
                 artist_query_output = "\x02{}\x02, \x02Genres\x02: {}".format(

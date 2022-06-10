@@ -22,7 +22,7 @@ boorus = {
 CACHE = {}
 
 
-def cache_key_exists(key):
+def cache_key_exists(key: str):
     global CACHE
     # only return True if the cache has the key AND at least one entry
     if key in CACHE and len(CACHE[key]) > 0:
@@ -31,13 +31,13 @@ def cache_key_exists(key):
         return False
 
 
-def cache_get_item(key):
+def cache_get_item(key: str):
     # check key_exists first, or this will throw
     global CACHE
     return CACHE[key].pop(0)
 
 
-def cache_append_item(key, value):
+def cache_append_item(key: str, value):
     global CACHE
 
     if key not in CACHE:
@@ -103,7 +103,7 @@ def get_post(booru_id, tags=''):
 def yandere(inp):
     post = get_post('yandere', inp)
     if post is None:
-        return "nothing found"
+        return 'nothing found'
 
     return message(post)
 
@@ -112,7 +112,7 @@ def yandere(inp):
 def danbooru(inp):
     post = get_post('danbooru', inp)
     if post is None:
-        return "nothing found on those tags"
+        return 'nothing found on those tags'
 
     return message(post)
 
@@ -135,4 +135,4 @@ def message(post):
     if len(tags) > 40:
         tags = '{}... (and {} more)'.format(tags[:40], tags.count(' '))  # this count() is wrong lol, close enough
 
-    return '[{}] {} ({}) - Score: {} - Rating: {} - Tags: {}'.format(id, url, size, score, rating, tags)
+    return f'[{id}] {url} ({size}) - Score: {score} - Rating: {rating} - Tags: {tags}'

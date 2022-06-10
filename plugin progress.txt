@@ -1,0 +1,78 @@
+- o: works
+- b: broken
+- x: cant test
+
+- [o] 4chan.py: all works except regex search
+- [o] ai.py
+- [b] amazon.py: amazon changed html, scraper broke
+- [o] bank.py
+- [o] bash.py
+- [o] booru.py
+- [o] calculator.py
+- [o] choose.py
+- [o] coin.py
+- [o] coins.py
+- [b] core_admin_channel.py: broken completely
+- [o] core_admin_global.py: all works except .set
+- [o] core_ctcp.py: all works except .host
+- [x] core_misc.py: cant test
+- [x] core_sieve.py: cant test
+- [o] core_user.py: all works except horoscope scraping
+- [o] countdown.py: adrift fixed it
+- [o] cypher.py
+- [o] datafiles.py
+- [o] debt.py
+- [o] dice.py
+- [o] dictionary.py
+- [o] distance.py
+- [o] distro.py
+- [o] duckduckgo.py
+- [o] fmylife.py
+- [o] furry.py
+- [b] gelbooru.py: TODO check new api, lots of "Not found"
+- [o] geoip.py
+- [o] google.py
+- [o] hashtags.py
+- [o] heartbleed.py
+- [o] help.py
+- [o] kernel.py
+- [o] lastfm.py
+- [o] log.py
+- [o] lyrics.py
+- [b] major_league_baseball.py: the api was deprecated, unrelated to python 3
+- [o] marketing.py
+- [x] masshighlight.py: cant test
+- [b] media.py: what the fuck is StringIO(initial_value)
+- [o] mediawiki.py
+- [b] metacritic.py: scraper broke, metacritic changed html
+- [x] mygengo_translate.py: cant test, i cant get the mygengo package installed
+- [o] namegen.py
+- [_] newegg.py
+- [o] nfl.py: i saw adrift test it
+- [b] quote.py: seems to work mostly, channel search is broken
+- [o] radio.py
+- [o] religion.py
+- [o] reminder.py
+- [o] seen.py
+- [x] soundcloud.py: cant test, i dont have an api key
+- [o] spellcheck.py
+- [o] spotify.py
+- [b] steam.py: scraper broke, steam changed html
+- [o] stock.py
+- [o] stupid.py: all works (i think cash stuff has problems: bet, sell, mug, donate, pay, owed)
+- [o] system.py: did not test windows code
+- [o] tell.py: it works but i didnt test or clean it
+- [o] times.py
+- [o] todo.py
+- [o] translate.py
+- [o] twitch.py
+- [o] twitter.py
+- [o] urbandict.py
+- [o] urls.py: random page/image links work, but didnt test thoroughly
+- [o] utility.py: works ok, base64/unicode stuff broken
+- [o] validate.py
+- [o] vimeo.py
+- [o] weather.py
+- [o] wolframalpha.py
+- [o] wordoftheday.py
+- [o] youtube.py: all works, didnt test playlist titles

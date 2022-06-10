@@ -1,10 +1,14 @@
+from builtins import range
 import random
 import re
-import urllib2
 from xml.dom import minidom
 
-from util import formatting, hook, http
+from utilities import request
+from util import hook
 
+API_URL = 'http://api.wolframalpha.com/v2/query.jsp'
+
+# sorry bro i modified ur stuff to make it work with this bot in python 3.10
 #
 # Copyright 2009 Derik Pereira. All Rights Reserved.
 #
@@ -26,85 +30,10 @@ __author__ = 'derik66@gmail.com'
 __version__ = '1.1-devel'
 
 
-# import simplejson as json
-
-
-class WolframAlphaEngine:
-    def __init__(self, appid='', server=''):
-        self.appid = appid
-        self.server = server
-        self.ScanTimeout = ''
-        self.PodTimeout = ''
-        self.FormatTimeout = ''
-        self.Async = ''
-
-    def CreateQuery(self, query=''):
-        waeq = WolframAlphaQuery(query)
-        waeq.appid = self.appid
-        waeq.ScanTimeout = self.ScanTimeout
-        waeq.PodTimeout = self.PodTimeout
-        waeq.FormatTimeout = self.FormatTimeout
-        waeq.Async = self.Async
-        waeq.ToURL()
-        return waeq.Query
-
-    def PerformQuery(self, query=''):
-
-        try:
-            result = urllib2.urlopen(self.server, query)
-            result = result.read()
-        except:
-            result = '<error>urllib2.urlopen ' + self.server + ' ' + query + '</error>'
-        return result
-
-
-class WolframAlphaQuery:
-    def __init__(self, query='', appid=''):
-        self.Query = query
-        self.appid = appid
-        self.ScanTimeout = ''
-        self.PodTimeout = ''
-        self.FormatTimeout = ''
-        self.Async = ''
-
-    def ToURL(self):
-        self.Query = 'input=' + self.Query
-        self.Query = self.Query + '&appid=' + self.appid
-        if self.ScanTimeout:
-            self.Query = self.Query + '&scantimeout=' + self.ScanTimeout
-        if self.PodTimeout:
-            self.Query = self.Query + '&podtimeout=' + self.PodTimeout
-        if self.FormatTimeout:
-            self.Query = self.Query + '&formattimeout=' + self.FormatTimeout
-        if self.Async:
-            self.Query = self.Query + '&async=' + self.Async
-        return
-
-    def AddPodTitle(self, podtitle=''):
-        self.Query = self.Query + '&podtitle=' + podtitle
-        return
-
-    def AddPodIndex(self, podindex=''):
-        self.Query = self.Query + '&podindex=' + podindex
-        return
-
-    def AddPodScanner(self, podscanner=''):
-        self.Query = self.Query + '&podscanner=' + podscanner
-        return
-
-    def AddPodState(self, podstate=''):
-        self.Query = self.Query + '&podstate=' + podstate
-        return
-
-    def AddAssumption(self, assumption=''):
-        self.Query = self.Query + '&assumption=' + assumption
-        return
-
-
 class WolframAlphaQueryResult:
     def __init__(self, result=''):
         self.XmlResult = result
-        self.dom = minidom.parseString(result)
+        self.dom = minidom.parseString(result)  # TODO fix
         self.tree = runtree(self.dom.documentElement)
 
     def JsonResult(self):
@@ -277,49 +206,44 @@ def asxml(dom, name):
 
 
 errors = [
-    'I don\'t know.',
+    "I don't know.",
     'Try again later.',
+    'I have no idea.',
+    "You're better off asking someone else.",
 ]
 
-# @hook.command('math')
 
-
-# @hook.command('convert')
 @hook.command('convert')
 @hook.command('calc')
 @hook.command('wa')
 @hook.command
 def wolframalpha(inp, bot=None):
     """wa <query> -- Computes <query> using Wolfram Alpha."""
-
-    if 'weight of j' in inp:
-        return formatting.output('WolframAlpha', ['Over 9000'.encode('utf-8')])
-
-    server = 'http://api.wolframalpha.com/v2/query.jsp'
-    api_key = bot.config.get("api_keys", {}).get("wolframalpha", None)
+    api_key = bot.config.get('api_keys', {}).get('wolframalpha', None)
 
     if not api_key:
-        return formatting.output('WolframAlpha', ['error: missing api key'])
+        return '[WolframAlpha] Error: missing API key'
 
-    import time
+    query_params = {
+        'scantimeout': '3.0',
+        'podtimeout': '4.0',
+        'formattimeout': '8.0',
+        'parsetimeout': '5.0',
+        'totaltimeout': '20.0',
+        'async': 'true',
 
-    start = time.clock()
+        'format': 'plaintext',
+        'output': 'xml',
+        'appid': api_key,
+        'input': inp
+    }
 
-    scantimeout = '3.0'
-    podtimeout = '4.0'
-    formattimeout = '8.0'
-    async = 'True'
+    req = request.post(API_URL, data=query_params)
 
-    waeo = WolframAlphaEngine(api_key, server)
-
-    waeo.ScanTimeout = scantimeout
-    waeo.PodTimeout = podtimeout
-    waeo.FormatTimeout = formattimeout
-    waeo.Async = async
-
-    query = waeo.CreateQuery(http.quote_plus(inp))
-    result = waeo.PerformQuery(query)
-    waeqr = WolframAlphaQueryResult(result)
+    try:
+        waeqr = WolframAlphaQueryResult(req)
+    except Exception:
+        return '[WolframAlpha] Error while parsing response'
 
     results = []
     pods = waeqr.Pods()
@@ -330,12 +254,14 @@ def wolframalpha(inp, bot=None):
             waesp = Subpod(subpod)
             plaintext = waesp.Plaintext()
             results.append(plaintext)
+
     try:
-        waquery = re.sub(' (?:\||) +', ' ', ' '.join(results[0][0].splitlines())).strip().replace(u'\xc2 ', '')
-        if results[1][0] == [] or u'irreducible' in results[1][0]:
+        # TODO clean this
+        waquery = re.sub(r' (?:\||) +', ' ', ' '.join(results[0][0].splitlines())).strip().replace(u'\xc2 ', '')
+        if results[1][0] == [] or 'irreducible' in results[1][0]:
             waresult = ' '.join(results[2][0].splitlines()).replace(u'\xc2 ', '')
         else:
             waresult = ' '.join(results[1][0].splitlines()).replace(u'\xc2 ', '')
-        return formatting.output('WolframAlpha', [waquery.encode('utf-8'), waresult.encode('utf-8')])
-    except:
-        return formatting.output('WolframAlpha', [random.choice(errors)])
+        return f'[WolframAlpha] {waquery} = {waresult}'
+    except Exception:
+        return f'[WolframAlpha] {random.choice(errors)}'

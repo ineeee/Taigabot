@@ -1,3 +1,6 @@
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import re
 from threading import *
 from collections import deque
@@ -14,11 +17,16 @@ def sanitise(string):
 
 # this absolute garbage was copypasted from util.http just because we want to remove that import
 def process_text(string):
-    try: string = string.replace('<br/>','  ').replace('\n','  ')
-    except: pass
-    string = re.sub('&gt;&gt;\d*[\s]','',string) #remove quoted posts
-    string = re.sub('(&gt;&gt;\d*)','',string)
-    try: string = unicode(string, "utf8")
+    if isinstance(string, bytes):
+        string = string.decode('utf-8')
+
+    try:
+        string = string.replace('<br/>', '  ').replace('\n', '  ').replace('<wbr>', '')
+    except:
+        pass
+    string = re.sub(r'&gt;&gt;\d*[\s]', '', string)  #remove quoted posts
+    string = re.sub(r'(&gt;&gt;\d*)', '', string)
+    try: string = str(string, "utf8")
     except: pass
     try: string = strip_html(string)
     except: pass
@@ -47,7 +55,7 @@ def get_title(url):
 def sprunge(data):
     sprunge_data = {"sprunge": data}
     response = request.post("http://sprunge.us", data=sprunge_data)
-    message = response.text.encode().strip('\n')
+    message = response.text.strip('\n')
     return message
 
 
@@ -62,7 +70,7 @@ def search_thread(results_deque, thread_num, search_specifics):
     if thread_json is not None:
         re_search = None
         for post in thread_json["posts"]:
-            user_text = "".join([post[s] for s in search_specifics["sections"] if s in post.keys()])
+            user_text = "".join([post[s] for s in search_specifics["sections"] if s in list(post.keys())])
             re_search = re.search(search_specifics["string"], user_text, re.UNICODE + re.IGNORECASE)
             if re_search is not None:
                 results_deque.append("{0}#p{1}".format(thread_num, post["no"]))
@@ -72,7 +80,7 @@ def search_page(results_deque, page, search_specifics):
     """Will be run by the threading module. Searches all the
     4chan threads on a page and adds matching results to synchronised queue"""
     for thread in page['threads']:
-        user_text = "".join([thread[s] for s in search_specifics["sections"] if s in thread.keys()])
+        user_text = "".join([thread[s] for s in search_specifics["sections"] if s in list(thread.keys())])
         if re.search(search_specifics["string"], user_text, re.UNICODE + re.IGNORECASE) is not None:
             results_deque.append(thread["no"])
 
@@ -97,12 +105,12 @@ def process_results(board, string, results_deque):
         if len(urls) > max_num_urls_displayed:
             for url in urls:
                 title = get_title(url)
-                urllist.append("{}".format(title).encode('ascii', 'ignore'))
+                urllist.append("{}".format(title))
             message = sprunge('\n\n'.join(urllist))
         else:
             for url in urls:
                 title = get_title(url)
-                urllist.append("{}".format(title[: int(120)].encode('ascii', 'ignore')))
+                urllist.append("{}".format(title[: int(120)]))
             message = " \x03|\x03 ".join(urllist[:max_num_urls_displayed])
 
     return message

@@ -1,5 +1,9 @@
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 from util import hook, http, web, text
-from urllib import urlencode
+from urllib.parse import urlencode
 import re
 
 sc_re = (r'(.*:)//(www.)?(soundcloud.com)(.*)', re.I)
@@ -34,7 +38,7 @@ def soundcloud(url, api_key):
 def soundcloud_url(match, bot=None):
     api_key = bot.config.get("api_keys", {}).get("soundcloud")
     if not api_key:
-        print "Error: no api key set"
+        print("Error: no api key set")
         return None
     url = match.group(1).split(' ')[-1] + "//" + (match.group(2) if match.group(2) else "") + match.group(3) + \
           match.group(4).split(' ')[0]
@@ -45,7 +49,7 @@ def soundcloud_url(match, bot=None):
 def sndsc_url(match, bot=None):
     api_key = bot.config.get("api_keys", {}).get("soundcloud")
     if not api_key:
-        print "Error: no api key set"
+        print("Error: no api key set")
         return None
     url = match.group(1).split(' ')[-1] + "//" + (match.group(2) if match.group(2) else "") + match.group(3) + \
           match.group(4).split(' ')[0]

@@ -1,4 +1,6 @@
 # Plugin by Lukeroge
+from builtins import range
+from builtins import object
 from util import hook
 from util.text import get_text_list
 import json, random, re, os
@@ -38,7 +40,7 @@ class NameGenerator(object):
 
     def generate_names(self, amount, template=None):
         names = []
-        for i in xrange(amount):
+        for i in range(amount):
             names.append(self.generate_name())
         return names
 

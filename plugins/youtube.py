@@ -1,7 +1,6 @@
 import random
 import re
 import time
-import urllib
 
 from util import hook, http, timeformat
 
@@ -13,27 +12,29 @@ youtube_re = (r'((https?://)?(www\.)?(?:youtube.*?(?:v=|/v/)|youtu\.be/)([-_a-zA
 base_url = 'https://www.googleapis.com/youtube/v3/'
 search_api_url = base_url + 'search?part=id,snippet'
 api_url = base_url + 'videos?part=snippet,statistics,contentDetails'
-video_url = "http://youtu.be/%s"
 
 
 def plural(num=0, text=''):
-    return "{:,} {}{}".format(num, text, "s"[num == 1:])
+    return "{:,} {}{}".format(num, text, 's'[num == 1:])
 
 
 def get_video_description(key, video_id, bot):
     try:
         request = http.get_json(api_url, key=key, id=video_id)
-    except:
+    except Exception:
         key = bot.config.get("api_keys", {}).get("public_google_key")
         request = http.get_json(api_url, key=key, id=video_id)
 
     if request.get('error'):
         return
 
+    if request.get('pageInfo', {}).get('totalResults') == 0:
+        return
+
     data = request['items'][0]
 
-    title = filter(None, data['snippet']['title'].split(' '))
-    title = ' '.join(map(lambda s: s.strip(), title))
+    title = [_f for _f in data['snippet']['title'].split(' ') if _f]
+    title = ' '.join([s.strip() for s in title])
     out = u'\x02{}\x02'.format(title)
 
     try:
@@ -42,7 +43,7 @@ def get_video_description(key, video_id, bot):
         return out
 
     length = data['contentDetails']['duration']
-    timelist = re.findall('(\d+[DHMS])', length)
+    timelist = re.findall(r'(\d+[DHMS])', length)
 
     seconds = 0
     for t in timelist:
@@ -52,7 +53,7 @@ def get_video_description(key, video_id, bot):
         elif t[-1:] == 'M': seconds += 60 * t_field
         elif t[-1:] == 'S': seconds += t_field
 
-    out += u' - length \x02{}\x02'.format(timeformat.format_time(seconds, simple=True))
+    out += ' - length \x02{}\x02'.format(timeformat.format_time(seconds, simple=True))
 
     try:
         data['statistics']
@@ -62,25 +63,24 @@ def get_video_description(key, video_id, bot):
     stats = data['statistics']
 
     views = int(stats['viewCount'])
-    out += u' - \x02{:,}\x02 {}{}'.format(views, 'view', "s"[views == 1:])
+    out += ' - \x02{:,}\x02 {}{}'.format(views, 'view', 's'[views == 1:])
 
     uploader = data['snippet']['channelTitle']
 
     try:
         upload_time = time.strptime(data['snippet']['publishedAt'], "%Y-%m-%dT%H:%M:%S.000Z")
-    except Exception as e:
-        print e
+    except Exception:
         upload_time = time.strptime(data['snippet']['publishedAt'], "%Y-%m-%dT%H:%M:%SZ")
-    out += u' - \x02{}\x02 on \x02{}\x02'.format(uploader, time.strftime("%Y.%m.%d", upload_time))
+    out += ' - \x02{}\x02 on \x02{}\x02'.format(uploader, time.strftime("%Y.%m.%d", upload_time))
 
-    try:
+    try:  # ????
         data['contentDetails']['contentRating']
         if data['contentDetails']['contentRating'] == {}:
             return out
     except KeyError:
         return out
 
-    out += u' - \x034NSFW\x02'
+    out += ' - \x034NSFW\x02'
 
     return out
 
@@ -88,20 +88,11 @@ def get_video_description(key, video_id, bot):
 @hook.command('ytr', autohelp=False)
 def randomtube(inp, bot=None):
     """randomtube -- Returns random youtube link from old logs."""
-    key = bot.config.get("api_keys", {}).get("google")
     with open('plugins/data/youtube.txt', 'r') as f:
         urllist = f.read().split('\n')
-        length = len(urllist)
-        url = urllist[random.randint(0, length - 1)]
-        try:
-            description = get_video_description(key, url.split('=', bot)[1])
-            f.close()
-            return url + ' - ' + description
-        except Exception as e:
-            print url
-            description = get_video_description(key, url.split('/', bot)[-1])
-            f.close()
-            return url + ' - ' + description
+        url = random.choice(urllist)
+        f.close()
+        return f'A random, secret youtube video: {url}'
 
 
 @hook.regex(*youtube_re)
@@ -117,12 +108,12 @@ def youtube_url(match, bot=None, chan=None):
 @hook.command
 def youtube(inp, bot=None, input=None):
     """youtube <query> -- Returns the first YouTube search result for <query>."""
-    key = bot.config.get("api_keys", {}).get("google")
+    key = bot.config.get('api_keys', {}).get('google')
 
     try:
         request = http.get_json(search_api_url, key=key, type='video', q=inp)
-    except:
-        key = bot.config.get("api_keys", {}).get("public_google_key")
+    except Exception:
+        key = bot.config.get('api_keys', {}).get('public_google_key')
         request = http.get_json(search_api_url, key=key, type='video', q=inp)
 
     if 'error' in request:
@@ -132,12 +123,10 @@ def youtube(inp, bot=None, input=None):
         return 'No results found.'
 
     video_id = request['items'][0]['id']['videoId']
-    if input['trigger'] == u'hooktube' or input['trigger'] == u'ht':
-        print "penis"
-        return get_video_description(key, video_id) + u" - " + video_url.replace(
-            'youtu.be', 'hooktube.com', bot) % video_id
+    if input['trigger'] == 'hooktube' or input['trigger'] == 'ht':
+        return get_video_description(key, video_id, bot) + f' - http://hooktube.com/{video_id}'
     else:
-        return get_video_description(key, video_id, bot) + u" - " + video_url % video_id
+        return get_video_description(key, video_id, bot) + f' - https://youtu.be/{video_id}'
 
 
 @hook.command('ytime')
@@ -160,7 +149,7 @@ def youtime(inp, bot=None):
     data = request['items'][0]
 
     length = data['contentDetails']['duration']
-    timelist = re.findall('(\d+[DHMS])', length)
+    timelist = re.findall(r'(\d+[DHMS])', length)
 
     seconds = 0
     for t in timelist:
@@ -176,7 +165,7 @@ def youtime(inp, bot=None):
     length_text = timeformat.format_time(seconds, simple=True)
     total_text = timeformat.format_time(total, accuracy=8)
 
-    return u'The video \x02{}\x02 has a length of {} and has been viewed {:,} times for ' \
+    return 'The video \x02{}\x02 has a length of {} and has been viewed {:,} times for ' \
             'a total run time of {}!'.format(data['snippet']['title'], length_text, views, total_text)
 
 
@@ -195,9 +184,9 @@ def youtubeplaylist_url(match):
     title = soup.find('title').text.split('-')[0].strip()
     author = soup.find('img', {'class': 'channel-header-profile-image'})['title']
     numvideos = soup.find('ul', {'class': 'pl-header-details'}).findAll('li')[1].string
-    numvideos = re.sub("\D", "", numvideos)
+    numvideos = re.sub(r"\D", "", numvideos)
     views = soup.find('ul', {'class': 'pl-header-details'}).findAll('li')[2].string
-    views = re.sub("\D", "", views)
+    views = re.sub(r"\D", "", views)
 
-    return u"\x02{}\x02 - \x02{}\x02 views - \x02{}\x02 videos - \x02{}\x02".format(
+    return "\x02{}\x02 - \x02{}\x02 views - \x02{}\x02 videos - \x02{}\x02".format(
         title, views, numvideos, author)

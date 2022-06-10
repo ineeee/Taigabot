@@ -27,11 +27,11 @@ formats = {
 }
 
 ctcp_formats = {
-'ACTION': '* %(nick)s %(ctcpmsg)s',
-'VERSION': '%(nick)s has requested CTCP %(ctcpcmd)s from %(chan)s: %(ctcpmsg)s',
-'PING': '%(nick)s has requested CTCP %(ctcpcmd)s from %(chan)s: %(ctcpmsg)s',
-'TIME': '%(nick)s has requested CTCP %(ctcpcmd)s from %(chan)s: %(ctcpmsg)s',
-'FINGER': '%(nick)s has requested CTCP %(ctcpcmd)s from %(chan)s: %(ctcpmsg)s'
+    'ACTION': '* %(nick)s %(ctcpmsg)s',
+    'VERSION': '%(nick)s has requested CTCP %(ctcpcmd)s from %(chan)s: %(ctcpmsg)s',
+    'PING': '%(nick)s has requested CTCP %(ctcpcmd)s from %(chan)s: %(ctcpmsg)s',
+    'TIME': '%(nick)s has requested CTCP %(ctcpcmd)s from %(chan)s: %(ctcpmsg)s',
+    'FINGER': '%(nick)s has requested CTCP %(ctcpcmd)s from %(chan)s: %(ctcpmsg)s'
 }
 
 irc_color_re = re.compile(r'(\x03(\d+,\d+|\d)|[\x0f\x02\x16\x1f])')
@@ -113,4 +113,4 @@ def log(paraml, input=None, bot=None):
         fd = get_log_fd(bot.persist_dir, input.server, input.chan)
         fd.write(timestamp + ' ' + beau + '\n')
 
-    print timestamp, input.chan, beau.encode('utf8', 'ignore')
+    print(timestamp, input.chan, beau)

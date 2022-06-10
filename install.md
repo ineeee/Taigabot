@@ -1,18 +1,16 @@
 # taigabot dependencies
-taigabot is ancient software that runs only on python 2.7. it depends mostly on requests, beautifulsoup4 and lxml.
-
-the main piece of software, the irc bot, is more than 12 years old and some dependencies can't be found on repositories (ubuntu, pip or even github), so they've been bundled with the bot in this repository.
+taigabot is ancient software that now runs on python 3 (only 3.9 or 3.10). it depends mostly on requests, beautifulsoup4 and lxml.
 
 ## instructions
 see below for copypaste-friendly ubuntu/alpine instructions.
 
-1. install python 2.7, pip and a compiler
-2. clone (or download) this repo
+1. install python 3.9 or 3.10, pip and a compiler
+2. clone this repo
 3. make and activate a virtual environment
-4. install and compile the dependencies
+4. install and compile the requirements
 
-    pip2 install -r requirements.txt
-    pip2 install -r requirements_extra.txt
+    pip install -r requirements.txt
+    pip install -r requirements_extra.txt
 
 last step is to configure the bot:
 
@@ -21,54 +19,48 @@ last step is to configure the bot:
 
 you can now run taigabot!
 
-    python2 bot.py
+    python3 bot.py
 
 
-### ubuntu 18.04(?)
-- python2.7 python-pip git
-- build-essential python2.7-dev libxml2-dev libxslt1-dev
+### ubuntu
+these instructions work for ubuntu 22.04. see older commits in this repo for ubuntu 21 and 18.
 
-tldr:
+    # protip: update ur system
+    sudo apt update
+    sudo apt upgrade
 
-    sudo apt-get install python2.7 python-pip git
-    sudo apt-get install python2.7-dev build-essential libxml2-dev libxslt1-dev
-    git clone https://github.com/inexist3nce/Taigabot.git
+    # lxml requirements
+    sudo apt install build-essential libxml2-dev libxslt1-dev
+    # system requirements
+    sudo apt install git python3 python3-pip python3-venv
+
+    # OPTIONAL: spellcheck plugin requirements (defaults to aspell english)
+    sudo apt install libenchant-2-2 --no-install-suggests
+
+    # download taigabot
+    git clone https://github.com/inexist3nce/Taigabot.git Taigabot
     cd Taigabot
-    pip2 install virtualenv
-    python2 -m virtualenv venv
-    source venv/bin/activate
-    pip2 install -r requirements.txt
-    pip2 install -r requirements_extra.txt
 
-### ubuntu 21.10
-    # system essentials
-    sudo apt install python2.7 wget git --no-install-suggests
-    
-    # build essentials
-    sudo apt install build-essential python2.7-dev libxml2-dev libxslt1-dev zlib1g-dev
-    
-    # pip for py2
-    wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
-    python2.7 get-pip.py
-    export PATH=~/.local/bin:$PATH
-    python2.7 -m pip install virtualenv
-    
-    # get taigabot
-    git clone https://github.com/inexist3nce/Taigabot.git
-    cd Taigabot/
-    
-    # install pip dependencies in a virtualenv
-    python2.7 -m virtualenv venv
+    # create and use a virtual environment
+    python3 -m venv venv
     source venv/bin/activate
-    python2.7 -m pip install -r requirements.txt
-    # enchant is fucked in py2/ubuntu22
-    sed -i 's/pyenchant.*$/#pyenchant/' requirements_extra.txt
-    python2.7 -m pip install -r requirements_extra.txt
-    
+
+    # install dependencies
+    python3 -m pip install -r requirements.txt
+    # OPTIONAL: install extra dependencies (means more plugins will work)
+    python3 -m pip install -r requirements_extra.txt
+
+    # edit the config file
+    cp config.default config
+    vi config
+
     # run the bot
-    python2.7 bot.py
+    python3 bot.py
+
 
 ### alpine
+TODO update this!!! its for python 2
+
 - python2 py2-pip git
 - gcc g++ libxml2 libxml2-dev libxslt-dev
 
@@ -89,15 +81,9 @@ you __need__ these to run plugins.
 
     pip install -r requirements.txt
 
-- virtualenv
-  - helps keep the trash contained. please use this.
 - lxml
-  - uses **3.3.6**
-  - fastest way to parse html and xml
 - requests
-  - 2.23.0 works fine
 - beautifulsoup4
-  - 4.9.0 works fine
 
 ## details
 these plugins are available after installing the main dependencies (`lxml`, `bs4` and `requests`):
@@ -126,22 +112,7 @@ these plugins are available after installing the main dependencies (`lxml`, `bs4
 - wordoftheday
 
 ## specific dependencies
-these specific plugins need a huge disgusting mess of dependencies:
-- weather
-  - urllib
-  - requests
-  - pytz
-  - geopy
-- google
-  - requests
-  - depends on `plugins/util/web.py` which depends on `http`, `urlnorm`, `json`, `urllib`
-    - `http` depends on `cookielib`, `json`, `urllib`, `urllib2`, `urlparse`, `re`, `lxml`, `bs4`
-  - i'm sorry
-- wolframalpha
-  - depends on `plugins/util/http.py` which depends on `cookielib`, `json`, `urllib`, `urllib2`, `urlparse`, `re`, `lxml`, `bs4`
-- urls
-  - re, urllib2, urlparse, requests, lxml, bs4, util.http
-    - `util.http` = `cookielib`, `json`, `urllib`, `urllib2`, `urlparse`, `re`, `lxml`, `bs4`
+some plugins need extra dependencies, you can read `requirements_extra.txt` for more info. theyre optional, without these the plugins simply wont load.
 
 ## api keys
 these plugins need an api key on the `config` file
@@ -155,3 +126,5 @@ these plugins need an api key on the `config` file
 | google       | `"googleimage"`    | - |
 | twitch       | `"twitch_client_id"` | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
 | twitch       | `"twitch_client_secret"` | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
+
+TODO document the other 30+ api keys

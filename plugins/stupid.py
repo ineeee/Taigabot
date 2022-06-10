@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import str
 import math
 import random
 import re
@@ -8,6 +10,23 @@ from bs4 import BeautifulSoup
 from util import database, hook
 from utilities import formatting, request
 
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
 # HONK HONK
 # HONK HONK
 # HONK HONK
@@ -443,7 +462,7 @@ def vendingmachine(inp, nick=None, me=None):
 def hug(inp, nick=None):
     "hug <nick> -- hugs someone"
     if not inp: inp = nick
-    return '\x02\x034♥♡❤♡♥\x03 {} \x034♥♡❤♡♥\x03\x02'.format(inp).decode('UTF-8')
+    return f'\x02\x034♥♡❤♡♥\x03 {inp} \x034♥♡❤♡♥\x03\x02'
 
 
 @hook.command(autohelp=False)
@@ -471,7 +490,7 @@ def nigger(inp, nick=None):
 def kiss(inp, nick=None):
     "hug <nick> -- hugs someone"
     if not inp: inp = nick
-    return '(づ｡◕‿‿◕｡)づ\x02\x034。。・゜゜・。。・゜❤ {} ❤\x03\x02 '.format(inp).decode('UTF-8')
+    return '(づ｡◕‿‿◕｡)づ\x02\x034。。・゜゜・。。・゜❤ {} ❤\x03\x02 '.format(inp)
 
 
 @hook.regex(r'^\[(.*)\]$')
@@ -847,9 +866,9 @@ def breakfast(inp, nick=None, me=None, conn=None, chan=None):
 def rose(inp, nick=None, me=None):
     if not inp: inp = nick
     if inp.lower() == 'ru':
-        me(u'gives \U0001F940 to ' + unicode(inp))
+        me(u'gives \U0001F940 to ' + str(inp))
     else:
-        me(u'gives \U0001F339 to ' + unicode(inp))
+        me(u'gives \U0001F339 to ' + str(inp))
 
 @hook.command(autohelp=False)
 def egg(inp, nick=None, me=None):
@@ -859,25 +878,25 @@ def egg(inp, nick=None, me=None):
     elif inp.lower() == 'egg':
         me(u'gives \U0001F95A to \U0001F95A')
     else:
-        me(u'gives \U0001F95A to ' + unicode(inp))
+        me(u'gives \U0001F95A to ' + str(inp))
 
 @hook.command(autohelp=False)
 def banana(inp, nick=None, me=None):
     if not inp: inp = nick
-    me(u'gives \U0001F34C to ' + unicode(inp))
+    me(u'gives \U0001F34C to ' + str(inp))
 
 @hook.command(autohelp=False)
 def mango(inp, nick=None, me=None):
     if not inp: inp = nick
-    me(u'gives \U0001F96D to ' + unicode(inp))
+    me(u'gives \U0001F96D to ' + str(inp))
 
 @hook.command(autohelp=False)
 def peach(inp, nick=None, me=None):
     if not inp: inp = nick
-    me(u'gives \U0001F351 to ' + unicode(inp))
+    me(u'gives \U0001F351 to ' + str(inp))
 
 @hook.command(autohelp=False)
 def vax(inp, nick=None, me=None):
     if not inp: inp = nick
-    me(u'gives \U0001F489 to ' + unicode(inp))
+    me(u'gives \U0001F489 to ' + str(inp))
 

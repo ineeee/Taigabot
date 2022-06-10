@@ -8,7 +8,7 @@ def _hook_add(func, add, name=''):
     func._hook.append(add)
 
     if not hasattr(func, '_filename'):
-        func._filename = func.func_code.co_filename
+        func._filename = func.__code__.co_filename
 
     if not hasattr(func, '_args'):
         argspec = inspect.getargspec(func)
@@ -21,7 +21,7 @@ def _hook_add(func, add, name=''):
             if argspec.varargs:
                 n_args -= 1
             if n_args != 1:
-		pass
+                pass
                 #err = '%ss must take 1 non-keyword argument (%s)' % (name,
                 #            func.__name__)
                 #raise ValueError(err)
@@ -40,9 +40,8 @@ def _hook_add(func, add, name=''):
 
 
 def sieve(func):
-    if func.func_code.co_argcount != 5:
-        raise ValueError(
-                'sieves must take 5 arguments: (bot, input, func, type, args)')
+    if func.__code__.co_argcount != 5:
+        raise ValueError('sieves must take 5 arguments: (bot, input, func, type, args)')
     _hook_add(func, ['sieve', (func,)])
     return func
 
@@ -51,7 +50,7 @@ def command(arg=None, **kwargs):
     args = {}
 
     def command_wrapper(func):
-        args.setdefault('name', func.func_name)
+        args.setdefault('name', func.__name__)
         _hook_add(func, ['command', (func, args)], 'command')
         return func
 
@@ -68,7 +67,7 @@ def event(arg=None, **kwargs):
     args = kwargs
 
     def event_wrapper(func):
-        args['name'] = func.func_name
+        args['name'] = func.__name__
         args.setdefault('events', ['*'])
         _hook_add(func, ['event', (func, args)], 'event')
         return func
@@ -90,7 +89,7 @@ def regex(regex, flags=0, **kwargs):
     args = kwargs
 
     def regex_wrapper(func):
-        args['name'] = func.func_name
+        args['name'] = func.__name__
         args['regex'] = regex
         args['re'] = re.compile(regex, flags)
         _hook_add(func, ['regex', (func, args)], 'regex')
@@ -108,7 +107,7 @@ def on_start(param=None, **kwargs):
     """
 
     def _on_start_hook(func):
-	args = kwargs
+        args = kwargs
         _hook_add(func, ['on_start', (func, args)], 'on_start')
         return func
 

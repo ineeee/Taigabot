@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup
 cache = []
 
 
-def refresh_cache():
-    "gets a page of random bash.org quotes and puts them into a dictionary "
-    print "[+] refreshing bash cache"
+def refresh_cache() -> None:
+    """gets a page of random bash.org quotes and puts them into a dictionary"""
+    print('[+] refreshing bash cache')
     html = request.get('http://bash.org/?random1')
     soup = BeautifulSoup(html, 'lxml')
     quote_infos = soup.find_all('p', {'class': 'quote'})
@@ -24,7 +24,7 @@ def refresh_cache():
         num += 1
 
 
-def get_bash_quote(inp):
+def get_bash_quote(inp: str) -> str:
     try:
         inp = request.urlencode(inp)
         html = request.get('http://bash.org/?' + inp)
@@ -34,14 +34,14 @@ def get_bash_quote(inp):
 
         id = quote_info.contents[0].text
         votes = quote_info.find('font').text
-        return u'\x02{}\x02 ({} votes): {}'.format(id, votes, quote)
+        return f'\x02{id}\x02 ({votes} votes): {quote}'
     except:
-        return "No quote found."
+        return 'No quote found.'
 
 
 @hook.command(autohelp=False)
 def bash(inp, reply=None):
-    "bash <id> -- Gets a random quote from Bash.org, or returns a specific id."
+    """bash <id> -- Gets a random quote from Bash.org, or returns a specific id."""
     if inp:
         return get_bash_quote(inp)
 
@@ -50,4 +50,4 @@ def bash(inp, reply=None):
 
     id, votes, text = cache.pop()
 
-    return u'\x02{}\x02 ({} votes): {}'.format(id, votes, text)
+    return f'\x02{id}\x02 ({votes} votes): {text}'

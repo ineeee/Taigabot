@@ -1,20 +1,21 @@
 # urban dictionary plugin by ine (2020)
 # checked 04/2022
+from builtins import str
 from util import hook
 from utilities import request, formatting
 
 base_url = 'https://api.urbandictionary.com/v0/define?term='
 
 
-def clean_text(text):
+def clean_text(text: str):
     return formatting.compress_whitespace(text.replace('[', '').replace(']', ''))
 
 
-def search(input):
+def search(input: str):
     json = request.get_json(base_url + request.urlencode(input))
 
-    if json is None or "error" in json or "errors" in json:
-        return ["the server fucked up"]
+    if json is None or 'error' in json or 'errors' in json:
+        return ['the server fucked up']
 
     data = []
     for item in json['list']:
@@ -29,8 +30,8 @@ def search(input):
         try:
             votes = int(votes_up) - int(votes_down)
             if votes > 0:
-                votes = '+' + str(votes)
-        except:
+                votes = f'+{votes}'
+        except Exception:
             votes = 0
 
         if votes != 0:
@@ -52,7 +53,7 @@ def search(input):
 @hook.command('ebonics')
 @hook.command
 def urban(inp):
-    "urban <phrase> [entry] -- Looks up <phrase> on urbandictionary.com."
+    """urban <phrase> [entry] -- Looks up <phrase> on urbandictionary.com."""
 
     inp_val = inp.strip()
     inp_count = 1
@@ -63,7 +64,7 @@ def urban(inp):
 
         inp_val = rest[::-1]
         inp_count = int(inp_count[::-1])
-    except:
+    except Exception:
         inp_val = inp.strip()
         inp_count = 1
 
@@ -78,8 +79,8 @@ def urban(inp):
 
     try:
         if results_len == 1:
-            return u'[ud] {}'.format(results[inp_count-1])
+            return '[ud] {}'.format(results[inp_count - 1])
         else:
-            return u'[ud {}/{}] {}'.format(inp_count, results_len, results[inp_count-1])
+            return '[ud {}/{}] {}'.format(inp_count, results_len, results[inp_count - 1])
     except IndexError:
         return '[ud] Not found'

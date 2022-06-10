@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import map
 import inspect
 import json
 import os
@@ -34,7 +36,7 @@ if not os.path.exists(flood_filename):
 @hook.sieve
 def ignoresieve(bot, input, func, type, args):
     """ blocks input from ignored channels/nicks/hosts """
-    globalignorelist = " ".join(filter(None, bot.config["ignored"]))
+    globalignorelist = " ".join([_f for _f in bot.config["ignored"] if _f])
 
     db = bot.get_db_connection(input.conn)
     mask = input.mask.lower().replace('~', '')
@@ -157,11 +159,11 @@ def sieve_suite(bot, input, func, kind, args):
     acl = bot.config.get('acls', {}).get(func.__name__)
     if acl:
         if 'deny-except' in acl:
-            allowed_channels = map(unicode.lower, acl['deny-except'])
+            allowed_channels = list(map(str.lower, acl['deny-except']))
             if input.chan.lower() not in allowed_channels:
                 return None
         if 'allow-except' in acl:
-            denied_channels = map(unicode.lower, acl['allow-except'])
+            denied_channels = list(map(str.lower, acl['allow-except']))
             if input.chan.lower() in denied_channels:
                 return None
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 " tell.py: written by sklnd in July 2009"
 "       2010.01.25 - modified by Scaevolus"
 
@@ -14,7 +15,7 @@ def db_init(db):
                 "primary key(user_to, message))")
     db.commit()
     db_ready=True
-    print "Tell Database Ready"
+    print("Tell Database Ready")
 
     return db
 

@@ -5,7 +5,7 @@ db_inited = False
 
 
 def cleanSQL(sql):
-    return re.sub(r'\s+', " ", sql).strip()
+    return re.sub(r'\s+', ' ', sql).strip()
 
 
 def db_init(db):
@@ -90,37 +90,30 @@ def db_search(db, nick, query):
 
 @hook.command
 def todo(inp, nick='', chan='', db=None, notice=None, bot=None):
-    "todo (add|del|list|search) args -- Manipulates your list of todos."
+    """todo (add|del|list|search) args -- Manipulates your list of todos."""
 
     db_init(db)
 
     parts = inp.split()
     cmd = parts[0].lower()
-
     args = parts[1:]
-
-    # code to allow users to access each others factoids and a copy of help
-    # ".todo (add|del|list|search) [@user] args -- Manipulates your list of todos."
-    #if len(args) and args[0].startswith("@"):
-    #    nick = args[0][1:]
-    #    args = args[1:]
 
     if cmd == 'add':
         if not len(args):
-            return "no text"
+            return 'No text given'
 
-        text = " ".join(args)
+        text = ' '.join(args)
 
         db_add(db, nick, text)
 
-        notice("Task added!")
+        notice('Task added!')
         return
     elif cmd == 'get':
         if len(args):
             try:
                 index = int(args[0])
             except ValueError:
-                notice("Invalid number format.")
+                notice('Invalid number.')
                 return
         else:
             index = 0
@@ -128,12 +121,12 @@ def todo(inp, nick='', chan='', db=None, notice=None, bot=None):
         row = db_get(db, nick, index)
 
         if not row:
-            notice("No such entry.")
+            notice('No such entry.')
             return
-        notice("[%d]: %s: %s" % (index, row[0], row[1]))
+        notice(f'[{index}]: {row[0]}: {row[1]}')
     elif cmd == 'del' or cmd == 'delete' or cmd == 'remove':
         if not len(args):
-            return "error"
+            return 'error'
 
         if args[0] == 'all':
             index = 'all'
@@ -141,12 +134,12 @@ def todo(inp, nick='', chan='', db=None, notice=None, bot=None):
             try:
                 index = int(args[0])
             except ValueError:
-                notice("Invalid number.")
+                notice('Invalid number.')
                 return
 
         rows = db_del(db, nick, index)
 
-        notice("Deleted %d entries" % rows.rowcount)
+        notice(f'Deleted {rows.rowcount} entries')
     elif cmd == 'list':
         limit = 21
 
@@ -155,7 +148,7 @@ def todo(inp, nick='', chan='', db=None, notice=None, bot=None):
                 limit = int(args[0])
                 limit = max(-1, limit)
             except ValueError:
-                notice("Invalid number.")
+                notice('Invalid number.')
                 return
 
         rows = db_getall(db, nick, limit)
@@ -163,26 +156,26 @@ def todo(inp, nick='', chan='', db=None, notice=None, bot=None):
         found = False
 
         for (index, row) in enumerate(rows):
-            notice("[%d]: %s: %s" % (index, row[0], row[1]))
+            notice(f'[{index}]: {row[0]}: {row[1]}')
             found = True
 
         if not found:
-            notice("%s has no entries." % nick)
+            notice(f'{nick} has no entries.')
     elif cmd == 'search':
         if not len(args):
-            notice("No search query given!")
+            notice('No search query given!')
             return
-        query = " ".join(args)
+        query = ' '.join(args)
         rows = db_search(db, nick, query)
 
         found = False
 
         for (index, row) in enumerate(rows):
-            notice("[%d]: %s: %s" % (index, row[0], row[1]))
+            notice(f'[{index}]: {row[0]}: {row[1]}')
             found = True
 
         if not found:
-            notice("%s has no matching entries for: %s" % (nick, query))
+            notice(f'{nick} has no matching entries for: {query}')
 
     else:
-        notice("Unknown command: %s" % cmd)
+        notice(f'Unknown command: {cmd}')

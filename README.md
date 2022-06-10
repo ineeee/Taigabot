@@ -1,26 +1,27 @@
 # Taigabot
 
 * 13+ year old code
-* NOW RUNS ON PYTHON 3
+* Runs on Python 3
 * Extremely stable, has been running for literally over a decade
-* Easy to use wrapper
 * Intuitive configuration
 * Fully controlled from IRC
 * Fully compatable with existing skybot plugins
 * Easily extendable
-  * Thorough documentation
-  * Cross-platform
 * Muti-threaded, efficient
   * Automatic reloading
   * Little boilerplate
+  * Misbehaving plugins don't crash the bot
 
 ### Installation
-Taigabot now runs on python 3, but install instructions are outdated. See [install.md](install.md#instructions) for [ubuntu](install.md#ubuntu) or [alpine](install.md#alpine) instructions.
+Taigabot runs only on Python 3.9 or 3.10. See [install.md](install.md#instructions) for [ubuntu](install.md#ubuntu) or [alpine](install.md#alpine) instructions.
 
-The biggest hurdle is `lxml` which needs a compiler and a bunch of libraries. Sometimes you can install it from your package manager.
+The biggest hurdle is `lxml` which needs a compiler and a bunch of libraries.
 
 #### Other dependencies
-Some commands need extra python packages and api keys, more information can be found on [install.md § specific dependencies](install.md#specific-dependencies).
+Some plugins require extra python packages, more information can be found on [install.md § specific dependencies](install.md#specific-dependencies).
+
+**Many** plugins require API keys from different services. Currently we have 34 api keys.
+
 
 ### Run
 Once you have installed the required dependencies, you need to create a config file:
@@ -29,9 +30,11 @@ Once you have installed the required dependencies, you need to create a config f
     vim config
     python3 bot.py
 
+It is highly recommended to use a virtual environment.
+
 ## License
 
-UguuBot is **licensed** under the **GPL v3** license. The terms are as follows.
+UguuBot (also taigabot) is **licensed** under the **GPL v3** license. The terms are as follows.
 
     UguuBot/DEV
     Copyright © 2013-2013 Infinity - <https://github.com/infinitylabs/UguuBot>

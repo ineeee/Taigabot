@@ -13,6 +13,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import print_function
 from util import hook
 from utilities.request import get_json, get
 from datetime import datetime
@@ -94,7 +95,7 @@ def mlb(inp, say=None):
                 details = get_more_detail(api_base, game.get('id', 'null'))
 
                 if isinstance(details, Exception):
-                    print 'WARNING: API may be broken: {}'.format(details)
+                    print('WARNING: API may be broken: {}'.format(details))
                     return outstring
 
                 outstring += ' Count: {}-{}'.format(details['balls'],
@@ -105,7 +106,7 @@ def mlb(inp, say=None):
                 outstring += ' Batter: {}'.format(details['batter'])
 
                 if isinstance(details['latest'], Exception):
-                    print 'WARNING: API For latest events is broken: {}'.format(details['latest'])
+                    print('WARNING: API For latest events is broken: {}'.format(details['latest']))
                 elif details['latest'] != "":
                     say(outstring)
                     say('Latest: {}'.format(details['latest']))

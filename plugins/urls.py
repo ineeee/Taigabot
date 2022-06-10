@@ -1,6 +1,7 @@
+from builtins import range
 import re
-import urllib2
-from urlparse import urlparse
+import urllib.request, urllib.error, urllib.parse
+from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -176,8 +177,8 @@ def hentai_url(match, bot):
     logindata = 'referer=http://forums.e-hentai.org/index.php&UserName={}&PassWord={}&CookieDate=1'.format(
         username, password)
 
-    req = urllib2.Request(loginurl)
-    resp = urllib2.urlopen(req, logindata)    # POST
+    req = urllib.request.Request(loginurl)
+    resp = urllib.request.urlopen(req, logindata)    # POST
     coo = resp.info().getheader('Set-Cookie')    # cookie
     cooid = re.findall('ipb_member_id=(.*?);', coo)[0]
     coopw = re.findall('ipb_pass_hash=(.*?);', coo)[0]
@@ -188,8 +189,8 @@ def hentai_url(match, bot):
         "User-Agent':'Mozilla/5.2 (compatible; MSIE 8.0; Windows NT 6.2;)",    # wow this code is ass
     }
 
-    request = urllib2.Request(url, None, headers)
-    page = urllib2.urlopen(request).read()
+    request = urllib.request.Request(url, None, headers)
+    page = urllib.request.urlopen(request).read()
     soup = BeautifulSoup(page)
     try:
         title = soup.find('h1', {'id': 'gn'}).string
@@ -197,9 +198,9 @@ def hentai_url(match, bot):
         rating = soup.find('td', {'id': 'rating_label'}).string.replace('Average: ', '')
         star_count = round(float(rating), 0)
         stars = ""
-        for x in xrange(0, int(star_count)):
+        for x in range(0, int(star_count)):
             stars = "{}{}".format(stars, ' ')
-        for y in xrange(int(star_count), 5):
+        for y in range(int(star_count), 5):
             stars = "{}{}".format(stars, ' ')
 
         return '\x02{}\x02 - \x02\x034{}\x03\x02 - {}'.format(title, stars, date).decode('utf-8')
@@ -212,7 +213,7 @@ headers = {'User-Agent': user_agent}
 
 
 def parse_html(stream):
-    data = ''
+    data = b''
     for chunk in stream.iter_content(chunk_size=256):
         data = data + chunk
 
@@ -221,7 +222,7 @@ def parse_html(stream):
 
     # try to quickly grab the content between <title> and </title>
     # should match most cases, if not just fall back to lxml
-    if '<title>' in data and '</title>' in data:
+    if b'<title>' in data and b'</title>' in data:
         try:
             quick_title = data[data.find('<title>') + 7:data.find('</title>')]
             return quick_title.strip()
@@ -258,8 +259,8 @@ def unmatched_url(url, parsed, bot, chan, db):
     try:
         req = requests.get(url, headers=headers, allow_redirects=True, stream=True, timeout=8)
     except Exception as e:
-        print '[!] WARNING couldnt fetch url'
-        print e
+        print('[!] WARNING couldnt fetch url')
+        print(e)
         return
 
     # parsing
@@ -272,7 +273,8 @@ def unmatched_url(url, parsed, bot, chan, db):
         try:
             title = parse_html(req)
         except Exception as e:
-            print '[!] WARNING the url caused a parser error'
+            print('[!] WARNING the url caused a parser error')
+            print(e)
             title = 'Untitled'
 
         # TODO handle titles with html entities

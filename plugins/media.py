@@ -1,15 +1,21 @@
+from __future__ import print_function
+from __future__ import division
 # IMDb lookup plugin by Ghetto Wizard (2011).
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import map
+from past.utils import old_div
 from util import hook, http
 import re
 
 import datetime
-import urllib2
-import urllib
+import urllib.request, urllib.error, urllib.parse
+import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
-from urllib2 import URLError
+from urllib.error import URLError
 from zipfile import ZipFile
-from cStringIO import StringIO
+from io import StringIO
 
 from lxml import etree
 from util import hook, http, web
@@ -42,7 +48,7 @@ def get_series_info(seriesname):
     try:
         series_id = query.xpath('//id/text()')
     except:
-        print "Failed"
+        print("Failed")
 
     if not series_id:
         result = "\x02Could not find show:\x02 %s" % seriesname
@@ -101,7 +107,7 @@ def get_episode_info(episode):
     first_aired = episode.findtext("FirstAired")
 
     try:
-        airdate = datetime.date(*map(int, first_aired.split('-')))
+        airdate = datetime.date(*list(map(int, first_aired.split('-'))))
     except (ValueError, TypeError):
         return None
 
@@ -223,13 +229,13 @@ def imdb(inp):
     "imdb <movie> -- Gets information about <movie> from IMDb."
     base_url = 'http://www.imdb.com'
     search = base_url + "/find?q={}&s=all".format(
-        urllib.quote(inp.encode('utf-8')))
-    response = urllib2.urlopen(search)
+        urllib.parse.quote(inp.encode('utf-8')))
+    response = urllib.request.urlopen(search)
     soup = BeautifulSoup(response.read(), 'lxml')
     result = base_url + soup.find_all(
         'table', 'findList')[0].find_all('td')[1].find_all(
             'a', href=True)[0]['href']
-    response = urllib2.urlopen(result)
+    response = urllib.request.urlopen(result)
     soup = BeautifulSoup(response.read())
     title = soup.find_all('h1')[1].get_text()[0:-8].strip()
     year = soup.find_all('h1')[1].find_all('span')[0].get_text().strip()
@@ -306,7 +312,7 @@ def rottentomatoes(inp, bot=None):
         movie_reviews_url % id, apikey=api_key, review_type='all')
     review_count = reviews['total']
 
-    fresh = critics_score * review_count / 100
+    fresh = old_div(critics_score * review_count, 100)
     rotten = review_count - fresh
 
     return u"%s - critics: \x02%d%%\x02 (%d\u2191/%d\u2193) audience: \x02%d%%\x02 - %s" % (

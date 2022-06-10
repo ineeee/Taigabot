@@ -1,7 +1,10 @@
-from util import hook
 import log
 from sqlite3 import OperationalError
+import traceback
 
+
+# these dont mean anything because when a column is accesed it is automatically auto-created
+# yes that's sad but idk i didnt make it
 channel_columns  = ['chan NOT NULL',
                     'admins',
                     'permissions',
@@ -52,6 +55,7 @@ bank_columns = """nick TEXT NOT NULL,
 
 db_ready = False
 
+
 def init(db):
     """Init the databases."""
     global db_ready
@@ -85,50 +89,70 @@ def update(db):
         except OperationalError:
             pass
 
-def field_exists(db,table,matchfield,matchvalue):
+
+def field_exists(db, table: str, matchfield: str, matchvalue: str) -> bool:
     init(db)
-    exists = db.execute("SELECT EXISTS(SELECT 1 FROM {} WHERE {}='{}' LIMIT 1);".format(table,matchfield,matchvalue.encode('utf8'))).fetchone()[0]
+    exists = db.execute("SELECT EXISTS(SELECT 1 FROM {} WHERE {}='{}' LIMIT 1);".format(table,matchfield,matchvalue)).fetchone()[0]
     if exists:
         return True
     else:
         return False
 
-def get(db,table,field,matchfield,matchvalue):
+
+def get(db, table: str, field: str, matchfield: str, matchvalue: str):
     init(db)
-    try:
-        matchvalue = matchvalue.encode('utf-8').lower()
-    except:
+    try:  # ?
+        matchvalue = matchvalue.lower()
+    except Exception as e:
+        print("[DB ERROR] start:", e)
+        traceback.print_exc()
+        print("[DB ERROR] end:", e)
         pass
     try:
-        result = db.execute("SELECT {} FROM {} WHERE {}='{}';".format(field,table,matchfield,matchvalue)).fetchone()
+        result = db.execute("SELECT {} FROM {} WHERE {}='{}';".format(field, table, matchfield, matchvalue)).fetchone()
         if result:
-            return result[0].encode('utf-8')
+            return result[0]
         else:
             return False
-    except:
-        log.log("***ERROR: SELECT {} FROM {} WHERE {}='{}';".format(field,table,matchfield,matchvalue))
+    except Exception as e:
+        print("[DB ERROR] start:", e)
+        traceback.print_exc()
+        print("[DB ERROR] end:", e)
+        log.log("***ERROR: SELECT {} FROM {} WHERE {}='{}';".format(field, table, matchfield, matchvalue))
 
 
-def set(db, table, field, value, matchfield, matchvalue):
+def set(db, table: str, field: str, value, matchfield: str, matchvalue: str):
     init(db)
     if value is None:
         value = ''
     try:
-        matchvalue = matchvalue.encode('utf-8').lower()
-    except:
+        matchvalue = matchvalue.lower()
+    except Exception as e:
+        print("[DB ERROR] start:", e)
+        traceback.print_exc()
+        print("[DB ERROR] end:", e)
         pass
-    if type(value) is str: value = value.replace("'","").replace('\"', "")
+
+    if type(value) is str:
+        value = value.replace("'", '').replace('"', '')
+
     try:
         db.execute("ALTER TABLE {} ADD COLUMN {};".format(table, field))
-    except:
+    except Exception as e:
+        # print("[DB ERROR] start:", e)
+        # traceback.print_exc()
+        # print("[DB ERROR] end:", e)
         pass
 
     try:
-        if field_exists(db,table,matchfield,matchvalue):
+        if field_exists(db, table, matchfield, matchvalue):
             db.execute("UPDATE {} SET {} = '{}' WHERE {} = '{}';".format(table,field,value,matchfield,matchvalue))
         else:
             db.execute("INSERT INTO {} ({},{}) VALUES ('{}','{}');".format(table,field,matchfield,value,matchvalue))
-    except:
+    except Exception as e:
+        print("[DB ERROR] start:", e)
+        traceback.print_exc()
+        print("[DB ERROR] end:", e)
         db.execute('UPDATE {} SET {} = "{}" WHERE {} = "{}";'.format(table,field,value,matchfield,matchvalue))
 
     db.commit()

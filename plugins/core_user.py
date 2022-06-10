@@ -252,6 +252,7 @@ def birthday(inp, nick=None, db=None, notice=None):
     return
 
 
+# TODO move this out of core
 @hook.command(autohelp=False)
 def horoscope(inp, db=None, notice=None, nick=None):
     """horoscope <sign> [save] -- Get your horoscope."""

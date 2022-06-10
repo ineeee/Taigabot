@@ -1,7 +1,9 @@
+from builtins import str
 import re
-from util import hook, http, web, text
+from util import hook, http, text
 from bs4 import BeautifulSoup
-
+import csv
+import io
 
 steam_re = (r'(.*:)//(store.steampowered.com)(:[0-9]+)?(.*)', re.I)
 
@@ -38,10 +40,6 @@ def steamsearch(inp):
     result = soup.find('a', {'class': 'search_result_row'})
     return get_steam_info(result['href']) + " - " + result['href']
 
-    
-
-import csv
-import StringIO
 
 gauge_url = "http://www.mysteamgauge.com/search?username={}"
 
@@ -68,7 +66,7 @@ def is_number(s):
 def unicode_dictreader(utf8_data, **kwargs):
     csv_reader = csv.DictReader(utf8_data, **kwargs)
     for row in csv_reader:
-        yield dict([(key.lower(), unicode(value, 'utf-8')) for key, value in row.iteritems()])
+        yield dict([(key.lower(), str(value, 'utf-8')) for key, value in list(row.items())])
 
 
 @hook.command('sc')
@@ -91,7 +89,7 @@ def steamcalc(inp, reply=None):
         except (http.HTTPError, http.URLError):
             return "Could not get data for this user."
 
-    csv_data = StringIO.StringIO(request)  # we use StringIO because CSV can't read a string
+    csv_data = io.StringIO(request)  # we use StringIO because CSV can't read a string
     reader = unicode_dictreader(csv_data)
 
     # put the games in a list
