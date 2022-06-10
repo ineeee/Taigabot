@@ -1,15 +1,17 @@
-from util import hook
 from random import choice
+from time import time
+from util import hook
 
+# format: (sql col name, prefix, suffix)
 MEME_CURRENCIES = [('money', '$', ' moneis'),
                    ('peach', '🍑', ' peachy peaches'),
                    ('rose', '🌹', ' rosey roses'),
                    ('cum', '💦', ' daddies cummies')]
-                 # (sql name, prefix, suffix)
+last_bene = {}
 
 
 # check if $nick has an account in the bank
-def bank_exists(db, nick: str) -> bool:  # wtf type is db?
+def bank_exists(db, nick: str) -> bool:
     cursor = db.execute('SELECT nick FROM bank WHERE nick = ?', (nick, ))
     db.commit()
     # 'Fetches the next row of a query result set, returning a single sequence, or None when no more data is available.'
@@ -35,7 +37,7 @@ def bank_get_data(db, nick: str, currency: str) -> str:
     row = cursor.fetchone()
 
     if row is None:
-        return '$0'
+        return '0'
     else:
         return row[0]
 
@@ -69,42 +71,44 @@ def bank_add(db, nick: str, item: str) -> None:
 def bank(inp, nick=None, db=None):
     if not bank_exists(db, nick):
         bank_create(db, nick)
-        return f"{nick} i'm creating a new TaigaBank(tm) Account(r) just for you sir dudesir. use \x02.bank\x02 to check it out ok"
+        return f'{nick}: a new TaigaBank(tm) Account(r) was opened!!1 check it out with \x02.bank\x02'
 
     portfolio = bank_get_portfolio(db, nick)
-    return f'{nick}, your TaigaBank(tm) account: {portfolio}'
+    return f'{nick}, your TaigaBank(tm) Account(r): {portfolio}'
 
 
-@hook.command(autohelp=False)
+@hook.command()
 def peachypeach(inp, nick=None, db=None, me=None, notice=None):
+    """peachypeach <nick>: send one (1) peachy peach to nick"""
     if not inp:
         notice("You have to tell me who you're going to send it to")
         return
 
     if not bank_exists(db, nick):
-        return "bruh {} you don't have a TaigaBank(tm) Account(r), fuck off".format(nick)
+        return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that'
 
     if inp.lower() == nick.lower():
-        return "ur hungry, {}? cant send peachy peaches from you to you".format(nick)
+        return f'ur hungry, {nick}? cant send peachy peaches from you to you'
 
     if not bank_exists(db, inp):
-        return "dude {} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that".format(inp)
+        return f"dude {inp} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that"
 
-    bank_subtract(db, nick, "peach")
-    bank_add(db, inp, "peach")
+    bank_subtract(db, nick, 'peach')
+    bank_add(db, inp, 'peach')
 
     me(f'gives \U0001F351 to {inp}')
     notice(f'sent one (1) \U0001F351 peachy peach to {inp}')
 
 
-@hook.command(autohelp=False)
+@hook.command()
 def roseyrose(inp, nick=None, db=None, me=None, notice=None):
+    """roseyrose <nick>: send one (1) rosey rose to nick"""
     if not inp:
         notice("You have to tell me who you're going to send it to")
         return
 
     if not bank_exists(db, nick):
-        return f"bruh {nick} you don't have a TaigaBank(tm) Account(r), fuck off"
+        return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that'
 
     if inp.lower() == nick.lower():
         return f'why are you trying to send roses to yourself, {nick}? weirdo'
@@ -122,29 +126,50 @@ def roseyrose(inp, nick=None, db=None, me=None, notice=None):
     notice(f'sent one (1) \U0001F339 rosey rose to {inp}')
 
 
-@hook.command(autohelp=False)
+@hook.command()
 def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
+    """daddiescummies <nick>: send one (1) daddies cummies to nick"""
     if not inp:
         notice("You have to tell me who you're going to send it to")
         return
 
     if not bank_exists(db, nick):
-        return f"bruh {nick} you don't have a TaigaBank(tm) Account(r), fuck off"
+        return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that'
 
     if inp.lower() == nick.lower():
         return f'{nick} just came all over themselves. weirdo'
 
-    if nick.lower() != 'daddy':
-        notify_daddy = [f"uwu {nick}, you're not daddy",
-                        f"DADDY! {nick} is trying to \U0001F4A6RAPE\U0001F4A6 {inp}"]  # TODO remove rape
-
-        return choice(notify_daddy)
-
     if not bank_exists(db, inp):
         return f"dude {inp} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that"
 
-    bank_subtract(db, nick, "cum")
-    bank_add(db, inp, "cum")
+    bank_subtract(db, nick, 'cum')
+    bank_add(db, inp, 'cum')
 
     me(f'gives \U0001F4A6 to {inp}')
     notice(f'sent one (1) \U0001F4A6 daddies cummies to {inp}')
+
+
+@hook.command()
+def bene(inp, nick=None, db=None, me=None, notice=None):
+    if not bank_exists(db, nick):
+        return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that'
+
+    global last_bene
+
+    # only allow one claim every $allowed_interval seconds
+    if nick in last_bene:
+        current_ts = time()
+        last_ts = last_bene[nick]
+        diff = current_ts - last_ts
+        allowed_interval = 10 * 60  # seconds
+        remaining = allowed_interval - diff
+
+        if diff < allowed_interval:
+            return f'please wait {allowed_interval} seconds to claim something again, {nick} ({remaining:.1f} sec left)'
+
+    name, prefix, suffix = choice(MEME_CURRENCIES)
+    bank_add(db, nick, name)
+    me(f'gives {nick} {prefix}1{suffix}')
+    last_bene[nick] = time()
+
+    return
