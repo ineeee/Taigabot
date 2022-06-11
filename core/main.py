@@ -16,11 +16,8 @@ class Input(dict):
         def say(msg: str):
             conn.msg(chan, msg)
 
-        def pm(msg: str):  # seems unused
-            conn.msg(nick, msg)
-
         def reply(msg: str):
-            if chan == nick:    # PMs don't need prefixes
+            if chan == nick:  # PMs don't need prefixes
                 conn.msg(chan, msg)
             else:
                 try:
@@ -56,7 +53,6 @@ class Input(dict):
             notice=notice,
             say=say,
             reply=reply,
-            pm=pm,
             bot=bot,
             me=me,
             lastparam=paraml[-1])
@@ -69,7 +65,7 @@ class Input(dict):
         self[key] = value
 
 
-def run(func, input):
+def run(func, input: Input):
     args = func._args
 
     if 'inp' not in input:
@@ -136,7 +132,7 @@ class Handler:
         self.input_queue.put(value)
 
 
-def dispatch(input, kind, func, args, autohelp=False):
+def dispatch(input: Input, kind, func, args, autohelp=False):
     for sieve, in bot.plugs['sieve']:
         input = do_sieve(sieve, bot, input, func, kind, args)
         if input is None:
