@@ -2,6 +2,8 @@ import os
 import sys
 import time
 import json
+import sqlite3
+import _thread
 
 
 class Bot:
@@ -10,6 +12,7 @@ class Bot:
         self.config = {}
         self.config_mtime = 0
         self.conns = {}
+        self.db_conns = {}
 
         # folder used to store database and logs
         self.persist_dir = os.path.abspath('persist')
@@ -32,3 +35,23 @@ class Bot:
                 self.config_mtime = config_mtime
             except ValueError as e:
                 print('error: malformed config', e)
+
+    def get_db_connection(self, conn):
+        """returns an sqlite3 connection to a persistent database"""
+        # at some point i added a print() here and discovered that
+        # this gets called 10 times per every irc line. why? TODO fix
+
+        name = '{}.db'.format(conn.name)
+        threadid = _thread.get_ident()
+        if name in self.db_conns and threadid in self.db_conns[name]:
+            return self.db_conns[name][threadid]
+
+        filename = os.path.join(self.persist_dir, name)
+
+        db = sqlite3.connect(filename, timeout=1)
+        if name in self.db_conns:
+            self.db_conns[name][threadid] = db
+        else:
+            self.db_conns[name] = {threadid: db}
+
+        return db

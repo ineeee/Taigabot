@@ -77,7 +77,7 @@ def run(func, input):
 
     if args:
         if 'db' in args and 'db' not in input:
-            input.db = get_db_connection(input.conn)
+            input.db = bot.get_db_connection(input.conn)
         if 'input' in args:
             input.input = input
         if 0 in args:
