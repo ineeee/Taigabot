@@ -17,14 +17,17 @@ if 'lastfiles' not in globals():
 
 
 def make_signature(f):
-    return f.__code__.co_filename, f.__name__, f.__code__.co_firstlineno
+    filename = f.__code__.co_filename
+
+    # trim folder path so it doesnt look so verbose
+    if filename.startswith('plugins/'):
+        filename = filename.replace('plugins/', '')
+
+    return filename, f.__name__, f.__code__.co_firstlineno
 
 
 def format_plug(plug, kind='', lpad=0):
     msg_filename, msg_function, msg_lineno = make_signature(plug[0])
-
-    if msg_filename.startswith('plugins/'):
-        msg_filename = msg_filename.replace('plugins/', '')
 
     out = ' ' * lpad + f'{msg_filename}:{msg_function}:{msg_lineno}'
     if kind == 'command':
@@ -100,8 +103,6 @@ def reload(init: bool = False):
                 traceback.print_exc()
                 continue
 
-            # output = '<module class="module" name="{}">\n\t<info>{}</info>\n\t'.format(filename.replace(".py",""), filename.replace(".py","<span>.py</span>"))
-
             # remove plugins already loaded from this filename
             for name, data in list(bot.plugs.items()):
                 bot.plugs[name] = [x for x in data
@@ -122,12 +123,7 @@ def reload(init: bool = False):
                         bot.plugs[type] += [data]
 
                         if not init:
-                            # output+='<div class="command">{}</div>'.format(format_plug(data).replace('[','<opt>').replace(']','</opt>').replace('<','<req>').replace('>','</req>'))
                             print(f'### new plugin (type: {type}) loaded:', format_plug(data))
-
-                            # output += '</module>'
-                            # with open('index.txt', 'a') as file:
-                                # file.write(u'{}\n'.format(output).encode('utf-8'))
 
     if changed:
         bot.commands = {}
