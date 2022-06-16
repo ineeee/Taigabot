@@ -41,6 +41,14 @@ IGNORED_HOSTS = [
 LINK_RE = (r'(https?://\S+\.\S*)', re.I)
 
 
+def html_to_text(html: str) -> str:
+    soup = BeautifulSoup(html, 'lxml')
+    for br in soup.find_all('br'):
+        br.replace_with('\n')
+
+    return soup.get_text()
+
+
 @hook.regex(*LINK_RE)
 def process_url(match, bot=None, chan=None, db=None):
     url = match.group(0)
@@ -65,15 +73,13 @@ def process_url(match, bot=None, chan=None, db=None):
         return wikipedia_url(url)    # Wikipedia
     elif 'hentai.org' in url.lower():
         return hentai_url(url, bot)    # Hentai
-    elif 'boards.4chan.org' in url.lower():    # 4chan
-        if '4chan.org/b/' in url.lower():
-            return '\x033>/b/\x03'
+    elif 'boards.4chan.org' in url.lower() or 'boards.4channel.org' in url.lower():    # 4chan
         if '#p' in url.lower():
             return fourchanquote_url(url)    # 4chan Quoted Post
-        if '/thread/' in url.lower():
+
+        if '/thread/' in url.lower() or '/res/' in url.lower():
             return fourchanthread_url(url)    # 4chan Post
-        if '/res/' in url.lower():
-            return fourchanthread_url(url)    # 4chan Post
+
         if '/src/' in url.lower():
             return unmatched_url(url, parsed, bot, chan, db)    # 4chan Image
         else:
@@ -92,13 +98,51 @@ def fourchanboard_url(match):
 # fourchan_re = (r'.*((boards\.)?4chan\.org/[a-z]/res/[^ ]+)', re.I)
 # @hook.regex(*fourchan_re)
 def fourchanthread_url(match):
-    soup = http.get_soup(match)
-    title = soup.title.renderContents().strip()
-    post = soup.find('div', {'class': 'opContainer'})
-    comment = post.find('blockquote', {'class': 'postMessage'}).renderContents().strip()
-    author = post.find_all('span', {'class': 'nameBlock'})[1]
-    return http.process_text("\x02{}\x02 - posted by \x02{}\x02: {}".format(
-        title, author, comment[:trimlength]))
+    regxp = r'https?:\/\/(boards\.)?4chan(nel)?\.org\/([a-z]+)\/(thread|res)\/([0-9]+)'
+    match2 = re.search(regxp, match)
+
+    if match2 is None:
+        return
+
+    board, thread = match2.group(3, 5)
+
+    url = f'https://a.4cdn.org/{board}/thread/{thread}.json'
+    req = requests.get(url)
+
+    if req.status_code != 200:
+        print(f'[ERROR] some 4chan api error happened, http status {req.status_code} ({board}, {thread})')
+        return
+
+    data = req.json()
+    post_op = data.get('posts', {})[0]
+
+    subject = post_op['sub'] if 'sub' in post_op else None
+    comment = post_op['com'] if 'com' in post_op else None
+    author = post_op['name'] if 'name' in post_op else 'Anonymous'
+    tripcode = post_op['trip'] if 'trip' in post_op else None
+
+    output = f'\x02/{board}/'
+
+    if subject:
+        output += f' - {subject}'
+
+    output += '\x02 - posted by '
+
+    if tripcode:
+        output += f'\x02{author[:80]} {tripcode}\x02'
+    else:
+        output += f'\x02{author[:80]}\x02'
+
+    if comment:
+        comment = html_to_text(comment).replace('\n', '  ')
+
+        # 120 chars max
+        if len(comment) > 120:
+            output += f': {comment[:120]}...'
+        else:
+            output += f': {comment}'
+
+    return output
 
 
 # fourchan_quote_re = (r'>>(\D\/\d+)', re.I)
