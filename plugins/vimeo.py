@@ -14,29 +14,22 @@ from utilities import request
 
 
 def info(id):
-    info = request.get_json('http://vimeo.com/api/v2/video/' + id + '.json')
+    info = request.get_json(f'http://vimeo.com/api/v2/video/{id}.json')
 
     if not info or len(info) == 0:
         return
 
     title = info[0]['title']
-    length = timeformat.format_time(info[0]["duration"], simple=True)
+    length = timeformat.format_time(info[0]['duration'], simple=True)
     likes = format(info[0]['stats_number_of_likes'], ',d')
     views = format(info[0]['stats_number_of_plays'], ',d')
     uploader = info[0]['user_name']
-    upload_date = info[0]['upload_date']
+    date = info[0]['upload_date']
 
     if len(title) > 80:
         title = title[:80] + '...'
 
-    output = []
-    output.append('\x02' + title + '\x02')
-    output.append('length \x02' + length + '\x02')
-    output.append(likes + ' likes')
-    output.append(views + ' views')
-    output.append('\x02' + uploader + '\x02 on ' + upload_date)
-
-    return ' - '.join(output)
+    return f'\x02{title}\x02 - length \x02{length}\x02 - {likes} likes - {views} views - \x02{uploader}\x02 on {date}'
 
 
 @hook.regex(r'https?://player\.vimeo\.com/video/([0-9]+)')
