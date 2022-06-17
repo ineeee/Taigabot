@@ -82,7 +82,7 @@ def greeting(inp, nick=None, db=None, notice=None):
         else:
             # TODO clean this digusting mess it does nothing
             inp = inp.strip().replace("'", "").replace("ACTION", "").replace("PRIVMSG", "").replace("PING", "").replace("NOTICE", "").replace("\x01", "")
-            database.set(db, 'users', 'greeting', '{} '.format(inp.encode('utf8')), 'nick', nick)
+            database.set(db, 'users', 'greeting', inp, 'nick', nick)
             notice("Saved your greeting.")
         return
     except Exception:
@@ -108,7 +108,7 @@ def waifu(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'waifu', '', 'nick', nick)
         notice("Deleted your waifu.")
     else:
-        database.set(db, 'users', 'waifu', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'waifu', inp, 'nick', nick)
         notice("Saved your waifu.")
     return
 
@@ -131,7 +131,7 @@ def husbando(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'husbando', '', 'nick', nick)
         notice("Deleted your husbando.")
     else:
-        database.set(db, 'users', 'husbando', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'husbando', inp, 'nick', nick)
         notice("Saved your husbando.")
     return
 
@@ -154,7 +154,7 @@ def imouto(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'imouto', '', 'nick', nick)
         notice("Deleted your imouto.")
     else:
-        database.set(db, 'users', 'imouto', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'imouto', inp, 'nick', nick)
         notice("Saved your imouto.")
     return
 
@@ -177,7 +177,7 @@ def daughteru(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'daughteru', '', 'nick', nick)
         notice("Deleted your daughteru.")
     else:
-        database.set(db, 'users', 'daughteru', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'daughteru', inp, 'nick', nick)
         notice("Saved your daughteru.")
     return
 
@@ -200,7 +200,7 @@ def mom(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'mom', '', 'nick', nick)
         notice("Deleted your mom.")
     else:
-        database.set(db, 'users', 'mom', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'mom', inp, 'nick', nick)
         notice("Saved your mom.")
     return
 
@@ -223,7 +223,7 @@ def dad(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'dad', '', 'nick', nick)
         notice("Deleted your dad.")
     else:
-        database.set(db, 'users', 'dad', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'dad', inp, 'nick', nick)
         notice("Saved your dad.")
     return
 
@@ -346,7 +346,7 @@ def snapchat(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'snapchat', '', 'nick', nick)
         notice("Deleted your snapchat.")
     else:
-        database.set(db, 'users', 'snapchat', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'snapchat', inp, 'nick', nick)
         notice("Saved your snapchat.")
     return
 
@@ -370,7 +370,7 @@ def socialmedia(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'socialmedias', '', 'nick', nick)
         notice("Deleted your social medias.")
     else:
-        database.set(db, 'users', 'socialmedias', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'socialmedias', inp, 'nick', nick)
         notice("Saved your social medias.")
     return
 
@@ -393,7 +393,7 @@ def myanime(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'mal', '', 'nick', nick)
         notice("Deleted your mal.")
     else:
-        database.set(db, 'users', 'mal', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'mal', inp, 'nick', nick)
         notice("Saved your mal.")
     return
 
@@ -416,7 +416,7 @@ def mymanga(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'mal', '', 'nick', nick)
         notice("Deleted your mal.")
     else:
-        database.set(db, 'users', 'mal', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'mal', inp, 'nick', nick)
         notice("Saved your mal.")
     return
 
@@ -521,6 +521,6 @@ def steam(inp, nick=None, db=None, notice=None):
         database.set(db, 'users', 'steam', '', 'nick', nick)
         notice("Deleted your steam information.")
     else:
-        database.set(db, 'users', 'steam', '{} '.format(inp.strip().encode('utf8')), 'nick', nick)
+        database.set(db, 'users', 'steam', inp, 'nick', nick)
         notice("Saved your steam information.")
     return
