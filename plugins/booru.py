@@ -1,5 +1,5 @@
-from util import hook, formatting, web
-from utilities import request
+from util import hook, formatting
+from utilities import request, services
 
 # coded around the danbooru and moebooru api.
 # danbooru, moebooru, myimouto and all of their forks use the same api
@@ -129,7 +129,7 @@ def message(post):
 
     id = '\x02#{}\x02'.format(post['id'])
     score = post['score']
-    url = web.isgd(post['file_url'])
+    url = services.shorten(post['file_url'])
     size = formatting.filesize(post['file_size'])
     tags = post['tags']
     if len(tags) > 40:
