@@ -1,5 +1,3 @@
-from future import standard_library
-standard_library.install_aliases()
 from builtins import str
 import re
 from threading import *
@@ -7,6 +5,7 @@ from collections import deque
 
 from util import hook
 from utilities import request
+from utilities import services
 from bs4 import BeautifulSoup
 
 
@@ -16,7 +15,7 @@ def sanitise(string):
 
 
 # this absolute garbage was copypasted from util.http just because we want to remove that import
-def process_text(string):
+def process_text(string: str | bytes):
     if isinstance(string, bytes):
         string = string.decode('utf-8')
 
@@ -24,13 +23,9 @@ def process_text(string):
         string = string.replace('<br/>', '  ').replace('\n', '  ').replace('<wbr>', '')
     except:
         pass
-    string = re.sub(r'&gt;&gt;\d*[\s]', '', string)  #remove quoted posts
+    string = re.sub(r'&gt;&gt;\d*[\s]', '', string)  # remove quoted posts
     string = re.sub(r'(&gt;&gt;\d*)', '', string)
     try: string = str(string, "utf8")
-    except: pass
-    try: string = strip_html(string)
-    except: pass
-    try: string = decode_html(string)
     except: pass
     try: string = string.decode('utf-8').strip()
     except: pass
@@ -50,13 +45,6 @@ def get_title(url):
 
     comment = process_text(post.find('blockquote', {'class': 'postMessage'}).renderContents().strip())
     return u"{} - {}".format(url, comment)  #
-
-
-def sprunge(data):
-    sprunge_data = {"sprunge": data}
-    response = request.post("http://sprunge.us", data=sprunge_data)
-    message = response.text.strip('\n')
-    return message
 
 
 def search_thread(results_deque, thread_num, search_specifics):
@@ -99,14 +87,14 @@ def process_results(board, string, results_deque):
         # message = "Too many results for {0}".format(string)
         urls = [post_template.format(board, post_num) for post_num in results_deque]
         # message = " ".join(urllist[:max_num_urls_displayed])
-        message = sprunge('\n'.join(urls))
+        message = services.paste('\n'.join(urls))
     else:
         urls = [post_template.format(board, post_num) for post_num in results_deque]
         if len(urls) > max_num_urls_displayed:
             for url in urls:
                 title = get_title(url)
                 urllist.append("{}".format(title))
-            message = sprunge('\n\n'.join(urllist))
+            message = services.paste('\n\n'.join(urllist))
         else:
             for url in urls:
                 title = get_title(url)
