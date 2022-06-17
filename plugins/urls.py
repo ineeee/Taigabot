@@ -95,6 +95,18 @@ def fourchanboard_url(match):
     return http.process_text("\x02{}\x02".format(title[:trimlength]))
 
 
+def fourchanapi_get_thread(board: str, thread: str):
+    url = f'https://a.4cdn.org/{board}/thread/{thread}.json'
+    req = requests.get(url)
+
+    if req.status_code != 200:
+        print(f'[ERROR] some 4chan api error happened, http status {req.status_code} ({board}, {thread})')
+        return None
+
+    data = req.json()
+    return data
+
+
 # fourchan_re = (r'.*((boards\.)?4chan\.org/[a-z]/res/[^ ]+)', re.I)
 # @hook.regex(*fourchan_re)
 def fourchanthread_url(match):
@@ -105,16 +117,8 @@ def fourchanthread_url(match):
         return
 
     board, thread = match2.group(3, 5)
-
-    url = f'https://a.4cdn.org/{board}/thread/{thread}.json'
-    req = requests.get(url)
-
-    if req.status_code != 200:
-        print(f'[ERROR] some 4chan api error happened, http status {req.status_code} ({board}, {thread})')
-        return
-
-    data = req.json()
-    post_op = data.get('posts', {})[0]
+    data = fourchanapi_get_thread(board, thread)
+    post_op = data.get('posts', [])[0]
 
     subject = post_op['sub'] if 'sub' in post_op else None
     comment = post_op['com'] if 'com' in post_op else None
@@ -136,9 +140,9 @@ def fourchanthread_url(match):
     if comment:
         comment = html_to_text(comment).replace('\n', '  ')
 
-        # 120 chars max
-        if len(comment) > 120:
-            output += f': {comment[:120]}...'
+        # MAX_LENGTH chars max
+        if len(comment) > MAX_LENGTH:
+            output += f': {comment[:MAX_LENGTH]}...'
         else:
             output += f': {comment}'
 
@@ -149,14 +153,54 @@ def fourchanthread_url(match):
 # fourchanquote_re = (r'.*((boards\.)?4chan\.org/[a-z]/res/(\d+)#p(\d+))', re.I)
 # @hook.regex(*fourchanquote_re)
 def fourchanquote_url(match):
-    postid = match.split('#')[1]
-    soup = http.get_soup(match)
-    title = soup.title.renderContents().strip()
-    post = soup.find('div', {'id': postid})
-    comment = post.find('blockquote', {'class': 'postMessage'}).renderContents().strip()
-    author = post.find_all('span', {'class': 'nameBlock'})[1].renderContents().strip()
-    return http.process_text("\x02{}\x02 - posted by \x02{}\x02: {}".format(
-        title, author, comment[:trimlength]))
+    regxp = r'https?:\/\/(boards\.)?4chan(nel)?\.org\/([a-z]+)\/(thread|res)\/([0-9]+)#p([0-9]+)'
+    match2 = re.search(regxp, match)
+
+    if match2 is None:
+        return
+
+    board, threadid, postid = match2.group(3, 5, 6)
+    data = fourchanapi_get_thread(board, threadid)
+    posts = data.get('posts', [])
+    post_op = posts[0]
+    post_op_subject = post_op['sub'] if 'sub' in post_op else None
+
+    chosen_post = None
+
+    # try to find the quoted post somewhere in the thread
+    for temp in posts:
+        if str(temp['no']) == postid:
+            chosen_post = temp
+            break
+
+    # fuck off if didnt find it
+    # maybe someone linked an invalid post? idk
+    if chosen_post is None:
+        return
+
+    comment = chosen_post['com'] if 'com' in chosen_post else None
+    author = chosen_post['name'] if 'name' in chosen_post else 'Anonymous'
+    tripcode = chosen_post['trip'] if 'trip' in chosen_post else None
+
+    output = f'\x02/{board}/'
+
+    if post_op_subject:
+        output += f' - {post_op_subject}'
+
+    output += '\x02 - reply by '
+
+    if tripcode:
+        output += f'\x02{author[:80]} {tripcode}\x02'
+    else:
+        output += f'\x02{author[:80]}\x02'
+
+    comment = html_to_text(comment).replace('\n', '  ')
+    if len(comment) > MAX_LENGTH:
+        output += f': {comment[:MAX_LENGTH]}...'
+    else:
+        output += f': {comment}'
+
+    return output
 
 
 def craigslist_url(match):
