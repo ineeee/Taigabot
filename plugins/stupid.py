@@ -1,5 +1,3 @@
-from __future__ import print_function
-from builtins import str
 import math
 import random
 import re
@@ -10,6 +8,11 @@ from bs4 import BeautifulSoup
 from util import database, hook
 from utilities import formatting, request
 
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
 # HONK HONK
 # HONK HONK
 # HONK HONK
