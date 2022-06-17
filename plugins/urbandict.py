@@ -1,6 +1,5 @@
 # urban dictionary plugin by ine (2020)
 # checked 04/2022
-from builtins import str
 from util import hook
 from utilities import request, formatting
 
@@ -8,7 +7,8 @@ base_url = 'https://api.urbandictionary.com/v0/define?term='
 
 
 def clean_text(text: str):
-    return formatting.compress_whitespace(text.replace('[', '').replace(']', ''))
+    text = text.replace('[', '').replace(']', '')
+    return formatting.compress_whitespace(text)
 
 
 def search(input: str):
@@ -25,7 +25,7 @@ def search(input: str):
         votes_up = item['thumbs_up']
         votes_down = item['thumbs_down']
 
-        output = '\x02' + word + '\x02 '
+        output = f'\x02{word}\x02 '
 
         try:
             votes = int(votes_up) - int(votes_down)
@@ -35,12 +35,12 @@ def search(input: str):
             votes = 0
 
         if votes != 0:
-            output = output + '(' + str(votes) + ') '
+            output += f'({votes}) '
 
-        output = output + clean_text(definition)
+        output += clean_text(definition)
 
         if example:
-            output = output + ' \x02Example:\x02 ' + clean_text(example)
+            output += ' \x02Example:\x02 ' + clean_text(example)
 
         data.append(output)
 
@@ -75,12 +75,12 @@ def urban(inp):
     results_len = len(results)
 
     if inp_count > results_len:
-        return '[ud] this entry only has {} results'.format(results_len)
+        return f'[ud] this entry only has {results_len} results'
 
     try:
         if results_len == 1:
-            return '[ud] {}'.format(results[inp_count - 1])
+            return f'[ud] {results[inp_count - 1]}'
         else:
-            return '[ud {}/{}] {}'.format(inp_count, results_len, results[inp_count - 1])
+            return f'[ud {inp_count}/{results_len}] {results[inp_count - 1]}'
     except IndexError:
         return '[ud] Not found'
