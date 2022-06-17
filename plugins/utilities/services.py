@@ -49,17 +49,19 @@ def paste_pastebin(text: str, title: str = 'Paste', config={}):
     }
 
     response = requests.post('https://pastebin.com/api/api_post.php', headers={'User-Agent': fake_ua}, data=data, timeout=12, allow_redirects=True)
-    return response.text
+    return response.text.strip()
+
+
+def paste_sprunge(data):
+    sprunge_data = {'sprunge': data}
+    response = requests.post('http://sprunge.us', data=sprunge_data)
+    return response.text.strip()
 
 
 def shorten_taigalink(url: str):
-    data = {
-        'title': title,
-        'uploader': 'taigabot',
-        'text': text
-    }
+    data = {'url': url}
     res = requests.post('https://taiga.link/s/short', headers={'User-Agent': 'taigabot'}, data=data)
-    return res.text
+    return res.text.strip()
 
 
 # upload any text to pastebin
