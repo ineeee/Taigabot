@@ -2,12 +2,10 @@
 from util import hook
 from json import loads as json_load
 from utilities import request
-
-# TODO add support for chat links
 import re
+
+
 TWITCH_RE = (r'https?://(www\.)?twitch.tv/([a-zA-Z0-9_]+)', re.I)
-
-
 # the token gets renewed automatically when it expires
 TWITCH_CURRENT_TOKEN = 'ahahah how is cyber bullying real'
 # these get loaded from the bot config
@@ -33,7 +31,7 @@ def twitch_auth():
     return None
 
 
-def twitch_user_info(user):
+def twitch_user_info(user: str):
     user = request.urlencode(user)
     api_bearer = 'Bearer ' + TWITCH_CURRENT_TOKEN
     headers = {'Accept': 'application/json', 'Authorization': api_bearer, 'Client-Id': TWITCH_CLIENT_ID}
@@ -42,7 +40,7 @@ def twitch_user_info(user):
     return data
 
 
-def twitch_chan_info(id):
+def twitch_chan_info(id: int):
     api_bearer = 'Bearer ' + TWITCH_CURRENT_TOKEN
     headers = {'Accept': 'application/json', 'Authorization': api_bearer, 'Client-Id': TWITCH_CLIENT_ID}
     data = request.get_json('https://api.twitch.tv/helix/channels?broadcaster_id=' + id, headers=headers)
@@ -62,7 +60,7 @@ def twitch(inp, bot=None, reply=None):
 
     # first check if our api key still works
     # access tokens expire every few hours
-    data_check = twitch_user_info("pokimane")
+    data_check = twitch_user_info('pokimane')
     if 'error' in data_check:
         if data_check['status'] == 401 and data_check['error'] == 'Unauthorized':
             # access denied, try to reauthenticate
@@ -76,7 +74,7 @@ def twitch(inp, bot=None, reply=None):
     # try to download user data...
     data = twitch_user_info(inp)
     if 'data' not in data:
-        return '[Twitch] Unknown API response, can\'t get user info'
+        return "[Twitch] Unknown API response, can't get user info"
 
     data = data['data'][0]  # top tier code right here
     u_id = data.get('id', 0)
@@ -87,24 +85,22 @@ def twitch(inp, bot=None, reply=None):
     #u_creation = data.get('created_at', '1980-01-01T00:00:00Z')
     #u_views = data.get('view_count', 0)
 
-    # reply(u'[Twitch] User \x02{}\x02 has {:,} views, was created in {}, is a {} user and their description says "{}". https://twitch.tv/{}'.format(u_name, u_views, u_creation, u_type, u_desc, u_user))
-
     # try to download channel info...
     data = twitch_chan_info(u_id)
 
     if 'data' not in data:
-        return '[Twitch] Unknown API response, can\'t get channel info'
+        return "[Twitch] Unknown API response, can't get channel info"
 
     data = data['data'][0]
     c_title = data.get('title', 'Untitled')
     c_game = data.get('game_name', 'Unknown game')
     c_lang = data.get('broadcaster_language', 'unknown')
 
-    return u'[Twitch] \x02{}\x02 https://twitch.tv/{} was last seen streaming \x02{}\x02 titled "{}" ({})'.format(u_name, u_user, c_game, c_title, c_lang)
+    return f'[Twitch] \x02{u_name}\x02 https://twitch.tv/{u_user} was last seen streaming \x02{c_game}\x02 titled "{c_title}" ({c_lang})'
 
 
 @hook.regex(*TWITCH_RE)
 def twitch_urls(match, bot=None, reply=None):
     user = match.group(2)
-    reply(u'twitch-senpai pls get me info on {},,,,'.format(user))
+    reply(f'twitch-senpai pls get me info on {user},,,,')  # intentional, do not delete, very good code right here
     return twitch(user, bot, reply)
