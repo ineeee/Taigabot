@@ -31,7 +31,7 @@ def bank_create(db, nick: str) -> None:
 
 
 def bank_get_data(db, nick: str, currency: str) -> str:
-    sql = 'SELECT {} FROM bank WHERE nick = ?'.format(currency)
+    sql = f'SELECT {currency} FROM bank WHERE nick = ?'
     cursor = db.execute(sql, (nick, ))
     db.commit()
     row = cursor.fetchone()
@@ -55,20 +55,20 @@ def bank_get_portfolio(db, nick: str) -> str:
 
 # subtract one $item from $nick
 def bank_subtract(db, nick: str, item: str) -> None:
-    sql = 'UPDATE bank SET {} = {} - 1 WHERE nick = ?'.format(item, item)
+    sql = f'UPDATE bank SET {item} = {item} - 1 WHERE nick = ?'
     db.execute(sql, (nick, ))
     db.commit()
 
 
 # add one $item from $nick
 def bank_add(db, nick: str, item: str) -> None:
-    sql = 'UPDATE bank SET {} = {} + 1 WHERE nick = ?'.format(item, item)
+    sql = f'UPDATE bank SET {item} = {item} + 1 WHERE nick = ?'
     db.execute(sql, (nick, ))
     db.commit()
 
 
 @hook.command(autohelp=False)
-def bank(inp, nick=None, db=None):
+def bank(inp, nick, db):
     if not bank_exists(db, nick):
         bank_create(db, nick)
         return f'{nick}: a new TaigaBank(tm) Account(r) was opened!!1 check out \x02.bank\x02 and \x02.bene\x02'
@@ -78,11 +78,8 @@ def bank(inp, nick=None, db=None):
 
 
 @hook.command()
-def peachypeach(inp, nick=None, db=None, me=None, notice=None):
+def peachypeach(inp, nick, db, me, notice):
     """peachypeach <nick>: send one (1) peachy peach to nick"""
-    if not inp:
-        notice("You have to tell me who you're going to send it to")
-        return
 
     if not bank_exists(db, nick):
         return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that'
@@ -101,11 +98,8 @@ def peachypeach(inp, nick=None, db=None, me=None, notice=None):
 
 
 @hook.command()
-def roseyrose(inp, nick=None, db=None, me=None, notice=None):
+def roseyrose(inp, nick, db, me, notice):
     """roseyrose <nick>: send one (1) rosey rose to nick"""
-    if not inp:
-        notice("You have to tell me who you're going to send it to")
-        return
 
     if not bank_exists(db, nick):
         return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that'
@@ -127,11 +121,8 @@ def roseyrose(inp, nick=None, db=None, me=None, notice=None):
 
 
 @hook.command()
-def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
+def daddiescummies(inp, nick, db, me, notice):
     """daddiescummies <nick>: send one (1) daddies cummies to nick"""
-    if not inp:
-        notice("You have to tell me who you're going to send it to")
-        return
 
     if not bank_exists(db, nick):
         return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that'
@@ -150,9 +141,9 @@ def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
 
 
 @hook.command()
-def bene(inp, nick=None, db=None, me=None, notice=None):
+def bene(inp, nick, db, me, notice):
     if not bank_exists(db, nick):
-        return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that, do it with \x02.bank\x02'
+        return f'{nick}: you need to open a TaigaBank(tm) Account(r) to get paid. try \x02.bank\x02'
 
     global last_bene
 
