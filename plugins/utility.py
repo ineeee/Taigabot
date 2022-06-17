@@ -1,8 +1,6 @@
-from builtins import str
 import collections
 import hashlib
 import re
-import subprocess
 import time
 
 from util import hook, text
@@ -27,7 +25,7 @@ colors = collections.OrderedDict(
 
 # helper functions
 
-strip_re = re.compile("(\x03|\x02|\x1f)(?:,?\d{1,2}(?:,\d{1,2})?)?", re.UNICODE)
+strip_re = re.compile(r'(\x03|\x02|\x1f)(?:,?\d{1,2}(?:,\d{1,2})?)?', re.UNICODE)
 
 
 def strip(text):
@@ -156,13 +154,13 @@ def make_rainbow(inp):
     inp = str(inp)
     inp = strip(inp)
     col = list(colors.items())
-    out = ""
-    l = len(colors)
+    out = ''
+    le = len(colors)
     for i, t in enumerate(inp):
-        if t == " ":
+        if t == ' ':
             out += t
         else:
-            out += col[i % l][1] + t
+            out += col[i % le][1] + t
     return out
 
 
@@ -175,7 +173,7 @@ def rainbow(inp):
 @hook.command
 def gaycow(inp, reply=None):
     reply(make_rainbow(' ' + '_' * (len(inp) + 2)))
-    reply(make_rainbow('< {0} >'.format(inp)))
+    reply(make_rainbow(f'< {inp} >'))
     reply(make_rainbow(' ' + '-' * (len(inp) + 2)))
     reply(make_rainbow('      \\   ^__^'))
     reply(make_rainbow('       \\  (oo)\\_______'))
@@ -183,14 +181,6 @@ def gaycow(inp, reply=None):
     time.sleep(1)
     reply(make_rainbow('              ||----w |'))
     reply(make_rainbow('              ||     ||'))
-
-
-# @hook.command
-# def gayfiglet(inp, reply=None):
-#     inp = inp.encode('utf-8')[:11]
-#     for line in subprocess.check_output(['figlet', '{0}'.format(inp)]).split('\n'):
-#         if line != ' ' * (len(line)):
-#             reply(make_rainbow(line))
 
 
 @hook.command
