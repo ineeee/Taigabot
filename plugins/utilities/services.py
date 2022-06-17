@@ -5,6 +5,10 @@ user = 'taigabot'
 HEADERS = {'User-Agent': 'taigabot, python irc bot'}
 
 
+def post(url: str, data):
+    return requests.post(url, headers=HEADERS, data=data, timeout=12, allow_redirects=True)
+
+
 def paste_taigalink(text: str, title: str = 'Paste'):
     data = {
         'title': title,
@@ -14,21 +18,21 @@ def paste_taigalink(text: str, title: str = 'Paste'):
     res = requests.post('https://taiga.link/p/upload', headers=HEADERS, data=data)
     return res.text
 
-def paste_litterbox(text: str):
 
+def paste_litterbox(text: str):
     files = {
         'reqtype': (None, 'fileupload'),
         'time': (None, '1h'),
         'fileToUpload': ('filesss.txt', text),
     }
 
-    url = "https://litterbox.catbox.moe/resources/internals/api.php"
+    url = 'https://litterbox.catbox.moe/resources/internals/api.php'
     response = requests.post(url, files=files)
 
     if response.status_code == 200:
         return response.text
 
-    return "Error uploading text file"
+    return 'Error uploading text file'
 
 
 # leaving this one here in case taigalink dies
@@ -37,7 +41,7 @@ def paste_pastebin(text: str, title: str = 'Paste', config={}):
     api_key = config.get('api_keys', {}).get('pastebin', False)
 
     if api_key is False:
-        return "no api key found, pls fix config"
+        return 'no pastebin api key found, pls fix config'
 
     data = {
         'api_dev_key': api_key,
@@ -48,19 +52,19 @@ def paste_pastebin(text: str, title: str = 'Paste', config={}):
         'api_paste_expire_date': '1D',
     }
 
-    response = requests.post('https://pastebin.com/api/api_post.php', headers={'User-Agent': fake_ua}, data=data, timeout=12, allow_redirects=True)
+    response = post('https://pastebin.com/api/api_post.php', data)
     return response.text.strip()
 
 
 def paste_sprunge(data):
     sprunge_data = {'sprunge': data}
-    response = requests.post('http://sprunge.us', data=sprunge_data)
+    response = post('http://sprunge.us', sprunge_data)
     return response.text.strip()
 
 
 def shorten_taigalink(url: str):
     data = {'url': url}
-    res = requests.post('https://taiga.link/s/short', headers={'User-Agent': 'taigabot'}, data=data)
+    res = post('https://taiga.link/s/short', data)
     return res.text.strip()
 
 
