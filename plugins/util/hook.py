@@ -2,6 +2,9 @@ import inspect
 import re
 
 
+# inspect.getargspec: ArgSpec(args, varargs, keywords, defaults)
+# inspect.getfullargspec: FullArgSpec(args, varargs, varkw, defaults, kwonlyargs, kwonlydefaults, annotations)
+
 def _hook_add(func, add, name=''):
     if not hasattr(func, '_hook'):
         func._hook = []
@@ -11,27 +14,23 @@ def _hook_add(func, add, name=''):
         func._filename = func.__code__.co_filename
 
     if not hasattr(func, '_args'):
-        argspec = inspect.getargspec(func)
+        argspec = inspect.getfullargspec(func)
         if name:
             n_args = len(argspec.args)
             if argspec.defaults:
                 n_args -= len(argspec.defaults)
-            if argspec.keywords:
+            if argspec.varkw:
                 n_args -= 1
             if argspec.varargs:
                 n_args -= 1
             if n_args != 1:
                 pass
-                #err = '%ss must take 1 non-keyword argument (%s)' % (name,
-                #            func.__name__)
-                #raise ValueError(err)
 
         args = []
         if argspec.defaults:
-            end = bool(argspec.keywords) + bool(argspec.varargs)
-            args.extend(argspec.args[-len(argspec.defaults):
-                        end if end else None])
-        if argspec.keywords:
+            end = bool(argspec.varkw) + bool(argspec.varargs)
+            args.extend(argspec.args[-len(argspec.defaults): end if end else None])
+        if argspec.varkw:
             args.append(0)  # means kwargs present
         func._args = args
 
