@@ -1,8 +1,3 @@
-from __future__ import print_function
-from __future__ import division
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
 from past.utils import old_div
 from util import hook, database
 import urllib.request, urllib.parse, urllib.error
