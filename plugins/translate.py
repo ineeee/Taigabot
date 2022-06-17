@@ -2,7 +2,6 @@
 # updated 04/2022
 from util import hook
 from utilities import request
-import re
 
 
 # how to update google's supported languages:
@@ -123,26 +122,26 @@ langs = {
 }
 
 
-def google_translate(to_translate, to_language="auto", from_language="auto"):
+def google_translate(to_translate: str, to_language: str = 'auto', from_language: str = 'auto') -> str:
     url = 'https://translate.google.com/m?'
-    url = url + "hl=" + to_language
-    url = url + "&sl=" + from_language
-    url = url + "&tl=" + to_language
-    url = url + "&ie=UTF-8&oe=UTF-8"
-    url = url + "&q=" + request.urlencode(to_translate)
+    url += f'hl={to_language}'
+    url += f'&sl={from_language}'
+    url += f'&tl={to_language}'
+    url += '&ie=UTF-8&oe=UTF-8'
+    url += '&q=' + request.urlencode(to_translate)
 
     # don't bother parsing HTML, just scrape the string lol
     # this will break super badly if google changes their html
     page = request.get_text(url)
     before_trans = 'class="result-container">'
-    result = page[page.find(before_trans) + len(before_trans) :]
-    result = result.split("<")[0]
-    return u'{}'.format(result) # ?
+    result = page[page.find(before_trans) + len(before_trans):]
+    result = result.split('<')[0]
+    return result
 
 
 @hook.command
 def translate(inp):
-    "translate [from language] [to language] <text> -- Run text through google translate, translate to english by default"
+    """translate [from language] [to language] <text> -- Translate text with google translate, auto-detect by default"""
 
     # this code has a bug in the "from x to x" parser:
     #  - "from en to nl" = ok
@@ -160,20 +159,20 @@ def translate(inp):
             from_language = langs[from_language]
     elif inp.startswith('from'):
         from_language = inp.split()[1]
-        to_language = "auto"
+        to_language = 'auto'
         to_translate = inp.split(from_language)[1].strip()
         from_language = langs[from_language]
     elif inp.startswith('to'):
-        from_language = "auto"
+        from_language = 'auto'
         to_language = inp.split()[1]
         to_translate = inp.split(to_language)[1].strip()
         to_language = langs[to_language]
     else:
-        from_language = "auto"
-        to_language = "auto"
+        from_language = 'auto'
+        to_language = 'auto'
         to_translate = inp
 
-    label = u'{} to {}'.format(from_language, to_language)
+    label = f'{from_language} to {to_language}'
 
     if from_language == 'auto' and to_language == 'auto':
         label = 'translate'
@@ -183,4 +182,4 @@ def translate(inp):
     if len(result) > 300:
         result = result[:300] + '...'
 
-    return u'[{}] {}'.format(label, result)
+    return f'[{label}] {result}'
