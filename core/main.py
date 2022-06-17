@@ -2,6 +2,8 @@ import re
 import _thread
 import traceback
 import queue
+import inspect
+from collections.abc import Callable
 
 _thread.stack_size(1024 * 512)    # reduce vm size
 
@@ -65,11 +67,42 @@ class Input(dict):
         self[key] = value
 
 
-def run(func, input: Input):
+def run(func: Callable, input: Input):
     args = func._args
 
     if 'inp' not in input:
         input.inp = input.paraml
+
+    # ### START: new code ### #
+    argspec = inspect.getfullargspec(func)
+    real_args = argspec.args
+
+    if real_args:
+        successfully_used_new_method = True
+
+        if 'db' in real_args and 'db' not in input:
+            input.db = bot.get_db_connection(input.conn)
+        if 'input' in real_args:
+            input.input = input
+
+        func_args = []
+        for arg in real_args:
+            try:
+                func_args.append(input[arg])
+            except KeyError:
+                successfully_used_new_method = False
+                func_args.append(None)
+                pass
+
+        # if there was at least ONE error just use the old method
+        if successfully_used_new_method is True:
+            output = func(*func_args)
+            if output is not None:
+                input.reply(output)
+            return
+        # else:
+        #     print("failed to use new method for func", func, "continuing to old code")
+    # ### END: new code ### #
 
     if args:
         if 'db' in args and 'db' not in input:
