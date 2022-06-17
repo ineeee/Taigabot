@@ -71,7 +71,7 @@ def bank_add(db, nick: str, item: str) -> None:
 def bank(inp, nick=None, db=None):
     if not bank_exists(db, nick):
         bank_create(db, nick)
-        return f'{nick}: a new TaigaBank(tm) Account(r) was opened!!1 check it out with \x02.bank\x02'
+        return f'{nick}: a new TaigaBank(tm) Account(r) was opened!!1 check out \x02.bank\x02 and \x02.bene\x02'
 
     portfolio = bank_get_portfolio(db, nick)
     return f'{nick}, your TaigaBank(tm) Account(r): {portfolio}'
@@ -152,7 +152,7 @@ def daddiescummies(inp, nick=None, db=None, me=None, notice=None):
 @hook.command()
 def bene(inp, nick=None, db=None, me=None, notice=None):
     if not bank_exists(db, nick):
-        return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that'
+        return f'{nick}: you need to open a TaigaBank(tm) Account(r) to do that, do it with \x02.bank\x02'
 
     global last_bene
 
