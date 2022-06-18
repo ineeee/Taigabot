@@ -171,7 +171,7 @@ def rainbow(inp):
 
 
 @hook.command
-def gaycow(inp, reply=None):
+def gaycow(inp, reply):
     reply(make_rainbow(' ' + '_' * (len(inp) + 2)))
     reply(make_rainbow(f'< {inp} >'))
     reply(make_rainbow(' ' + '-' * (len(inp) + 2)))

@@ -49,7 +49,7 @@ def twitch_chan_info(id: int):
 
 
 @hook.command
-def twitch(inp, bot=None, reply=None):
+def twitch(inp, bot, reply):
     """twitch <username> -- gets user and channel info about a twitch.tv streamer"""
     global TWITCH_CURRENT_TOKEN
     global TWITCH_CLIENT_ID

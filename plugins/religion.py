@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 
 @hook.command('god')
 @hook.command
-def bible(inp, bot=None):
+def bible(inp, bot):
     """bible <passage> -- gets <passage> from the Bible (ESV)"""
 
     API_KEY = bot.config['api_keys'].get('english_bible', None)

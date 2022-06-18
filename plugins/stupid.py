@@ -148,7 +148,7 @@ def plez(inp, me=None):
 
 
 @hook.command(autohelp=False)
-def bet(inp, nick=None, db=None, chan=None, me=None):
+def bet(inp, nick, db, chan, me):
     "bet <ammount> -- bets <ammount>"
     inp = inp.replace(',', '').replace('$', '')
     try:
@@ -209,7 +209,7 @@ def bet(inp, nick=None, db=None, chan=None, me=None):
 @hook.command('pet', autohelp=False)
 @hook.command('lick', autohelp=False)
 @hook.command(autohelp=False)
-def honk(inp, nick=None, conn=None, chan=None, db=None, paraml=None, input=None):
+def honk(inp, nick, conn, chan, db, paraml, input):
     "honk <nick> -- Honks at someone."
     # if pm
     if input.raw.split(' ')[2] == conn.nick:
@@ -319,7 +319,7 @@ def honk(inp, nick=None, conn=None, chan=None, db=None, paraml=None, input=None)
 
 @hook.command('give')
 @hook.command
-def donate(inp, db=None, nick=None, chan=None, conn=None, notice=None):
+def donate(inp, db, nick, chan, conn, notice):
     """donate <user> <money> -- Gives <money> to <user>."""
     inp = inp.replace('$', '').replace('-', '').split(' ')
     inp = ' '.join(inp[0:2]).split('.')[0].split()
@@ -370,7 +370,7 @@ def donate(inp, db=None, nick=None, chan=None, conn=None, notice=None):
 @hook.command('steal')
 @hook.command('rob')
 @hook.command()
-def mug(inp, db=None, nick=None, me=None):
+def mug(inp, db, nick, me):
     """mug <user> -- Takes money from <user>.."""
     inp = inp.split()
     user = inp[0]
@@ -407,7 +407,7 @@ def mug(inp, db=None, nick=None, me=None):
 
 
 @hook.command(autohelp=False)
-def owed(inp, nick=None, db=None):
+def owed(inp, nick, db):
     """owe -- shows your total fines"""
     if '@' in inp: nick = inp.split('@')[1].strip()
 
@@ -449,7 +449,7 @@ items = ([('pantsu', 'used pair of'), ('dragon dildo', 'slightly used'),
 
 
 @hook.command(autohelp=False)
-def vendingmachine(inp, nick=None, me=None):
+def vendingmachine(inp, nick, me):
     if inp: nick = inp
     colornum = random.randint(0, len(colors) - 1)
     itemnum = random.randint(0, len(items) - 1)
@@ -462,35 +462,35 @@ def vendingmachine(inp, nick=None, me=None):
 @hook.command('daki', autohelp=False)
 @hook.command('love', autohelp=False)
 @hook.command(autohelp=False)
-def hug(inp, nick=None):
+def hug(inp, nick):
     "hug <nick> -- hugs someone"
     if not inp: inp = nick
     return f'\x02\x034♥♡❤♡♥\x03 {inp} \x034♥♡❤♡♥\x03\x02'
 
 
 @hook.command(autohelp=False)
-def dab(inp, nick=None, me=None):
+def dab(inp, nick, me):
     "dab <nick> -- dab on dem haters"
     if not inp: inp = nick
     me("dabs on {}".format(inp))
 
 
 @hook.command(autohelp=False)
-def poke(inp, nick=None, me=None):
+def poke(inp, nick, me):
     "poke <nick> -- pokes someone"
     if not inp: inp = nick
     me('pokes {}'.format(inp))
 
 
 @hook.command(autohelp=False)
-def nigger(inp, nick=None):
+def nigger(inp, nick):
     "nigger <nick> -- niggers someone"
     if not inp: inp = nick
     return '{} is a nigger'.format(inp)
 
 
 @hook.command(autohelp=False)
-def kiss(inp, nick=None):
+def kiss(inp, nick):
     "hug <nick> -- hugs someone"
     if not inp: inp = nick
     return '(づ｡◕‿‿◕｡)づ\x02\x034。。・゜゜・。。・゜❤ {} ❤\x03\x02 '.format(inp)
@@ -520,32 +520,32 @@ def decrease(inp):
 
 
 @hook.command(autohelp=False)
-def shekels(inp, me=None):
+def shekels(inp, me):
     me("lays some shekels on the ground to lure the jews.")
 
 
 @hook.command(autohelp=False)
-def hump(inp, me=None, nick=None):
+def hump(inp, me, nick):
     if not inp: inp = nick
     me("humps {}".format(inp))
 
 
 @hook.command(autohelp=False)
-def marry(inp, me=None, nick=None):
+def marry(inp, me, nick):
     if not inp:
         return "u need to marry someone, dumbo"
     me(u"pronounces {} and {} husbando and waifu".format(nick, inp))
 
 
 @hook.command(autohelp=False)
-def pantsumap(inp, chan=None, notice=None):
+def pantsumap(inp, chan, notice):
     if chan == "#pantsumen":
         notice("Pantsumen Map: http://tinyurl.com/clx2qeg")
     return
 
 
 @hook.command(autohelp=False)
-def penis(inp, nick=None):
+def penis(inp, nick):
     if not inp:
         inp = nick
 
@@ -564,7 +564,7 @@ def penis(inp, nick=None):
 
 
 @hook.command(autohelp=False)
-def tits(inp, nick=None):
+def tits(inp, nick):
     if not inp:
         inp = nick
 
@@ -583,7 +583,7 @@ def tits(inp, nick=None):
 
 
 @hook.command(autohelp=False)
-def vagina(inp, nick=None):
+def vagina(inp, nick):
     if not inp:
         inp = nick
 
@@ -602,7 +602,7 @@ def vagina(inp, nick=None):
 
 
 @hook.command(autohelp=False)
-def anus(inp, nick=None):
+def anus(inp, nick):
     if not inp:
         inp = nick
 
@@ -624,7 +624,7 @@ def anus(inp, nick=None):
 @hook.command("anhero", autohelp=False)
 @hook.command("seppuku", autohelp=False)
 @hook.command(autohelp=False)
-def sudoku(inp, conn=None, chan=None, nick=None, say=None):
+def sudoku(inp, conn, chan, nick, say):
     "up -- Makes the bot kick you in [channel]."
     say("Sayonara bonzai-chan...")
     conn.send(u"KICK {} {}".format(chan, nick))
@@ -632,7 +632,7 @@ def sudoku(inp, conn=None, chan=None, nick=None, say=None):
 
 
 @hook.command(autohelp=False)
-def akbar(inp, conn=None, chan=None, nick=None):
+def akbar(inp, conn, chan, nick, say):
     "akbar - makes the bot kick itsself."
     say("ALLAHU AKBAR")
     conn.send(u"KICK {} {}".format(chan, nick))
@@ -644,7 +644,7 @@ def akbar(inp, conn=None, chan=None, nick=None):
 
 @hook.command("storyofrincewindscat", autohelp=False)
 @hook.command(channeladminonly=True, autohelp=False)
-def storyofpomfface(inp, reply=None):
+def storyofpomfface(inp, reply):
     reply(':O C==3')
     reply(':OC==3')
     reply(':C==3')
@@ -655,7 +655,7 @@ def storyofpomfface(inp, reply=None):
 
 
 @hook.command
-def cowsay(inp, reply=None):
+def cowsay(inp, reply):
     reply(' ' + '_' * (len(inp) + 2))
     reply('< {0} >'.format(inp))
     reply(' ' + '-' * (len(inp) + 2))
@@ -755,8 +755,8 @@ motivators = [
 ]
 
 
-@hook.command
-def workout(inp, autohelp=False, me=None, paraml=None):
+@hook.command(autohelp=False)
+def workout(inp, me):
     if not inp: inp = 'you'
     else: inp = inp.replace('@', '').strip()
     me('wants {} to get {} as fuck, do {} {} now {}!'.format(inp, random.choice(fitnesslevels),
@@ -766,8 +766,8 @@ def workout(inp, autohelp=False, me=None, paraml=None):
 
 
 @hook.command('squats', autohelp=False)
-@hook.command
-def pushups(inp, autohelp=False, me=None, paraml=None):
+@hook.command(autohelp=False)
+def pushups(inp, me, paraml):
     activity = paraml[-1].split(' ')[0][1:].lower()
     if not inp: inp = 'you'
     else: inp = inp.replace('@', '').strip()
@@ -781,13 +781,13 @@ def madoka(inp):
 
 
 @hook.command(autohelp=False)
-def drink(inp, me=None):
+def drink(inp, nick, me):
     if not inp: inp = nick
     me('drinks {}, and it was delicious. mmmmmmmmmmmmmmmm'.format(inp))
 
 
 @hook.command(autohelp=False)
-def fap(inp, me=None, nick=None):
+def fap(inp, nick, me):
     if not inp: inp = nick
     me('jerks off and cums on {}'.format(inp))
 
@@ -798,25 +798,25 @@ def fap(inp, me=None, nick=None):
 
 
 @hook.command(autohelp=False)
-def cayoot(inp, nick=None):
+def cayoot(inp, nick):
     if not inp: inp = nick
     return '{} is cayoot!'.format(inp)
 
 
 @hook.command(autohelp=False)
-def spit(inp, nick=None, me=None):
+def spit(inp, nick, me):
     if not inp: inp = nick
     me('spits on {} like a dirty whore'.format(inp))
 
 
 @hook.command(autohelp=False)
-def pee(inp, nick=None, me=None):
+def pee(inp, nick, me):
     if not inp: inp = nick
     me('pees on {}'.format(inp))
 
 
 @hook.command(autohelp=False)
-def sniff(inp, nick=None, me=None):
+def sniff(inp, nick, me):
     if not inp: inp = nick
     me('huffs {}s hair while sat behind them on the bus.'.format(inp))
 
@@ -860,13 +860,13 @@ foods = [
 
 
 @hook.command(autohelp=False)
-def breakfast(inp, nick=None, me=None, conn=None, chan=None):
+def breakfast(inp, nick, me):
     if not inp: inp = nick
     food = foods[random.randint(0, len(foods) - 1)]
     me('gives {} some {}.'.format(inp, food))
 
 @hook.command(autohelp=False)
-def rose(inp, nick=None, me=None):
+def rose(inp, nick, me):
     if not inp: inp = nick
     if inp.lower() == 'ru':
         me(u'gives \U0001F940 to ' + str(inp))
@@ -874,7 +874,7 @@ def rose(inp, nick=None, me=None):
         me(u'gives \U0001F339 to ' + str(inp))
 
 @hook.command(autohelp=False)
-def egg(inp, nick=None, me=None):
+def egg(inp, nick, me):
     if not inp: inp = nick
     if inp.lower() == 'irssucks':
         me(u'throws \U0001F95A at IRSSucks')
@@ -884,22 +884,21 @@ def egg(inp, nick=None, me=None):
         me(u'gives \U0001F95A to ' + str(inp))
 
 @hook.command(autohelp=False)
-def banana(inp, nick=None, me=None):
+def banana(inp, nick, me):
     if not inp: inp = nick
     me(u'gives \U0001F34C to ' + str(inp))
 
 @hook.command(autohelp=False)
-def mango(inp, nick=None, me=None):
+def mango(inp, nick, me):
     if not inp: inp = nick
     me(u'gives \U0001F96D to ' + str(inp))
 
 @hook.command(autohelp=False)
-def peach(inp, nick=None, me=None):
+def peach(inp, nick, me):
     if not inp: inp = nick
     me(u'gives \U0001F351 to ' + str(inp))
 
 @hook.command(autohelp=False)
-def vax(inp, nick=None, me=None):
+def vax(inp, nick, me):
     if not inp: inp = nick
     me(u'gives \U0001F489 to ' + str(inp))
-

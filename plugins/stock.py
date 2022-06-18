@@ -13,7 +13,7 @@ def color(change):
 
 
 @hook.command
-def stock(inp, bot=None):
+def stock(inp, bot):
     """stock <symbol> -- gets stock information"""
     symbols = inp.upper()
     base_url = "https://cloud.iexapis.com/v1"

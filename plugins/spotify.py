@@ -30,7 +30,7 @@ def get_access_token(client_id, client_secret):
 @hook.command('sp')
 @hook.command('song')
 @hook.command
-def spotify(inp, bot=None):
+def spotify(inp, bot):
     """spotify <song> -- Search Spotify for <song>"""
 
     # Get access token
@@ -72,7 +72,7 @@ def spotify(inp, bot=None):
 
 @hook.command('album')
 @hook.command
-def spalbum(inp, bot=None):
+def spalbum(inp, bot):
     """spalbum <album> -- Search Spotify for <album>"""
 
     # Get access token
@@ -114,7 +114,7 @@ def spalbum(inp, bot=None):
 
 @hook.command('artist')
 @hook.command
-def spartist(inp, bot=None):
+def spartist(inp, bot):
     """spartist <artist> -- Search Spotify for <artist>"""
 
     # Get access token

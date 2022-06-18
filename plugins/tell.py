@@ -52,7 +52,7 @@ def tellinput(paraml, input=None, notice=None, db=None, bot=None, nick=None, con
 
 
 @hook.command(autohelp=False)
-def showtells(inp, nick='', chan='', notice=None, db=None):
+def showtells(inp, nick, chan, notice, db):
     "showtells -- View all pending tell messages (sent in a notice)."
 
     if not db_ready: db_init(db)
@@ -74,7 +74,7 @@ def showtells(inp, nick='', chan='', notice=None, db=None):
 
 @hook.command("ask")
 @hook.command
-def tell(inp, nick='', chan='', db=None, input=None, notice=None):
+def tell(inp, nick, chan, db, input, notice):
     "tell <nick> <message> -- Relay <message> to <nick> when <nick> is around."
     query = inp.split(' ', 1)
 

@@ -1,4 +1,3 @@
-from builtins import range
 import random
 import re
 from xml.dom import minidom
@@ -217,9 +216,9 @@ errors = [
 @hook.command('calc')
 @hook.command('wa')
 @hook.command
-def wolframalpha(inp, bot=None):
+def wolframalpha(inp, bot):
     """wa <query> -- Computes <query> using Wolfram Alpha."""
-    api_key = bot.config.get('api_keys', {}).get('wolframalpha', None)
+    api_key = bot.get_api_key('wolframalpha')
 
     if not api_key:
         return '[WolframAlpha] Error: missing API key'

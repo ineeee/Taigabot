@@ -38,7 +38,7 @@ def system(inp):
 
 
 @hook.command(autohelp=False, adminonly=True)
-def memory(inp, notice=None):
+def memory(inp, notice):
     """memory -- Displays the bot's current memory usage."""
     p = psutil.Process()
     mem = p.memory_info()
@@ -74,7 +74,7 @@ def memory(inp, notice=None):
 
 
 @hook.command(autohelp=False)
-def uptime(inp, bot=None):
+def uptime(inp, bot):
     """uptime -- Shows the bot's uptime."""
     uptime_raw = round(time.time() - bot.start_time)
     uptime = timedelta(seconds=uptime_raw)

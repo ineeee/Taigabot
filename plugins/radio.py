@@ -31,31 +31,31 @@ radios = {
 
 
 @hook.command
-def radio(id):
-    if id == '':
+def radio(inp):
+    if inp == '':
         return 'pick a radio: ' + ', '.join(list(radios.keys()))
 
-    if id not in radios:
+    if inp not in radios:
         return 'we dont support that radio. try one of the following: ' + ', '.join(list(radios.keys()))
 
-    radio = radios[id]
+    radio = radios[inp]
 
     try:
         data = request.get_json(radio['api'])
     except ValueError:
-        return f'the radio {id} has some server issues right now. try again later'
+        return f'the radio {inp} has some server issues right now. try again later'
 
     sources = data.get('icestats', {}).get('source', False)
 
     if sources is False:
-        return f'the radio {id} is offline'
+        return f'the radio {inp} is offline'
 
     def build_message(source):
         title = source.get('title', 'Untitled')
         listeners = source.get('listeners', 0)
         #genre = sourc.get('genre', 'unknown')
         url = radio['homepage']
-        return f'{id} is playing \x02{title}\x02 for {listeners} listeners. listen: {url}'
+        return f'{inp} is playing \x02{title}\x02 for {listeners} listeners. listen: {url}'
 
     # the icecast api returns either one object (for one stream)
     # or a list of sources (for multiple streams available)
@@ -69,7 +69,7 @@ def radio(id):
                 return build_message(source)
 
     # didn't find it
-    return f'the radio {id} is offline'
+    return f'the radio {inp} is offline'
 
 
 @hook.command

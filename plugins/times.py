@@ -5,7 +5,7 @@ from pytz import timezone
 
 
 @hook.command(autohelp=False)
-def times(inp, bot=None):
+def times(inp, bot):
     """times -- Shows times around the world."""
 
     default_format = '%I:%M %p %Z'

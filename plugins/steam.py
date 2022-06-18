@@ -71,7 +71,7 @@ def unicode_dictreader(utf8_data, **kwargs):
 
 @hook.command('sc')
 @hook.command
-def steamcalc(inp, reply=None):
+def steamcalc(inp, reply):
     """steamcalc <username> [currency] - Gets value of steam account and
        total hours played. Uses steamcommunity.com/id/<nickname>. """
 
