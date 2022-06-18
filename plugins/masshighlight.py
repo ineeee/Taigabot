@@ -53,13 +53,13 @@ def highlight_sieve(bot, input, func, kind, args):
 
 
 @hook.command(autohelp=False, adminonly=True)
-def users(inp, nick=None, chan=None, notice=None):
+def users(inp, nick, chan, notice):
     notice(' '.join(userlist[chan.replace('#', '')]))
     notice('Users: {}'.format(len(userlist[chan.replace('#', '')])))
 
 
 @hook.command(autohelp=False, adminonly=True)
-def getusers(inp, conn=None, chan=None):
+def getusers(inp, conn, chan):
     if inp:
         chan = inp
     conn.send('NAMES {}'.format(chan))

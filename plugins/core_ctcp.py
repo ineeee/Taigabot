@@ -38,7 +38,7 @@ def ctcp_finger(inp, notice=None):
 
 
 @hook.command(adminonly=True)
-def ctcp(inp, conn=None, chan=None, notice=None):
+def ctcp(inp, conn):
     "ctcp <destination> <command> -- Send a CTCP command"
     inp = inp.split(" ")
     destination = inp[0]
@@ -49,7 +49,7 @@ def ctcp(inp, conn=None, chan=None, notice=None):
 
 @hook.command('ver', autohelp=False)
 @hook.command(autohelp=False)
-def version(inp, nick=None, chan=None, conn=None, notice=None):
+def version(inp, nick, chan, conn):
     "version <user> -- Returns version "
     inp = inp.split(" ")
     user = inp[0]
@@ -65,7 +65,7 @@ def version(inp, nick=None, chan=None, conn=None, notice=None):
 
 @hook.command('pingme', autohelp=False)
 @hook.command(autohelp=False)
-def ping(inp, nick=None, chan=None, conn=None, notice=None, reply=None):
+def ping(inp, nick, chan, conn, reply):
     "version <nick> -- Returns version "
     if '.' in inp:
         return pingip(inp, reply)
@@ -82,7 +82,7 @@ def ping(inp, nick=None, chan=None, conn=None, notice=None, reply=None):
 
 
 @hook.command(adminonly=True)
-def pingip(inp, reply=None):
+def pingip(inp, reply):
     """ping <host> [count] -- Pings <host> [count] times."""
 
     if os.name == "nt":
@@ -151,9 +151,8 @@ def ctcp_event(paraml, input=None, bot=None, conn=None):
     return
 
 
-# TODO fix this command, broken in python 3
 @hook.command
-def host(inp, nick=None, conn=None, db=None):
+def host(inp, nick, db):
     # User is checking own host (i.e. using .host w/o args)
     checking_own_host = False
 
@@ -175,14 +174,14 @@ def host(inp, nick=None, conn=None, db=None):
 
 
 @hook.command
-def fhost(inp, nick=None, conn=None, db=None):
+def fhost(inp, nick, db):
     if not inp:
         inp = nick
     return user.get_hostmask(inp, db)
 
 
 @hook.command
-def trolltest(inp, msg=None, nick=None):
+def trolltest(inp, nick):
     if nick == "Havixil":
         return '[=]quitchannels'
     else:

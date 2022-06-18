@@ -49,7 +49,7 @@ class NameGenerator(object):
 
 
 @hook.command(autohelp=False)
-def namegen(inp, notice=None):
+def namegen(inp, notice):
     "namegen [generator] -- Generates some names using the chosen generator. " \
     "'namegen list' will display a list of all generators."
 

@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 @hook.command
-def band(inp, bot=None):
+def band(inp, bot):
     artist = inp
     print(artist)
     api_key = bot.config['api_keys']['lastfm']
@@ -29,7 +29,7 @@ def band(inp, bot=None):
 
 @hook.command('np', autohelp=False)
 @hook.command(autohelp=False)
-def lastfm(inp, db=None, bot=None, reply=None, chan=None, notice=None, nick=None, conn=None):
+def lastfm(inp, db, bot, reply, chan, notice, nick, conn):
     """lastfm [username|@nick] -- Displays the current/last played track."""
     api_key = bot.config['api_keys']['lastfm']
     api_url = 'http://ws.audioscrobbler.com/2.0/?format=json'

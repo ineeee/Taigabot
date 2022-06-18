@@ -59,7 +59,7 @@ def gb_refresh_cache(inp):
 @hook.command('futa', autohelp=False)
 @hook.command('futanari', autohelp=False)
 @hook.command(autohelp=False)
-def gelbooru(inp, reply=None, input=None):
+def gelbooru(inp, reply, input):
     """gelbooru <tags> -- Gets a random image from gelbooru.com"""
     global gb_lastsearch
     global gelbooru_cache

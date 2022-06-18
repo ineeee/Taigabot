@@ -10,7 +10,7 @@ from util import database, hook, user
 
 
 @hook.command(autohelp=False, adminonly=True)
-def gadmins(inp, notice=None, bot=None):
+def gadmins(inp, notice, bot):
     "admins -- Lists bot's global admins."
     if bot.config["admins"]:
         notice(u"Admins are: %s." % ", ".join(bot.config["admins"]))
@@ -20,7 +20,7 @@ def gadmins(inp, notice=None, bot=None):
 
 
 @hook.command(adminonly=True)
-def gadmin(inp, notice=None, bot=None, config=None, db=None):
+def gadmin(inp, notice, bot, config, db):
     "gadmin <add|del> <nick|host> -- Make <nick|host> an global admin." \
     "(you can delete multiple admins at once)"
     inp = inp.lower()
@@ -58,7 +58,7 @@ def gadmin(inp, notice=None, bot=None, config=None, db=None):
 
 
 @hook.command(permissions=["op_lock", "op"], adminonly=True, autohelp=False)
-def gdisabled(inp, notice=None, bot=None, chan=None, db=None):
+def gdisabled(inp, notice, bot, chan, db):
     """gignored -- Lists globally disabled commands."""
     if bot.config["disabled_commands"]:
         notice(u"Globally disabled commands are: %s." % ", ".join(
@@ -69,7 +69,7 @@ def gdisabled(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(permissions=["op_lock", "op"], adminonly=True)
-def gdisable(inp, notice=None, bot=None, chan=None, db=None):
+def gdisable(inp, notice, bot, chan, db):
     """gdisable <commands> -- Makes the bot globally disable a command."""
     disabledcommands = bot.config["disabled_commands"]
     targets = inp.split()
@@ -88,7 +88,7 @@ def gdisable(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(permissions=["op_lock", "op"], adminonly=True)
-def genable(inp, notice=None, bot=None, chan=None, db=None):
+def genable(inp, notice, bot, chan, db):
     """genable <commands] -- Enables currently globally disabled commands"""
     disabledcommands = bot.config["disabled_commands"]
     targets = inp.split()
@@ -111,7 +111,7 @@ def genable(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(permissions=["op_lock", "op"], adminonly=True, autohelp=False)
-def gignored(inp, notice=None, bot=None, chan=None, db=None):
+def gignored(inp, notice, bot, chan, db):
     """ignored [channel]-- Lists ignored channels/nicks/hosts."""
     if bot.config["ignored"]:
         notice(u"Global ignores are: %s." % ", ".join(bot.config["ignored"]))
@@ -121,7 +121,7 @@ def gignored(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(permissions=["op_lock", "op"], adminonly=True, autohelp=False)
-def gignore(inp, notice=None, bot=None, chan=None, db=None):
+def gignore(inp, notice, bot, chan, db):
     """gignore <nick|host> -- Makes the bot ignore nick|host."""
     ignorelist = bot.config["ignored"]
     targets = inp.split()
@@ -151,7 +151,7 @@ def gignore(inp, notice=None, bot=None, chan=None, db=None):
 
 
 @hook.command(permissions=["op_lock", "op"], adminonly=True, autohelp=False)
-def gunignore(inp, notice=None, bot=None, chan=None, db=None):
+def gunignore(inp, notice, bot, chan, db):
     """unignore [channel] <nick|host> -- Makes the bot listen to <nick|host>."""
     ignorelist = bot.config["ignored"]
     targets = inp.split()
@@ -171,18 +171,18 @@ def gunignore(inp, notice=None, bot=None, chan=None, db=None):
 @hook.command(
     "quit", autohelp=False, permissions=["botcontrol"], adminonly=True)
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
-def stop(inp, nick=None, conn=None):
+def stop(inp, nick, conn):
     """stop [reason] -- Kills the bot with [reason] as its quit message."""
     if inp:
         conn.cmd("QUIT", ["Killed by {} ({})".format(nick, inp)])
     else:
         conn.cmd("QUIT", ["Killed by {}.".format(nick)])
     time.sleep(5)
-    os.execl("./bot", "bot", "stop")
+    #os.execl("./bot", "bot", "stop")
 
 
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
-def restart(inp, nick=None, conn=None, bot=None):
+def restart(inp, nick, bot):
     """restart [reason] -- Restarts the bot with [reason] as its quit message."""
     for botcon in bot.conns:
         if inp:
@@ -196,14 +196,14 @@ def restart(inp, nick=None, conn=None, bot=None):
 
 
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
-def clearlogs(inp, input=None):
+def clearlogs(inp, input):
     """clearlogs -- Clears the bots log(s)."""
     return "not implemented"
     #subprocess.call(["./bot", "clear"])
 
 
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
-def join(inp, conn=None, notice=None, bot=None):
+def join(inp, conn, notice, bot):
     """join <channel> -- Joins <channel>."""
     if "0,0" in inp: return
     for target in inp.split(" "):
@@ -228,7 +228,7 @@ def join(inp, conn=None, notice=None, bot=None):
 
 
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
-def part(inp, conn=None, chan=None, notice=None, bot=None):
+def part(inp, conn, chan, notice, bot):
     """part <channel> -- Leaves <channel>.
     If [channel] is blank the bot will leave the
     channel the command was used in."""
@@ -253,7 +253,7 @@ def part(inp, conn=None, chan=None, notice=None, bot=None):
 
 
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
-def cycle(inp, conn=None, chan=None, notice=None):
+def cycle(inp, conn, chan, notice):
     """cycle <channel> -- Cycles <channel>.
     If [channel] is blank the bot will cycle the
     channel the command was used in."""
@@ -268,7 +268,7 @@ def cycle(inp, conn=None, chan=None, notice=None):
 
 
 @hook.command(permissions=["botcontrol"], adminonly=True)
-def nick(inp, notice=None, conn=None):
+def nick(inp, notice, conn):
     """nick <nick> -- Changes the bots nickname to <nick>."""
     if not re.match("^[A-Za-z0-9_|.-\]\[]*$", inp.lower()):
         notice(u"Invalid username!")
@@ -279,14 +279,14 @@ def nick(inp, notice=None, conn=None):
 
 
 @hook.command(permissions=["botcontrol"], adminonly=True)
-def raw(inp, conn=None, notice=None):
+def raw(inp, conn, notice):
     """raw <command> -- Sends a RAW IRC command."""
     notice(u"Raw command sent.")
     conn.send(inp)
 
 
 @hook.command(permissions=["botcontrol"], adminonly=True)
-def say(inp, conn=None, chan=None):
+def say(inp, conn, chan):
     """say [channel] <message> -- Makes the bot say <message> in [channel].
     If [channel] is blank the bot will say the <message> in the channel
     the command was used in."""
@@ -301,7 +301,7 @@ def say(inp, conn=None, chan=None):
 
 
 @hook.command(adminonly=True)
-def msg(inp, conn=None, chan=None, notice=None):
+def msg(inp, conn, chan, notice):
     "msg <user> <message> -- Sends a Message."
     user = inp.split()[0]
     message = inp.replace(user, '').strip()
@@ -311,7 +311,7 @@ def msg(inp, conn=None, chan=None, notice=None):
 
 @hook.command("act", permissions=["botcontrol"], adminonly=True)
 @hook.command(permissions=["botcontrol"], adminonly=True)
-def me(inp, conn=None, chan=None):
+def me(inp, conn, chan):
     """me [channel] <action> -- Makes the bot act out <action> in [channel].
     If [channel] is blank the bot will act the <action> in the channel the
     command was used in."""
@@ -332,7 +332,7 @@ def me(inp, conn=None, chan=None):
 
 
 @hook.command(adminonly=True)
-def set(inp, conn=None, chan=None, db=None, notice=None):
+def set(inp, conn, chan, db, notice):
     "set <field> <nick> <value> -- Admin override for setting database values. " \
     "Example: set location infinity 80210 - " \
     "set lastfm infinity spookieboogie"
@@ -394,7 +394,7 @@ def set(inp, conn=None, chan=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False, adminonly=True)
-def db(inp, db=None, notice=None, chan=None):
+def db(inp, db, notice, chan):
     """db <update|init> -- Init or update the database."""
     if 'update' in inp:
         database.update(db)

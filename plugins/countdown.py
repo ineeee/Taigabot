@@ -18,7 +18,7 @@ def set_countdown_to_false():
 
 
 @hook.command(autohelp=False)
-def countdown(inp, me=None):
+def countdown(inp, me):
     "countdown [seconds] [nick1 nick2 nick3] -- starts a countdown. It will begin when all the users type .ready"
 
     if countdown_is_running:
@@ -62,14 +62,14 @@ def countdown(inp, me=None):
     for cur in range(1, count):
         me('*** {} ***'.format(count - cur))
         time.sleep(1)
-        
+
     else:
         set_countdown_to_false()
         return '\x02***\x02 GO \x02***\x02'
 
 
 @hook.command(autohelp=False)
-def ready(inp, me=None, nick=None):
+def ready(inp, me, nick):
     "ready -- when all users are ready the countdown will begin."
     global countdown_nicks
     nicks_size_start = len(countdown_nicks)

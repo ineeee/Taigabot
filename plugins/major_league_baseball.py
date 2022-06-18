@@ -35,7 +35,7 @@ def get_api_time_of_day():
 
 
 @hook.command('mlb', autohelp=False)
-def mlb(inp, say=None):
+def mlb(inp, say):
     api_base = '{}/{}'.format(MLB_DEPRECATED_API,
                               get_api_time_of_day())
     api_string = '{}/grid.json'.format(api_base)

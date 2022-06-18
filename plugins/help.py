@@ -4,7 +4,7 @@ from util import hook, user
 from utilities import request
 
 @hook.command(autohelp=False)
-def commands(inp, say=None, notice=None, input=None, conn=None, bot=None, db=None):
+def commands(inp, say, notice, input, conn, bot, db):
     "commands  -- Gives a list of commands/help for a command."
     funcs = {}
     disabled = bot.config.get('disabled_plugins', [])
@@ -73,11 +73,11 @@ def commands(inp, say=None, notice=None, input=None, conn=None, bot=None, db=Non
 
 @hook.command('command', autohelp=False)
 @hook.command(autohelp=False)
-def help(inp, say=None, notice=None, input=None, conn=None, bot=None):
+def help(inp, say, notice, input, conn, bot, db):
     if not inp:
         say("For help see .COMMANDS")
     else:
-        commands(inp, say, notice, input, conn, bot)
+        commands(inp, say, notice, input, conn, bot, db)
     return
 
 

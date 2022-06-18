@@ -10,7 +10,7 @@ API_URL = 'https://www.googleapis.com/customsearch/v1'
 @hook.command('search')
 @hook.command('g')
 @hook.command
-def google(inp, bot=None):
+def google(inp, bot):
     """google <query> -- Returns first google search result for <query>."""
     inp = request.urlencode(inp)
 
@@ -18,7 +18,7 @@ def google(inp, bot=None):
     cx = bot.config['api_keys']['googleimage']
     search = '+'.join(inp.split())
     key = bot.config['api_keys']['google']
-    result = request.get_json(url.format(key, cx, search.encode('utf-8')))['items'][0]
+    result = request.get_json(url.format(key, cx, search))['items'][0]
 
     title = result['title']
     content = formatting.remove_newlines(result['snippet'])
@@ -32,7 +32,7 @@ def google(inp, bot=None):
 
 @hook.regex(r'^\>(.*\.(gif|jpe?g|png|tiff|bmp))$', re.I)
 @hook.command('gi')
-def image(inp, bot=None):
+def image(inp, bot):
     """image <query> -- Returns the first Google Image result for <query>."""
     if type(inp) is str:
         filetype = None

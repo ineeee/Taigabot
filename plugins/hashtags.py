@@ -29,7 +29,7 @@ def get_memory(db, word):
 @hook.command('learn', adminonly=False)
 @hook.command('r', adminonly=False)
 @hook.command(adminonly=False)
-def remember(inp, nick='', db=None, say=None, input=None, notice=None):
+def remember(inp, nick, db, say, input, notice):
     """remember <word> <data> -- Remembers <data> with <word>."""
     db_init(db)
 
@@ -75,7 +75,7 @@ def remember(inp, nick='', db=None, say=None, input=None, notice=None):
 
 @hook.command('f', adminonly=True)
 @hook.command(adminonly=True)
-def forget(inp, db=None, input=None, notice=None):
+def forget(inp, db, input, notice):
     """forget <word> -- Forgets a remembered <word>."""
 
     db_init(db)
@@ -92,7 +92,7 @@ def forget(inp, db=None, input=None, notice=None):
 
 
 @hook.command
-def info(inp, notice=None, db=None):
+def info(inp, notice, db):
     """info <word> -- Shows the source of a factoid."""
 
     db_init(db)
@@ -165,7 +165,7 @@ def hashtag(inp, say=None, db=None, bot=None, me=None, conn=None, input=None, ch
 @hook.command(r'keys')
 @hook.command(r'key')
 @hook.command(autohelp=False)
-def hashes(inp, say=None, db=None, bot=None, me=None, conn=None, input=None):
+def hashes(inp, say, db, bot, me, conn, input):
     "hashes -- Shows hash names for all known hashes."
 
     if inp:

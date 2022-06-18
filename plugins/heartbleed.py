@@ -256,7 +256,7 @@ def print_summary():
 
 
 @hook.command(autohelp=False)
-def heartbleed(inp, reply=None):
+def heartbleed(inp, reply):
     global host_status
     host_status = {}
 

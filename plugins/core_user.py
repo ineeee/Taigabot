@@ -5,7 +5,7 @@ from util import hook, database, http
 @hook.command('bullshit', autohelp=False)
 @hook.command('keyboard', autohelp=False)
 @hook.command(autohelp=False)
-def battlestation(inp, nick=None, db=None, notice=None):
+def battlestation(inp, nick, db, notice):
     "battlestation <url | @ person> -- Shows a users Battlestation."
     if inp:
         if 'http' in inp:
@@ -33,7 +33,7 @@ def battlestation(inp, nick=None, db=None, notice=None):
 
 # Desktops
 @hook.command(autohelp=False)
-def desktop(inp, nick=None, db=None, notice=None):
+def desktop(inp, nick, db, notice):
     "desktop http://url.to/desktop | @ nick -- Shows a users Desktop."
     if inp:
         if 'http' in inp:
@@ -62,7 +62,7 @@ def desktop(inp, nick=None, db=None, notice=None):
 # Greeting
 @hook.command('intro', autohelp=False)
 @hook.command(autohelp=False)
-def greeting(inp, nick=None, db=None, notice=None):
+def greeting(inp, nick, db, notice):
     "greet <message | @ person> -- Shows a users Greeting."
 
     try:
@@ -91,7 +91,7 @@ def greeting(inp, nick=None, db=None, notice=None):
 
 # Waifu & Husbando
 @hook.command(autohelp=False)
-def waifu(inp, nick=None, db=None, notice=None):
+def waifu(inp, nick, db, notice):
     "waifu <waifu | @ person> -- Shows a users Waifu or Husbando."
 
     if not inp or '@' in inp:
@@ -114,7 +114,7 @@ def waifu(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def husbando(inp, nick=None, db=None, notice=None):
+def husbando(inp, nick, db, notice):
     "husbando <husbando | @ person> -- Shows a users husbando or Husbando."
 
     if not inp or '@' in inp:
@@ -137,7 +137,7 @@ def husbando(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def imouto(inp, nick=None, db=None, notice=None):
+def imouto(inp, nick, db, notice):
     "imouto <imouto | @ person> -- Shows a users imouto or Husbando."
 
     if not inp or '@' in inp:
@@ -160,7 +160,7 @@ def imouto(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def daughteru(inp, nick=None, db=None, notice=None):
+def daughteru(inp, nick, db, notice):
     "daughteru <daughteru | @ person> -- Shows a users daughteru."
 
     if not inp or '@' in inp:
@@ -183,7 +183,7 @@ def daughteru(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def mom(inp, nick=None, db=None, notice=None):
+def mom(inp, nick, db, notice):
     "mom <mom | @ person> -- Shows a users mom."
 
     if not inp or '@' in inp:
@@ -206,7 +206,7 @@ def mom(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def dad(inp, nick=None, db=None, notice=None):
+def dad(inp, nick, db, notice):
     "dad <dad | @ person> -- Shows a users dad."
 
     if not inp or '@' in inp:
@@ -230,7 +230,7 @@ def dad(inp, nick=None, db=None, notice=None):
 
 # Desktops
 @hook.command(autohelp=False)
-def birthday(inp, nick=None, db=None, notice=None):
+def birthday(inp, nick, db, notice):
     "birthday <01/01/2001> | <@ person> -- Shows a users Birthday."
 
     if not inp or '@' in inp:
@@ -254,7 +254,7 @@ def birthday(inp, nick=None, db=None, notice=None):
 
 # TODO move this out of core
 @hook.command(autohelp=False)
-def horoscope(inp, db=None, notice=None, nick=None):
+def horoscope(inp, nick, db, notice):
     """horoscope <sign> [save] -- Get your horoscope."""
     save = False
     database.init(db)
@@ -298,11 +298,11 @@ def horoscope(inp, db=None, notice=None, nick=None):
     if sign and save:
         database.set(db, 'users', 'horoscope', sign, 'nick', nick)
 
-    return u"\x02{}\x02 {}".format(title, horoscopetxt)
+    return u"\x02{}\x02 {}".format(title, horoscopetxt)  # what are these two vars? TODO check
 
 
 @hook.command(autohelp=False)
-def homescreen(inp, nick=None, db=None, notice=None):
+def homescreen(inp, nick, db, notice):
     "homescreen <url | @ person> -- Shows a users homescreen."
     if "http" in inp:
         database.set(db, 'users', 'homescreen', inp.strip(), 'nick', nick)
@@ -329,7 +329,7 @@ def homescreen(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def snapchat(inp, nick=None, db=None, notice=None):
+def snapchat(inp, nick, db, notice):
     "snapchat <snapchatname | @ person> -- Shows a users snapchat name."
 
     if not inp or '@' in inp:
@@ -353,7 +353,7 @@ def snapchat(inp, nick=None, db=None, notice=None):
 
 @hook.command('soc', autohelp=False)
 @hook.command(autohelp=False)
-def socialmedia(inp, nick=None, db=None, notice=None):
+def socialmedia(inp, nick, db, notice):
     "socialmedia <socialmedianames | @ person> -- Shows a users social medias names."
 
     if not inp or '@' in inp:
@@ -376,7 +376,7 @@ def socialmedia(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def myanime(inp, nick=None, db=None, notice=None):
+def myanime(inp, nick, db, notice):
     "myanime <mal name | @ person> -- Shows a users myanimelist profile."
 
     if not inp or '@' in inp:
@@ -399,7 +399,7 @@ def myanime(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def mymanga(inp, nick=None, db=None, notice=None):
+def mymanga(inp, nick, db, notice):
     "mymanga <mal name | @ person> -- Shows a users myanimelist profile."
 
     if not inp or '@' in inp:
@@ -422,7 +422,7 @@ def mymanga(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def selfie(inp, nick=None, db=None, notice=None):
+def selfie(inp, nick, db, notice):
     "selfie <url | @ person> -- Shows a users selfie."
     if inp:
         if 'http' in inp:
@@ -449,7 +449,7 @@ def selfie(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def fit(inp, nick=None, db=None, notice=None):
+def fit(inp, nick, db, notice):
     "fit <url | @ person> -- Shows a users outfit."
     if inp:
         if "http" in inp:
@@ -477,7 +477,7 @@ def fit(inp, nick=None, db=None, notice=None):
 
 @hook.command('hw', autohelp=False)
 @hook.command(autohelp=False)
-def handwriting(inp, nick=None, db=None, notice=None):
+def handwriting(inp, nick, db, notice):
     "handwriting <url | @ person> -- Shows a users handwriting."
     if inp:
         if 'http' in inp:
@@ -504,7 +504,7 @@ def handwriting(inp, nick=None, db=None, notice=None):
 
 
 @hook.command(autohelp=False)
-def steam(inp, nick=None, db=None, notice=None):
+def steam(inp, nick, db, notice):
     "steam <steam | @ person> -- Shows a users steam information."
 
     if not inp or '@' in inp:

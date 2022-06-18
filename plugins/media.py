@@ -287,7 +287,7 @@ movie_reviews_url = api_root + 'movies/%s/reviews.json'
 
 @hook.command('rt')
 @hook.command
-def rottentomatoes(inp, bot=None):
+def rottentomatoes(inp, bot):
     '.rt <title> -- gets ratings for <title> from Rotten Tomatoes'
 
     api_key = bot.config.get("api_keys", {}).get("rottentomatoes", None)
