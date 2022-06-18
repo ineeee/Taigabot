@@ -1,185 +1,165 @@
+#!/usr/bin/env python3
+# Copyright (C) 2021  Anthony DeDominic <adedomin@gmail.com>
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from typing import Callable, NamedTuple, Optional
+from sys import exit
+from html.parser import HTMLParser
+from urllib.parse import urlparse, parse_qsl
+
 from util import hook
-from json import loads as json_loads
-from utilities import request
-
-__version__ = 0.243
+import requests
 
 
-def query(query,
-          useragent=f'python-duckduckgo {__version__}',
-          safesearch=False,
-          html=False,
-          meanings=True,
-          **kwargs):
+SEARCH_ENGINE = "https://html.duckduckgo.com/html/"
+LEN_LIMIT = 350
+
+
+class DdgResult(NamedTuple):
+    """Type holding a search engine result."""
+
+    url: str
+    snippet: str
+
+
+def get_real_url(indirected_url: str) -> str:
     """
-    Query DuckDuckGo, returning a Results object.
+    Parse the true URL from a search result.
 
-    Here's a query that's unlikely to change:
+    Args:
+        indirected_url: The url from the web search.
 
-    >>> result = query('1 + 1')
-    >>> result.type
-    'nothing'
-    >>> result.answer.text
-    '1 + 1 = 2'
-    >>> result.answer.type
-    'calc'
+    Returns:
+        The actual clean URL.
 
-    Keword arguments:
-    useragent: UserAgent to use while querying. Default: "python-duckduckgo %d" (str)
-    safesearch: True for on, False for off. Default: True (bool)
-    html: True to allow HTML in output. Default: False (bool)
-    meanings: True to include disambiguations in results (bool)
-    Any other keyword arguments are passed directly to DuckDuckGo as URL params.
-    """ % __version__
+    Raises:
+        ValueError for irredemably bad URLs.
+    """
+    url = ''
+    parsed_query = urlparse(indirected_url)
+    for k, v in parse_qsl(parsed_query.query):
+        if k == 'uddg':
+            url = v
+            break
 
-    safesearch = '1' if safesearch else '-1'
-    html = '0' if html else '1'
-    meanings = '0' if meanings else '1'
-    params = {
-        'q': query,
-        'o': 'json',
-        'kp': safesearch,
-        'no_redirect': '1',
-        'no_html': html,
-        'd': meanings,
-    }
-    params.update(kwargs)
-
-    response = request.get('https://api.duckduckgo.com/', params=params, headers={'User-Agent': useragent})
-    json = json_loads(response)
-    return Results(json)
+    if url == '':
+        raise ValueError('Empty query')
+    elif url.startswith('https://duckduckgo.com'):
+        ad = urlparse(url)
+        for k, v in parse_qsl(ad.query):
+            if k == 'ad_provider':
+                raise ValueError('Ad')
+    return url
 
 
-class Results:
+class DdgQueryParser(HTMLParser):
+    """HTMLParser that finds anchor tags with search results."""
 
-    def __init__(self, json):
-        self.type = {
-            'A': 'answer',
-            'D': 'disambiguation',
-            'C': 'category',
-            'N': 'name',
-            'E': 'exclusive',
-            '': 'nothing'
-        }.get(json.get('Type', ''), '')
+    def __init__(self):
+        """Set up state of the parser."""
+        super().__init__(convert_charrefs=True)
+        self._url: str = ''
+        self._snippet: str = ''
+        self.result: Optional[DdgResult] = None
+        self._in_result = False
 
-        self.json = json
-        self.api_version = None    # compat
-
-        self.heading = json.get('Heading', '')
-
-        self.results = [Result(elem) for elem in json.get('Results', [])]
-        self.related = [
-            Result(elem) for elem in json.get('RelatedTopics', [])
-        ]
-
-        self.abstract = Abstract(json)
-        self.redirect = Redirect(json)
-        self.definition = Definition(json)
-        self.answer = Answer(json)
-
-        self.image = Image({'Result': json.get('Image', '')})
-
-
-class Abstract:
-
-    def __init__(self, json):
-        self.html = json.get('Abstract', '')
-        self.text = json.get('AbstractText', '')
-        self.url = json.get('AbstractURL', '')
-        self.source = json.get('AbstractSource')
-
-
-class Redirect:
-
-    def __init__(self, json):
-        self.url = json.get('Redirect', '')
-
-
-class Result:
-
-    def __init__(self, json):
-        self.topics = json.get('Topics', [])
-        if self.topics:
-            self.topics = [Result(t) for t in self.topics]
+    def handle_starttag(self, tag, attr):
+        """Hunt for anchor tags and transition the state of the parser."""
+        if self.result:
             return
-        self.html = json.get('Result')
-        self.text = json.get('Text')
-        self.url = json.get('FirstURL')
 
-        icon_json = json.get('Icon')
-        if icon_json is not None:
-            self.icon = Image(icon_json)
+        css_class = ''
+        href = ''
+        for k, v in attr:
+            if k == 'class':
+                css_class = v
+            elif k == 'href':
+                href = v
+
+        if tag == 'a' and css_class == 'result__snippet' and href != '':
+            try:
+                self._url = get_real_url(f'https:{href}')
+                self._in_result = True
+            except ValueError:
+                pass
+
+        # ddg puts <b> tags around our search terms.
+        # let us make them bold.
+        elif tag == 'b' and self._in_result:
+            self._snippet += "\x02"
+
+    def handle_endtag(self, tag):
+        """Append a result or do nothing."""
+        if tag == 'a' and self._in_result:
+            self.result = DdgResult(self._url, self._snippet)
+            self._in_result = False
+
+        # Terminate the bold text.
+        elif tag == 'b' and self._in_result:
+            self._snippet += "\x02"
+
+    def handle_data(self, data):
+        """Append snippet text."""
+        if self._in_result:
+            self._snippet += data
+
+
+def get_answer(q: str) -> str:
+    """
+    Search ddg for a given query.
+
+    Args:
+        q: The user supplied query.
+
+    Returns:
+        Result suitable for emitting to IRC.
+    """
+    with requests.get(SEARCH_ENGINE,
+                      params={'q': q},
+                      headers={'User-Agent': 'Taigabot/20220618'},
+                      allow_redirects=True,
+                      stream=True,
+                      timeout=15) as stream:
+        parser = DdgQueryParser()
+        # Up to 128KiB read.
+        for (frag, _) in zip(stream.iter_content(chunk_size=4096), range(10)):
+            if not frag:
+                break
+            parser.feed(frag.decode('utf8'))
+            # We only want one result.
+            if parser.result:
+                break
+
+        if parser.result:
+            url, snippet = parser.result
+            if len(snippet) > LEN_LIMIT:
+                snippet = f'{snippet[0:LEN_LIMIT]}...'
+            return f'''{snippet} - {url}'''
         else:
-            self.icon = None
+            return 'No result.'
 
 
-class Image:
+@hook.command('ddg', autohelp=False)
+def main(inp: str, say: Callable):
+    """Entrypoint."""
+    query = inp
+    if query.startswith('--help') or query == '':
+        say('.ddg [--help] query')
+        return
 
-    def __init__(self, json):
-        self.url = json.get('Result')
-        self.height = json.get('Height', None)
-        self.width = json.get('Width', None)
-
-
-class Answer:
-
-    def __init__(self, json):
-        self.text = json.get('Answer')
-        self.type = json.get('AnswerType', '')
-
-
-class Definition:
-
-    def __init__(self, json):
-        self.text = json.get('Definition', '')
-        self.url = json.get('DefinitionURL')
-        self.source = json.get('DefinitionSource')
-
-
-def get_zci(q,
-            web_fallback=True,
-            priority=['answer', 'abstract', 'related.0', 'definition'],
-            urls=True,
-            **kwargs):
-    '''A helper method to get a single (and hopefully the best) ZCI result.
-    priority=list can be used to set the order in which fields will be checked for answers.
-    Use web_fallback=True to fall back to grabbing the first web result.
-    passed to query. This method will fall back to 'Sorry, no results.'
-    if it cannot find anything.'''
-
-    ddg = query(q, **kwargs)
-    response = ''
-
-    for p in priority:
-        ps = p.split('.')
-        type = ps[0]
-        index = int(ps[1]) if len(ps) > 1 else None
-
-        result = getattr(ddg, type)
-        if index is not None:
-            if not hasattr(result, '__getitem__'):
-                raise TypeError('%s field is not indexable' % type)
-            result = result[index] if len(result) > index else None
-        if not result: continue
-
-        if result.text: response = result.text
-        if result.text and hasattr(result, 'url') and urls:
-            if result.url: response += ' (%s)' % result.url
-        if response: break
-
-    # if there still isn't anything, try to get the first web result
-    if not response and web_fallback:
-        if ddg.redirect.url:
-            response = ddg.redirect.url
-
-    # final fallback
-    if not response:
-        response = 'Sorry, no results.'
-
-    return response
-
-
-@hook.command
-def ddg(inp):
-    """.ddg <search> -- search something on duckduckgo"""
-    return get_zci(inp)
+    try:
+        res = get_answer(query)
+        say(f'[DDG] {res.lstrip()}')
+    except Exception as e:
+        say(f'{e} - For query {query}')
