@@ -9,8 +9,11 @@ userlist = {}
 @hook.event('353')
 def onnames(input, conn=None, bot=None):  # what the fuck...
     global userlist
-    inp = re.sub('[~&@+%,\.]', '', ' '.join(input))
-    chan, users = re.match(r'.*#(\S+)(.*)', inp.lower()).group(1, 2)
+    inp = re.sub(r'[~&@+%,\.]', '', ' '.join(input))
+    match = re.match(r'.*#(\S+)(.*)', inp.lower())
+    if match is None:
+        return
+    chan, users = match.group(1, 2)
     try:
         userlist[chan]
     except Exception:
