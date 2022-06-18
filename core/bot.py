@@ -55,3 +55,9 @@ class Bot:
             self.db_conns[name] = {threadid: db}
 
         return db
+
+    def get_api_key(self, key):
+        if 'api_keys' not in self.config:
+            raise Exception('The bot does not have a valid config file')
+
+        return self.config['api_keys'].get(key, None)
