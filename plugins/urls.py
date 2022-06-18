@@ -1,7 +1,10 @@
 from builtins import range
 import re
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
+import urllib.parse
 from urllib.parse import urlparse
+from html.parser import HTMLParser as HtmlParser
 
 import requests
 from bs4 import BeautifulSoup
@@ -300,39 +303,41 @@ user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 headers = {'User-Agent': user_agent}
 
 
-def parse_html(stream):
-    data = b''
-    for chunk in stream.iter_content(chunk_size=256):
-        data = data + chunk
+class TitleParser(HtmlParser):
+    """Parser Fetching <title> tag contents."""
 
-        if len(data) > (1024 * 12):    # use only first 12 KiB
-            break
+    def __init__(self):
+        """Set up parser."""
+        super().__init__(convert_charrefs=True)
+        self.in_title = False
+        self.done = False
+        self.title = ''
 
-    # try to quickly grab the content between <title> and </title>
-    # should match most cases, if not just fall back to lxml
-    if b'<title>' in data and b'</title>' in data:
-        try:
-            quick_title = data[data.find('<title>') + 7:data.find('</title>')]
-            return quick_title.strip()
-        except Exception as e:
-            pass
+    def handle_starttag(self, tag, attr):
+        """Find title."""
+        if tag == 'title':
+            self.in_title = True
 
-    parser = html.fromstring(data)
+    def handle_endtag(self, tag):
+        """Terminate parser on closing title."""
+        if tag == 'title':
+            self.in_title = False
+            self.done = True
 
-    # try to use the <title> tag first
-    title = parser.xpath('//title/text()')
-    if not title:
-        # fall back to <h1> elements
-        title = parser.xpath('//h1/text()')
+    def handle_data(self, inner_text):
+        """Collect title contents."""
+        if self.in_title:
+            self.title += inner_text
 
-    if title:
-        if type(title) is list and len(title) > 0:
-            return title[0].strip()
 
-        elif type(title) is str:
-            return title.strip()
+def parse_html(stream, encoding: str = 'utf8'):
+    """Parse Title Tags from HTML"""
+    parser = TitleParser()
+    for chunk, _ in zip(stream.iter_content(chunk_size=4096), range(10)):
+        parser.feed(chunk.decode(encoding))
+        if parser.done:
+            return parser.title
 
-    # page definitely has no title
     return 'Untitled'
 
 
@@ -364,11 +369,6 @@ def unmatched_url(url, parsed, bot, chan, db):
             print('[!] WARNING the url caused a parser error')
             print(e)
             title = 'Untitled'
-
-        # TODO handle titles with html entities
-        if '&' in title and ';' in title:
-            # pls fix
-            title = title.replace('&quot;', '"')
 
         # fucking cloudflare
         if 'Attention Required! | Cloudflare' in title:
