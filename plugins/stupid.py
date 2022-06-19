@@ -141,7 +141,7 @@ def guts(inp):
 
 
 @hook.command()
-def plez(inp, me=None):
+def plez(inp, me):
     me("disables plez")
     me("disables plez")
     me("disables plez")

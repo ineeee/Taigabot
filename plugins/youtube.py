@@ -86,7 +86,7 @@ def get_video_description(key, video_id, bot):
 
 
 @hook.command('ytr', autohelp=False)
-def randomtube(inp, bot=None):
+def randomtube(inp):
     """randomtube -- Returns random youtube link from old logs."""
     with open('plugins/data/youtube.txt', 'r') as f:
         urllist = f.read().split('\n')
@@ -96,7 +96,7 @@ def randomtube(inp, bot=None):
 
 
 @hook.regex(*youtube_re)
-def youtube_url(match, bot=None, chan=None):
+def youtube_url(match, bot):
     key = bot.config.get("api_keys", {}).get("google")
 
     return get_video_description(key, match.group(4), bot)
@@ -106,7 +106,7 @@ def youtube_url(match, bot=None, chan=None):
 @hook.command('hooktube')
 @hook.command('ht')
 @hook.command
-def youtube(inp, bot=None, input=None):
+def youtube(inp, bot, input):
     """youtube <query> -- Returns the first YouTube search result for <query>."""
     key = bot.config.get('api_keys', {}).get('google')
 
@@ -131,7 +131,7 @@ def youtube(inp, bot=None, input=None):
 
 @hook.command('ytime')
 @hook.command
-def youtime(inp, bot=None):
+def youtime(inp, bot):
     """youtime <query> -- Gets the total run time of the first YouTube search result for <query>."""
     key = bot.config.get("api_keys", {}).get("google")
     request = http.get_json(search_api_url, key=key, q=inp, type='video')
