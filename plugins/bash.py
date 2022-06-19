@@ -40,7 +40,7 @@ def get_bash_quote(inp: str) -> str:
 
 
 @hook.command(autohelp=False)
-def bash(inp, reply=None):
+def bash(inp, reply):
     """bash <id> -- Gets a random quote from Bash.org, or returns a specific id."""
     if inp:
         return get_bash_quote(inp)
