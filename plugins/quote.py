@@ -279,7 +279,7 @@ def quote(inp, nick, chan, db, notice, reply, bot):
 
 
 @hook.command(adminonly=True)
-def rquote(inp, db=None, notice=None, nick=None, bot=None, reply=None):
+def rquote(inp, db, notice, nick, bot, reply):
     """rquote <nick> <number/*> - Deletes a quote from a nick"""
     target = inp.split(' ')[0]
     if nick != target:
@@ -310,7 +310,7 @@ def rquote(inp, db=None, notice=None, nick=None, bot=None, reply=None):
 #         notice(del_quote(db, quoted_nick, msg))
 
 # @hook.command(adminonly=True)
-# def rquote(inp, nick='', chan='', db=None, notice=None):
+# def rquote(inp, nick, chan, db, notice):
 #     "rquote <nick> <#n> -- Removes <#n>th quote by <nick>"
 #     create_table_if_not_exists(db)
 
@@ -324,7 +324,7 @@ def rquote(inp, db=None, notice=None, nick=None, bot=None, reply=None):
 #     notice(quote.__doc__)
 
 @hook.command("qchan")
-def quotechan(inp, db=None, reply=None):
+def quotechan(inp, db, reply):
     "quotechan <#channel> <search>: search some shit in an entire channel"
 
     if len(inp) < 3 or inp.find(" ") == -1:
