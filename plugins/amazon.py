@@ -68,10 +68,8 @@ def parse_product(html):
 
 
 @hook.command()
-def amazon(inp):
+def amazon(inp: str):
     """amazon [query] -- Searches amazon for query"""
-    if not inp:
-        return "usage: amazon <search>"
 
     inp = request.urlencode(inp)
     html = request.get('https://www.amazon.com/s?k=' + inp)
@@ -89,7 +87,7 @@ def amazon(inp):
     return f'[Amazon] {title} \x0303{price}\x03 {url}'
 
 
-AMAZON_RE = (r"https?:\/\/(www\.)?amazon.com\/[^\s]*dp\/([A-Za-z0-9]+)[^\s]*", re.I)
+AMAZON_RE = (r'https?:\/\/(www\.)?amazon.com\/[^\s]*dp\/([A-Za-z0-9]+)[^\s]*', re.I)
 
 
 @hook.regex(*AMAZON_RE)

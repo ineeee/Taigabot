@@ -1,6 +1,5 @@
-from builtins import str
 import re
-from threading import *
+from threading import Thread
 from collections import deque
 
 from util import hook
@@ -165,17 +164,17 @@ def board(inp):
 
 
 @hook.command(autohelp=False)
-def bs(inp, reply=None):
+def bs(inp):
     "bs -- Returns current battlestation threads on /g/"
     return catalog("g battlestation")
 
 
 @hook.command(autohelp=False)
-def desktops(inp, reply=None):
+def desktops(inp):
     "desktop -- Returns current desktop threads on /g/"
     return catalog("g desktop thread")
 
 
 @hook.command(autohelp=False)
-def britbong(inp, reply=None):
+def britbong(inp):
     return catalog("pol britbong")
