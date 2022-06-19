@@ -151,7 +151,7 @@ def get_answer(q: str) -> str:
 
 
 @hook.command('ddg', autohelp=False)
-def main(inp: str, say: Callable):
+def ddg(inp: str, say: Callable):
     """Entrypoint."""
     query = inp
     if query.startswith('--help') or query == '':
