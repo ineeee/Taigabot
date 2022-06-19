@@ -150,12 +150,12 @@ def get_answer(q: str) -> str:
             return 'No result.'
 
 
-@hook.command('ddg', autohelp=False)
+@hook.command('ddg')
 def ddg(inp: str, say: Callable):
-    """Entrypoint."""
-    query = inp
-    if query.startswith('--help') or query == '':
-        say('.ddg [--help] query')
+    """.ddg query # search the webs with duckduckgo"""
+    query = inp.strip()
+    if query == '':
+        say('[DDG] no query given')
         return
 
     try:
