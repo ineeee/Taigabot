@@ -127,10 +127,7 @@ def gelbooru(inp, reply, input):
     elif rating == 's':
         rating = '\x02\x033Safe\x03\x02'
 
-    try:
-        return '\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {}'.format(id, score, rating, web.isgd(url))
-    except:  # TODO fix this catch
-        return '\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {}'.format(id, score, rating, url)
+    return '\x02[{}]\x02 Score: \x02{}\x02 - Rating: {} - {}'.format(id, score, rating, services.shorten(url))
 
 
 # shows website title, just let urls.py handle it

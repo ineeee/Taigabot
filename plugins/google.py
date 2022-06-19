@@ -2,7 +2,7 @@ from __future__ import print_function
 import re
 
 from util import hook, web
-from utilities import formatting, request
+from utilities import formatting, request, services
 
 API_URL = 'https://www.googleapis.com/customsearch/v1'
 
@@ -25,7 +25,7 @@ def google(inp, bot):
     link = result['link']
 
     try:
-        return '{} -- \x02{}\x02: "{}"'.format(web.isgd(link), title, content)
+        return '{} -- \x02{}\x02: "{}"'.format(services.shorten(link), title, content)
     except Exception:
         return '{} -- \x02{}\x02: "{}"'.format(link, title, content)
 
@@ -51,8 +51,4 @@ def image(inp, bot):
         url = API_URL + '?key={}&cx={}&searchType=image&num=1&safe=off&q={}'
         result = request.get_json(url.format(key, cx, search.encode('utf-8')))['items'][0]['link']
 
-    try:
-        return web.isgd(result)
-    except Exception as e:
-        print('[!] Error while shortening:', e)
-        return result
+    return services.shorten(result)
