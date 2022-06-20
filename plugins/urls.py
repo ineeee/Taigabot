@@ -12,6 +12,8 @@ from lxml import html
 
 from util import database, formatting, hook, http
 
+from utilities.formatting import compress_whitespace
+
 MAX_LENGTH = 200
 trimlength = 320
 
@@ -336,7 +338,8 @@ def parse_html(stream, encoding: str = 'utf8'):
     for chunk, _ in zip(stream.iter_content(chunk_size=4096), range(10)):
         parser.feed(chunk.decode(encoding))
         if parser.done:
-            return parser.title
+            title = compress_whitespace(parser.title)
+            return title.strip()
 
     return 'Untitled'
 
