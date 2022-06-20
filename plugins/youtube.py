@@ -4,10 +4,17 @@ import time
 
 from util import hook, http, timeformat
 
-#youtube_re = (r'(?:youtube.*?(?:v=|/v/)|youtu\.be/|yooouuutuuube.*?id=)'
+# youtube_re = (r'(?:youtube.*?(?:v=|/v/)|youtu\.be/|yooouuutuuube.*?id=)'
 #              '([-_a-zA-Z0-9]+)', re.I)
-youtube_re = (r'((https?://)?(www\.)?(?:youtube.*?(?:v=|/v/)|youtu\.be/)([-_a-zA-Z0-9]+)?(.*))',
-              re.I)
+# youtube_re = (r'((https?://)?(www\.)?(?:youtube.*?(?:v=|/v/)|youtu\.be/)([-_a-zA-Z0-9]+)?(.*))',
+#              re.I)
+
+youtube_re = r'''(?xi)
+#(https?://)?
+#((www\.)|(m\.))? # mobile or regular or none
+ (?:youtube.com/[^?\s]*[?][^\s]*?v=(?P<VID1>[-_a-zA-Z0-9]+))
+|(?:youtu.be/(?P<VID2>[-_a-zA-Z0-9]+))
+'''
 
 base_url = 'https://www.googleapis.com/youtube/v3/'
 search_api_url = base_url + 'search?part=id,snippet'
@@ -18,13 +25,8 @@ def plural(num=0, text=''):
     return "{:,} {}{}".format(num, text, 's'[num == 1:])
 
 
-def get_video_description(key, video_id, bot):
-    try:
-        request = http.get_json(api_url, key=key, id=video_id)
-    except Exception:
-        key = bot.config.get("api_keys", {}).get("public_google_key")
-        request = http.get_json(api_url, key=key, id=video_id)
-
+def get_video_description(key, video_id):
+    request = http.get_json(api_url, key=key, id=video_id)
     if request.get('error'):
         return
 
@@ -48,10 +50,14 @@ def get_video_description(key, video_id, bot):
     seconds = 0
     for t in timelist:
         t_field = int(t[:-1])
-        if t[-1:] == 'D': seconds += 86400 * t_field
-        elif t[-1:] == 'H': seconds += 3600 * t_field
-        elif t[-1:] == 'M': seconds += 60 * t_field
-        elif t[-1:] == 'S': seconds += t_field
+        if t[-1:] == 'D':
+            seconds += 86400 * t_field
+        elif t[-1:] == 'H':
+            seconds += 3600 * t_field
+        elif t[-1:] == 'M':
+            seconds += 60 * t_field
+        elif t[-1:] == 'S':
+            seconds += t_field
 
     out += ' - length \x02{}\x02'.format(timeformat.format_time(seconds, simple=True))
 
@@ -95,11 +101,15 @@ def randomtube(inp):
         return f'A random, secret youtube video: {url}'
 
 
-@hook.regex(*youtube_re)
-def youtube_url(match, bot):
-    key = bot.config.get("api_keys", {}).get("google")
+@hook.regex(regex=youtube_re)
+def youtube_url(match, bot=None):
+    key = bot.config.get('api_keys', {}).get('google')
+    (vid1, vid2) = match.groups()
+    vid = vid1 if vid1 is not None else vid2
+    if not vid or not key:
+        return
 
-    return get_video_description(key, match.group(4), bot)
+    return get_video_description(key, vid)
 
 
 @hook.command('yt')
@@ -124,9 +134,9 @@ def youtube(inp, bot, input):
 
     video_id = request['items'][0]['id']['videoId']
     if input['trigger'] == 'hooktube' or input['trigger'] == 'ht':
-        return get_video_description(key, video_id, bot) + f' - http://hooktube.com/{video_id}'
+        return get_video_description(key, video_id) + f' - http://hooktube.com/{video_id}'
     else:
-        return get_video_description(key, video_id, bot) + f' - https://youtu.be/{video_id}'
+        return get_video_description(key, video_id) + f' - https://youtu.be/{video_id}'
 
 
 @hook.command('ytime')
@@ -154,10 +164,14 @@ def youtime(inp, bot):
     seconds = 0
     for t in timelist:
         t_field = int(t[:-1])
-        if t[-1:] == 'D': seconds += 86400 * t_field
-        elif t[-1:] == 'H': seconds += 3600 * t_field
-        elif t[-1:] == 'M': seconds += 60 * t_field
-        elif t[-1:] == 'S': seconds += t_field
+        if t[-1:] == 'D':
+            seconds += 86400 * t_field
+        elif t[-1:] == 'H':
+            seconds += 3600 * t_field
+        elif t[-1:] == 'M':
+            seconds += 60 * t_field
+        elif t[-1:] == 'S':
+            seconds += t_field
 
     views = int(data['statistics']['viewCount'])
     total = int(seconds * views)
@@ -166,7 +180,7 @@ def youtime(inp, bot):
     total_text = timeformat.format_time(total, accuracy=8)
 
     return 'The video \x02{}\x02 has a length of {} and has been viewed {:,} times for ' \
-            'a total run time of {}!'.format(data['snippet']['title'], length_text, views, total_text)
+        'a total run time of {}!'.format(data['snippet']['title'], length_text, views, total_text)
 
 
 ytpl_re = (r'(.*:)//(www.youtube.com/playlist|youtube.com/playlist)(:[0-9]+)?(.*)', re.I)

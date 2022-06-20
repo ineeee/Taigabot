@@ -32,6 +32,8 @@ if not sys.version_info >= (3, 9):
     print('Taigabot only runs on python 3.9+')
     sys.exit(1)
 
+sys.stdout.reconfigure(line_buffering=True)
+
 print('Taigabot <https://github.com/inexist3nce/Taigabot>')
 
 sys.path += ['plugins']  # so 'import hook' works without duplication
