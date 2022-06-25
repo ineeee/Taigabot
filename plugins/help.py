@@ -1,7 +1,7 @@
 import re
 
 from util import hook, user
-from utilities import request
+from utilities import services
 
 @hook.command(autohelp=False)
 def commands(inp, say, notice, input, conn, bot, db):
@@ -59,13 +59,8 @@ def commands(inp, say, notice, input, conn, bot, db):
                 notice(line)
         else:
             output = ", ".join(output)
-            pastebin_vars = {
-                'api_dev_key': bot.config.get('api_keys', {}).get('pastebin'),
-                'api_option': 'paste',
-                'api_paste_code': output
-            }
-            response = request.post('https://pastebin.com/api/api_post.php', data=pastebin_vars)
-            notice("Commands you have access to ({}): {}".format(len(well), response))
+            link = services.paste(output, 'Available commands')
+            notice(f'Commands you have access to ({len(well)}): {link}')
     elif inp in commands:
         notice("{}{}".format(conn.conf["command_prefix"], commands[inp].__doc__))
     return
