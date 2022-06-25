@@ -1,6 +1,3 @@
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
 import random
 import re
 import time
@@ -81,20 +78,6 @@ def search_quote(db, nick, search, bot):
         num += 1
     # print results
     if len(results) >= 5:
-        """
-        pastebin_vars = {
-            'api_dev_key': bot.config.get('api_keys', {}).get('pastebin'),
-            'api_option': 'paste',
-            'api_paste_name': 'irc quotes - search result',
-            'api_paste_private': 1,
-            'api_paste_expire_date': '1W',
-            'api_paste_code': '\n'.join(results).encode('utf-8')
-        }
-        response = urllib.urlopen('https://pastebin.com/api/api_post.php',
-                                  urllib.urlencode(pastebin_vars))
-        results = response.read()
-        print results
-        """
         output = '\n'.join(results).encode('utf-8')
         paste_url = paste_litterbox(output)
         return str(paste_url)
@@ -324,20 +307,16 @@ def rquote(inp, db, notice, nick, bot, reply):
 #     notice(quote.__doc__)
 
 @hook.command("qchan")
-def quotechan(inp, db, reply):
+def quotechan(inp, chan, db, reply):
     "quotechan <#channel> <search>: search some shit in an entire channel"
 
-    if len(inp) < 3 or inp.find(" ") == -1:
+    if len(inp) < 3:
         return "You have to search something"
 
     # extract first word, and the rest
-    chan = inp[0:inp.index(" ")]
-    search = inp[len(chan) + 1:]
+    search = inp
 
-    if chan[0] != "#":
-        chan = "#" + chan
-
-    if len(search) <= 3:
+    if len(search) < 3:
         return "You have to search something a bit longer than that"
 
     penis = db.execute('''
@@ -362,12 +341,12 @@ def quotechan(inp, db, reply):
                 msg LIKE '%' || ? || '%'
             ''', (chan, search)).fetchone()
 
-        reply(u"Found {} search results in {}, showing only 4 newest:".format(count, chan))
+        reply(f'Found {count} search results in {chan}, showing only 4 newest:')
 
     else:
-        reply(u"Found {} search results in {}:".format(len(penis), chan))
+        reply(f'Found {len(penis)} search results in {chan}:')
 
     for nick, text in penis:
-        reply(u"<{}> {}".format(nick, text))
+        reply(f'<{nick}> {text}')
 
     return
