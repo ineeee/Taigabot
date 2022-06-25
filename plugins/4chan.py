@@ -106,7 +106,7 @@ def process_results(board, string, results_deque):
 @hook.command("4chan")
 @hook.command
 def catalog(inp):
-    "catalog <board> <regex> -- Search all OP posts on the catalog of a board, and return matching results"
+    """catalog <board> <regex> -- Search all OP posts on the catalog of a board, and return matching results"""
     thread_join_timeout_seconds = 10
     results_deque = deque()
 
@@ -135,7 +135,7 @@ def catalog(inp):
 
 @hook.command
 def board(inp):
-    "board <board> <regex> -- Search all the posts on a board and return matching results"
+    """board <board> <regex> -- Search all the posts on a board and return matching results"""
     thread_join_timeout_seconds = 10
     results_deque = deque()
 
@@ -165,16 +165,17 @@ def board(inp):
 
 @hook.command(autohelp=False)
 def bs(inp):
-    "bs -- Returns current battlestation threads on /g/"
+    """bs -- Returns current battlestation threads on /g/"""
     return catalog("g battlestation")
 
 
 @hook.command(autohelp=False)
 def desktops(inp):
-    "desktop -- Returns current desktop threads on /g/"
+    """desktop -- Returns current desktop threads on /g/"""
     return catalog("g desktop thread")
 
 
 @hook.command(autohelp=False)
 def britbong(inp):
+    """britbong -- find latest britbong thread on /pol/"""
     return catalog("pol britbong")

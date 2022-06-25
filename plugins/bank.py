@@ -69,6 +69,7 @@ def bank_add(db, nick: str, item: str) -> None:
 
 @hook.command(autohelp=False)
 def bank(inp, nick, db):
+    """bank -- check the balance in your TaigaBank(tm) Account(r). also opens a new account if you dont have one"""
     if not bank_exists(db, nick):
         bank_create(db, nick)
         return f'{nick}: a new TaigaBank(tm) Account(r) was opened!!1 check out \x02.bank\x02 and \x02.bene\x02'
@@ -142,6 +143,7 @@ def daddiescummies(inp, nick, db, me, notice):
 
 @hook.command()
 def bene(inp, nick, db, me, notice):
+    """bene -- claim one (1) free thing every few minutes"""
     if not bank_exists(db, nick):
         return f'{nick}: you need to open a TaigaBank(tm) Account(r) to get paid. try \x02.bank\x02'
 

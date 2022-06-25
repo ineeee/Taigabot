@@ -44,6 +44,7 @@ def refresh_cache(inp):
 @hook.command('e621', autohelp=False)
 @hook.command(autohelp=False)
 def furry(inp):
+    """furry [query] -- show latest e621.net posts, or search with the given query"""
     global lastsearch
     global cache
 

@@ -255,8 +255,9 @@ def print_summary():
     return
 
 
-@hook.command(autohelp=False)
-def heartbleed(inp, reply):
+@hook.command()
+def heartbleed(inp):
+    """heartbleed <host> -- scan the given host for a heartbleed vulnerability"""
     global host_status
     host_status = {}
 

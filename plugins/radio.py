@@ -30,8 +30,9 @@ radios = {
 }
 
 
-@hook.command
+@hook.command(autohelp=False)
 def radio(inp):
+    """radio <name> -- look up what's playing on an icecast radio"""
     if inp == '':
         return 'pick a radio: ' + ', '.join(list(radios.keys()))
 
@@ -74,6 +75,7 @@ def radio(inp):
 
 @hook.command
 def aradio(inp):
+    """aradio -- show currently playing song from r/a/dio"""
     return radio('r/a/dio')
 
 
@@ -83,7 +85,7 @@ def aradio(inp):
 @hook.command(autohelp=False)
 @hook.command('mutantradio', autohelp=False)
 def muradio(inp):
-    """radio [url]-- Returns current mutantradio song"""
+    """muradio -- Returns current mutantradio song"""
     url = 'https://chiru.no:8080/status.xsl'
     page = request.get_text(url)
     soup = BeautifulSoup(page, 'lxml')

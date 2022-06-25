@@ -167,11 +167,13 @@ def make_rainbow(inp):
 @hook.command("gay")
 @hook.command
 def rainbow(inp):
+    """rainbow <text> -- makes your text gay"""
     return make_rainbow(inp)
 
 
 @hook.command
 def gaycow(inp, reply):
+    """gaycow <text> -- cowsay, but gay"""
     reply(make_rainbow(' ' + '_' * (len(inp) + 2)))
     reply(make_rainbow(f'< {inp} >'))
     reply(make_rainbow(' ' + '-' * (len(inp) + 2)))
@@ -185,6 +187,7 @@ def gaycow(inp, reply):
 
 @hook.command
 def wrainbow(inp):
+    """wrainbow <text> -- makes your text rainbow, separated by words"""
     inp = str(inp)
     col = list(colors.items())
     inp = strip(inp).split(' ')
@@ -198,6 +201,7 @@ def wrainbow(inp):
 @hook.command('uk')
 @hook.command
 def usa(inp):
+    """usa <text> -- makes your text alternate between red, white and blue. yeah its usa but it works for like 9 countries"""
     inp = strip(inp)
     c = [colors['red'], '\x0300', colors['blue']]
     l = len(c)

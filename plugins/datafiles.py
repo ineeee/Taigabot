@@ -76,6 +76,7 @@ def send_phrase(inp, attack, nick, conn, me, notice, chan):
 
 @hook.command(autohelp=False)
 def smiley(inp):
+    """smiley -- show a random smiley emoticon"""
     return random.choice(smileys)
 
 
@@ -95,8 +96,7 @@ def potato(inp, me):
 
 @hook.command('8ball')
 def eightball(input, me):
-    """8ball <question> -- The all knowing magic eight ball,
-    =in electronic form. Ask and it shall be answered!"""
+    """8ball <question> -- The all knowing magic eight ball, in electronic form. Ask and it shall be answered!"""
     magic = text.multiword_replace(random.choice(responses), color_codes)
     me(f'shakes the magic 8 ball... {magic}')
     return
