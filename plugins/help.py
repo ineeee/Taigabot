@@ -3,22 +3,24 @@ import re
 from util import hook, user
 from utilities import services
 
+
 @hook.command(autohelp=False)
 def commands(inp, say, notice, input, conn, bot, db):
-    "commands  -- Gives a list of commands/help for a command."
+    """commands  -- Gives a list of commands/help for a command."""
     funcs = {}
     disabled = bot.config.get('disabled_plugins', [])
     disabled_comm = bot.config.get('disabled_commands', [])
+
+    user_is_gadmin = user.is_globaladmin(input.mask, input.chan, bot)
+    user_is_admin = user.is_admin(input.mask, input.chan, db, bot)
+
     for command, (func, args) in bot.commands.items():
         fn = re.match(r'^plugins.(.+).py$', func._filename)
 
-        if fn.group(1).lower(
-        ) not in disabled and command not in disabled_comm:    # Ignores disabled plugins and commands
-            if args.get('channeladminonly', False) and not user.is_admin(
-                    input.mask, input.chan, db, bot):
+        if fn.group(1).lower() not in disabled and command not in disabled_comm:  # hide disabled plugins and commands
+            if args.get('channeladminonly', False) and not user_is_admin:
                 continue
-            if args.get('adminonly', False) and not user.is_globaladmin(
-                    input.mask, input.chan, bot):
+            if args.get('adminonly', False) and not user_is_gadmin:
                 continue
             if func.__doc__ is not None:
                 if func in funcs:
@@ -30,39 +32,25 @@ def commands(inp, say, notice, input, conn, bot, db):
     commands = dict((value, key) for key, value in funcs.items())
 
     if not inp:
-        output = []
-        well = []
-        line = []
-        help = "For detailed help, do '{}help <example>' where <example> "\
-               "is the name of the command you want help for.".format(conn.conf["command_prefix"])
+        # only use the command names
+        commands = list(commands.keys())
+        commands.sort()
 
-        for command in commands:
-            well.append(command)
-        well.sort()
-
-        for command in well:
-            if output == [] and line == []:
-                line.append("Commands you have access to ({}): {}".format(len(well), command))
-            else:
-                line.append(command)
-
-            if len(", ".join(line)) > 405:
-                output.append(", ".join(line))
-                line = []
-
-        if len(line) > 0:
-            output.append(", ".join(line))
-
-        if len(output) == 1:
-            output.append(help)
-            for line in output:
-                notice(line)
+        if len(', '.join(commands)) < 320:
+            # if the output is short, send it as a message
+            notice('Commands you have access to ({}): {}'.format(len(commands), ', '.join(commands)))
         else:
-            output = ", ".join(output)
+            # otherwise paste it to a website
+            output = f'Commands you have access to ({len(commands)}):\n'
+            output += ', '.join(commands) + '\n\n'
+            output += 'For help with a command, do {}help <command>'.format(conn.conf['command_prefix'])
+
             link = services.paste(output, 'Available commands')
-            notice(f'Commands you have access to ({len(well)}): {link}')
+            notice(f'List of commands you have access to ({len(commands)}): {link}')
+
     elif inp in commands:
         notice("{}{}".format(conn.conf["command_prefix"], commands[inp].__doc__))
+
     return
 
 
@@ -70,9 +58,11 @@ def commands(inp, say, notice, input, conn, bot, db):
 @hook.command(autohelp=False)
 def help(inp, say, notice, input, conn, bot, db):
     if not inp:
-        say("For help see .COMMANDS")
+        pref = conn.conf['command_prefix']
+        say(f'For help see \x02{pref}commands\x02 or \x02{pref}help <command>\x02')
     else:
         commands(inp, say, notice, input, conn, bot, db)
+
     return
 
 
