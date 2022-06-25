@@ -39,7 +39,7 @@ def ctcp_finger(inp, notice=None):
 
 @hook.command(adminonly=True)
 def ctcp(inp, conn):
-    "ctcp <destination> <command> -- Send a CTCP command"
+    """ctcp <destination> <command> -- Send a CTCP command"""
     inp = inp.split(" ")
     destination = inp[0]
     command = inp[1]
@@ -50,7 +50,7 @@ def ctcp(inp, conn):
 @hook.command('ver', autohelp=False)
 @hook.command(autohelp=False)
 def version(inp, nick, chan, conn):
-    "version <user> -- Returns version "
+    """version [nick] -- Returns a client's version (ctcp)"""
     inp = inp.split(" ")
     user = inp[0]
     if not user:
@@ -66,19 +66,15 @@ def version(inp, nick, chan, conn):
 @hook.command('pingme', autohelp=False)
 @hook.command(autohelp=False)
 def ping(inp, nick, chan, conn, reply):
-    "version <nick> -- Returns version "
-    if '.' in inp:
-        return pingip(inp, reply)
-    else:
-        inp = inp.split(" ")
-        user = inp[0]
-        if not user:
-            user = nick
-        curtime = time.time()
-        ctcpcache.append(("PING", user, chan))
-        # ctcpcache_timer
-        conn.send("PRIVMSG {} :\x01PING {}\x01".format(user, str(curtime)))
-    return
+    """ping [nick] -- ping a client (ctcp)"""
+    inp = inp.split(" ")
+    user = inp[0]
+    if not user:
+        user = nick
+    curtime = time.time()
+    ctcpcache.append(("PING", user, chan))
+    # ctcpcache_timer
+    conn.send("PRIVMSG {} :\x01PING {}\x01".format(user, str(curtime)))
 
 
 @hook.command(adminonly=True)
@@ -151,8 +147,9 @@ def ctcp_event(paraml, input=None, bot=None, conn=None):
     return
 
 
-@hook.command
+@hook.command(autohelp=False)
 def host(inp, nick, db):
+    """host [nick] -- find a nick's hostname"""
     # User is checking own host (i.e. using .host w/o args)
     checking_own_host = False
 
@@ -173,15 +170,17 @@ def host(inp, nick, db):
     return "{}: {}".format(inp, db_host)
 
 
-@hook.command
+@hook.command(autohelp=False)
 def fhost(inp, nick, db):
+    """fhost [nick] -- find a nick's hostname"""
     if not inp:
         inp = nick
     return user.get_hostmask(inp, db)
 
 
-@hook.command
+@hook.command(autohelp=False)
 def trolltest(inp, nick):
+    """trolltest -- check if Havixil should be trolled"""
     if nick == "Havixil":
         return '[=]quitchannels'
     else:
