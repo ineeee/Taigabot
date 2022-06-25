@@ -22,7 +22,7 @@ def test_docstrings(inp, bot):
         elif '\n' in func.__doc__:
             failed.append(('multiline', command, f'{func._filename}:{func.__code__.co_firstlineno}'))
         else:
-            regex = r'^([a-z0-9]+)( <[0-9a-z #@|]+>| \[[0-9a-z #@|]+\])*( -- |: )(.+)$'
+            regex = r'^([a-z0-9]+)( <[0-9a-z #@\|\.]+>| \[[0-9a-z #@\|\.]+\])*( -- |: )(.+)$'
             match = re.search(regex, func.__doc__)
 
             if match is None:
