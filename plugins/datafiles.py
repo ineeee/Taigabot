@@ -222,8 +222,8 @@ def get_filename(action, notice):
     return action
 
 
-@hook.command
-def add(inp, notice=None, channeladminonly=True):  # TODO check what this channeladminonly thing is
+@hook.command(channeladminonly=True)
+def add(inp, notice):
     """add <type> <data> -- appends <data> to <type>.txt"""
     #inp = inp.split('add')[1]
     action = inp.split(' ')[0]
@@ -231,6 +231,7 @@ def add(inp, notice=None, channeladminonly=True):  # TODO check what this channe
     action = get_filename(action, notice)
 
     if action is None:
+        notice('Denied')
         return
 
     with open(f'plugins/data/{action}.txt', 'a') as file:  # i dont like this

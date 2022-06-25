@@ -82,7 +82,7 @@ def help(inp, say, notice, input, conn, bot, db):
 
 
 # @hook.command(autohelp=False)
-# def export(inp, say=None, notice=None, input=None, conn=None, bot=None):
+# def export(inp, bot):
 #     #print bot.commands #.iteritems()
 #     helptext = ''
 #     for command, (func, args) in bot.commands.iteritems():
