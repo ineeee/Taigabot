@@ -47,7 +47,7 @@ def bible(inp, bot):
 @hook.command('allah')
 @hook.command
 def koran(inp):
-    "koran <chapter.verse> -- gets <chapter.verse> from the Koran. it can also search any text."
+    """koran <chapter.verse> -- gets <chapter.verse> from the Koran. it can also search any text."""
 
     url = 'https://quod.lib.umich.edu/cgi/k/koran/koran-idx?type=simple&q1=' + request.urlencode(inp)
     html = request.get(url)

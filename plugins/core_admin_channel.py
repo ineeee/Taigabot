@@ -231,7 +231,7 @@ def event_handle_autoop(inp, input, db, chan, conn, nick):
 
 @hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def ignored(inp, notice, bot, chan, db):
-    """ignored [channel]-- Lists ignored channels/nicks/hosts."""
+    """ignored [channel] -- Lists ignored channels/nicks/hosts."""
     ignorelist = database.get(db, 'channels', 'ignored', 'chan', chan)
 
     if ignorelist:
@@ -424,7 +424,7 @@ def enablehash(inp, notice, bot, chan, db):
 
 @hook.command(autohelp=False)
 def showfloods(inp, chan, notice, db):
-    """showfloods [channel]-- Shows flood settings."""
+    """showfloods [channel] -- Shows flood settings."""
 
     flood = database.get(db, 'channels', 'flood', 'chan', chan)
     if flood:

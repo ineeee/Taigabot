@@ -34,7 +34,7 @@ def steam_url(match):
 
 @hook.command
 def steamsearch(inp):
-    """steamsearch [search] - Search for specified game/trailer/DLC"""
+    """steamsearch <search> -- Search for specified game/trailer/DLC"""
     page = http.get("http://store.steampowered.com/search/?term=" + inp)
     soup = BeautifulSoup(page, 'lxml', from_encoding="utf-8")
     result = soup.find('a', {'class': 'search_result_row'})
@@ -72,8 +72,7 @@ def unicode_dictreader(utf8_data, **kwargs):
 @hook.command('sc')
 @hook.command
 def steamcalc(inp, reply):
-    """steamcalc <username> [currency] - Gets value of steam account and
-       total hours played. Uses steamcommunity.com/id/<nickname>. """
+    """steamcalc <username> - Gets value of steam account and total hours played """
 
     name = inp.strip()
 

@@ -82,7 +82,7 @@ def smiley(inp):
 
 @hook.command
 def potato(inp, me):
-    """potato <user> - Makes <user> a tasty little potato."""
+    """potato <user> -- Makes <user> a tasty little potato."""
 
     method = random.choice(['bakes', 'fries', 'boils', 'roasts'])
     flavor = random.choice(['tasty', 'delectable', 'delicious', 'yummy', 'toothsome', 'scrumptious', 'luscious'])
