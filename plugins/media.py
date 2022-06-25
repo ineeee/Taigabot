@@ -130,14 +130,14 @@ def get_episode_info(episode):
 @hook.command('show')
 @hook.command('series')
 def tv(inp):
-    ".tv <series> -- get info for the <series>"
+    """tv <series> -- get info for the <series>"""
     return get_series_info(inp)
 
 
 @hook.command('next')
 @hook.command
 def tv_next(inp):
-    ".tv_next <series> -- get the next episode of <series>"
+    """tv_next <series> -- get the next episode of <series>"""
     episodes = get_episodes_for_series(inp)
 
     if episodes["error"]:
@@ -186,7 +186,7 @@ def tv_next(inp):
 @hook.command('prev')
 @hook.command('last')
 def tv_last(inp):
-    ".tv_last <series> -- gets the most recently aired episode of <series>"
+    """tv_last <series> -- gets the most recently aired episode of <series>"""
     episodes = get_episodes_for_series(inp)
 
     if episodes["error"]:
@@ -226,7 +226,7 @@ id_re = re.compile("tt\d+")
 @hook.command('movie')
 @hook.command
 def imdb(inp):
-    "imdb <movie> -- Gets information about <movie> from IMDb."
+    """imdb <movie> -- Gets information about <movie> from IMDb."""
     base_url = 'http://www.imdb.com'
     search = base_url + "/find?q={}&s=all".format(
         urllib.parse.quote(inp.encode('utf-8')))
@@ -288,7 +288,7 @@ movie_reviews_url = api_root + 'movies/%s/reviews.json'
 @hook.command('rt')
 @hook.command
 def rottentomatoes(inp, bot):
-    '.rt <title> -- gets ratings for <title> from Rotten Tomatoes'
+    """rt <title> -- gets ratings for <title> from Rotten Tomatoes"""
 
     api_key = bot.config.get("api_keys", {}).get("rottentomatoes", None)
     if not api_key:

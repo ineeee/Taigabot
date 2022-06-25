@@ -16,7 +16,7 @@ dumb_domain_re = r'([a-zA-Z0-9]+\.[a-zA-Z0-9]+)'
 
 @hook.command()
 def geoip(inp):
-    """geoip <host/ip> -- Gets the location of <host/ip>"""
+    """geoip <host|ip> -- Gets the location of <host> or <ip>"""
 
     if re.match(dumb_ip_re, inp):
         return parse_ip(inp)
