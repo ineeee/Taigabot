@@ -152,7 +152,7 @@ def get_answer(q: str) -> str:
 
 @hook.command('ddg')
 def ddg(inp: str, say: Callable):
-    """.ddg query # search the webs with duckduckgo"""
+    """ddg <query> -- search the webs with duckduckgo"""
     query = inp.strip()
     if query == '':
         say('[DDG] no query given')

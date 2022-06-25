@@ -509,13 +509,13 @@ def intensify(inp):
 
 @hook.command(autohelp=False)
 def increase(inp):
-    "increase"
+    """increase -- make the channel significantly better"""
     return '\x02[QUALITY OF CHANNEL SIGNIFICANTLY INCREASED]\x02'
 
 
 @hook.command(autohelp=False)
 def decrease(inp):
-    "decrease"
+    """decrease -- make the channel significantly worse"""
     return '\x02[QUALITY OF CHANNEL SIGNIFICANTLY DECREASED]\x02'
 
 
@@ -633,7 +633,7 @@ def sudoku(inp, conn, chan, nick, say):
 
 @hook.command(autohelp=False)
 def akbar(inp, conn, chan, nick, say):
-    "akbar - makes the bot kick itsself."
+    """akbar -- makes the bot kick itsself."""
     say("ALLAHU AKBAR")
     conn.send(u"KICK {} {}".format(chan, nick))
     conn.send(u"KICK {} {}".format(chan, conn.nick))

@@ -6,7 +6,7 @@ locale = 'en_US'
 
 @hook.command
 def spell(inp):
-    """spell <word/sentence> -- Check spelling of a word or sentence."""
+    """spell <word|sentence> -- Check spelling of a <word> or a whole <sentence>."""
 
     if not enchant.dict_exists(locale):
         return f'Could not find dictionary: {locale}'
