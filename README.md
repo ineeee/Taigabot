@@ -53,6 +53,27 @@ UguuBot (also taigabot) is **licensed** under the **GPL v3** license. The terms 
     You should have received a copy of the GNU General Public License
     along with UguuBot.  If not, see <http://www.gnu.org/licenses/>.
 
+## About this fork
+wednesday (the dude who kept the bot running) went fucking missing and he stopped mantaining the bot and accepting merge requests, so i just kinda took over.
+
+my first commit was d302369da2ddf5c74f485bd27c2c5f3ab84f2c49, thanks everyone who has contributed:
+```
+$ git shortlog -sn d302369da2..
+   382  inexist3nce
+    52  FrozenPigs
+    50  wednesday
+    19  Anthony DeDominic
+    12  676339784
+     6  ararouge
+     3  Jordan Koch
+     3  adrift
+     3  fishe
+     2  inexistence
+     1  Jesse Erwin
+     1  adonut
+     1  blompf
+```
+
 ## Help?
 
 Open an issue in this github repo. Feel free to improve something and send a pull request.
