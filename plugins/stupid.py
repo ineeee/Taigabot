@@ -478,6 +478,7 @@ items = ([('pantsu', 'used pair of'), ('dragon dildo', 'slightly used'),
 
 @hook.command(autohelp=False)
 def vendingmachine(inp, nick, me):
+    """vendingmachine [nick] -- get a surprise from the vending machine"""
     if inp: nick = inp
     colornum = random.randint(0, len(colors) - 1)
     itemnum = random.randint(0, len(items) - 1)
@@ -549,17 +550,20 @@ def decrease(inp):
 
 @hook.command(autohelp=False)
 def shekels(inp, me):
+    """shekels -- some moneys..."""
     me("lays some shekels on the ground to lure the jews.")
 
 
 @hook.command(autohelp=False)
 def hump(inp, me, nick):
+    """hump [nick] -- hump someone"""
     if not inp: inp = nick
     me("humps {}".format(inp))
 
 
 @hook.command(autohelp=False)
 def marry(inp, me, nick):
+    """marry [nick] -- marry someone"""
     if not inp:
         return "u need to marry someone, dumbo"
     me(u"pronounces {} and {} husbando and waifu".format(nick, inp))
@@ -567,6 +571,7 @@ def marry(inp, me, nick):
 
 @hook.command(autohelp=False)
 def pantsumap(inp, chan, notice):
+    """pantsumap -- returns map of #pantsumen users if channel is #pantsumen"""
     if chan == "#pantsumen":
         notice("Pantsumen Map: http://tinyurl.com/clx2qeg")
     return
@@ -574,6 +579,7 @@ def pantsumap(inp, chan, notice):
 
 @hook.command(autohelp=False)
 def penis(inp, nick):
+    """penis [nick] -- get penis info for nick"""
     if not inp:
         inp = nick
 
@@ -593,6 +599,7 @@ def penis(inp, nick):
 
 @hook.command(autohelp=False)
 def tits(inp, nick):
+    """tits [nick] -- get tits info for nick"""
     if not inp:
         inp = nick
 
@@ -612,6 +619,7 @@ def tits(inp, nick):
 
 @hook.command(autohelp=False)
 def vagina(inp, nick):
+    """vagina [nick] -- get vagina info for nick"""
     if not inp:
         inp = nick
 
@@ -631,6 +639,7 @@ def vagina(inp, nick):
 
 @hook.command(autohelp=False)
 def anus(inp, nick):
+    """anus [nick] -- get chocolate starfish info for nick"""
     if not inp:
         inp = nick
 
@@ -653,7 +662,7 @@ def anus(inp, nick):
 @hook.command("seppuku", autohelp=False)
 @hook.command(autohelp=False)
 def sudoku(inp, conn, chan, nick, say):
-    "up -- Makes the bot kick you in [channel]."
+    "sudoku -- Makes the bot kick you in [channel]."
     say("Sayonara bonzai-chan...")
     conn.send(u"KICK {} {}".format(chan, nick))
     return
@@ -673,6 +682,7 @@ def akbar(inp, conn, chan, nick, say):
 @hook.command("storyofrincewindscat", autohelp=False)
 @hook.command(channeladminonly=True, autohelp=False)
 def storyofpomfface(inp, reply):
+    """storyofpomfface -- pomf's origins"""
     reply(':O C==3')
     reply(':OC==3')
     reply(':C==3')
@@ -684,6 +694,7 @@ def storyofpomfface(inp, reply):
 
 @hook.command
 def cowsay(inp, reply):
+    """cowsay [inp] -- cow says your message"""
     reply(' ' + '_' * (len(inp) + 2))
     reply('< {0} >'.format(inp))
     reply(' ' + '-' * (len(inp) + 2))
@@ -737,18 +748,21 @@ def interject(inp):
         # "Linux is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. Linux is normally used in combination with the GNU operating system: the whole system is basically GNU with Linux added, or GNU/Linux. All the so-called “Linux” distributions are really distributions of GNU/Linux. "
 
 
-@hook.command
+@hook.command(autohelp=False)
 def hack(inp):
+    """hack -- hacks..."""
     return 'hacking...'
 
 
-@hook.command
+@hook.command(autohelp=False)
 def pdawg(inp):
+    """pdawg -- returns a quote from Pdawg"""
     return '<PDawg> i suck cocks...'
 
 
 @hook.command
 def leet(text):
+    """leet <text> -- converts text into l33t h4ck3r text"""
     leet = (
         (('are', 'Are'), 'r'),
         (('ate', 'Ate'), '8'),
@@ -785,6 +799,7 @@ motivators = [
 
 @hook.command(autohelp=False)
 def workout(inp, me):
+    """workout [nick] -- gives someone an exercise"""
     if not inp: inp = 'you'
     else: inp = inp.replace('@', '').strip()
     me('wants {} to get {} as fuck, do {} {} now {}!'.format(inp, random.choice(fitnesslevels),
@@ -796,6 +811,7 @@ def workout(inp, me):
 @hook.command('squats', autohelp=False)
 @hook.command(autohelp=False)
 def pushups(inp, me, paraml):
+    """pushups/squats [nick] -- gives someone pushups/squats to do"""
     activity = paraml[-1].split(' ')[0][1:].lower()
     if not inp: inp = 'you'
     else: inp = inp.replace('@', '').strip()
@@ -805,17 +821,20 @@ def pushups(inp, me, paraml):
 
 @hook.command(autohelp=False)
 def madoka(inp):
+    """madoka  -- see how much Madoka_Miku has mired infinity..."""
     return 'Madoka_Miku has looked at infinitys abs {} times today.'.format(random.randint(1, 500))
 
 
 @hook.command(autohelp=False)
 def drink(inp, nick, me):
+    """drink [nick] -- drinks someone"""
     if not inp: inp = nick
     me('drinks {}, and it was delicious. mmmmmmmmmmmmmmmm'.format(inp))
 
 
 @hook.command(autohelp=False)
 def fap(inp, nick, me):
+    """fap [nick] -- the bot pleasures itself"""
     if not inp: inp = nick
     me('jerks off and cums on {}'.format(inp))
 
@@ -827,29 +846,34 @@ def fap(inp, nick, me):
 
 @hook.command(autohelp=False)
 def cayoot(inp, nick):
+    """cayoot [nick] -- the bot catcalls someone"""
     if not inp: inp = nick
     return '{} is cayoot!'.format(inp)
 
 
 @hook.command(autohelp=False)
 def spit(inp, nick, me):
+    """spit [nick] -- the bot disrespects someone"""
     if not inp: inp = nick
     me('spits on {} like a dirty whore'.format(inp))
 
 
 @hook.command(autohelp=False)
 def pee(inp, nick, me):
+    """pee [nick] -- the bot urinates on someone"""
     if not inp: inp = nick
     me('pees on {}'.format(inp))
 
 
 @hook.command(autohelp=False)
 def sniff(inp, nick, me):
+    """sniff [nick] -- the bot sniffs someone"""
     if not inp: inp = nick
     me('huffs {}s hair while sat behind them on the bus.'.format(inp))
 
 @hook.command(autohelp=False)
 def lok(inp):
+    """lok -- bot autocorrects a misspelling of 'lol'"""
     return 'lol'
 
 
@@ -889,12 +913,14 @@ foods = [
 
 @hook.command(autohelp=False)
 def breakfast(inp, nick, me):
+    """breakfast [nick] -- suggests a breakfast food"""
     if not inp: inp = nick
     food = foods[random.randint(0, len(foods) - 1)]
     me('gives {} some {}.'.format(inp, food))
 
 @hook.command(autohelp=False)
 def rose(inp, nick, me):
+    """rose [nick] -- gives rose to a special someone"""
     if not inp: inp = nick
     if inp.lower() == 'ru':
         me(u'gives \U0001F940 to ' + str(inp))
@@ -903,6 +929,7 @@ def rose(inp, nick, me):
 
 @hook.command(autohelp=False)
 def egg(inp, nick, me):
+    """egg [nick] -- gives an egg to a victim"""
     if not inp: inp = nick
     if inp.lower() == 'irssucks':
         me(u'throws \U0001F95A at IRSSucks')
@@ -913,20 +940,24 @@ def egg(inp, nick, me):
 
 @hook.command(autohelp=False)
 def banana(inp, nick, me):
+    """banana [nick] -- gives a yellow fruit to someone"""
     if not inp: inp = nick
     me(u'gives \U0001F34C to ' + str(inp))
 
 @hook.command(autohelp=False)
 def mango(inp, nick, me):
+    """mango [nick] -- gives the king of all fruits to someone special"""
     if not inp: inp = nick
     me(u'gives \U0001F96D to ' + str(inp))
 
 @hook.command(autohelp=False)
 def peach(inp, nick, me):
+    """peach [nick] -- gives a sweet peach to someone"""
     if not inp: inp = nick
     me(u'gives \U0001F351 to ' + str(inp))
 
 @hook.command(autohelp=False)
 def vax(inp, nick, me):
+    """vax [nick] -- vaccinates someone"""
     if not inp: inp = nick
     me(u'gives \U0001F489 to ' + str(inp))
