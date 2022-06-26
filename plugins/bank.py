@@ -141,7 +141,7 @@ def daddiescummies(inp, nick, db, me, notice):
     notice(f'sent one (1) \U0001F4A6 daddies cummies to {inp}')
 
 
-@hook.command()
+@hook.command(autohelp=False)
 def bene(inp, nick, db, me, notice):
     """bene -- claim one (1) free thing every few minutes"""
     if not bank_exists(db, nick):
