@@ -62,22 +62,25 @@ def test_function_definition(inp, bot):
 
 
 @hook.command(adminonly=True)
-def export_commands_json(inp, bot):
+def export_plugins_json(inp, bot):
     commands = {}
+    regexes = {}
+    events = {}
+    sieves = {}
     count = 0
 
-    print(bot)
-    print(', \n'.join("%s: %s\n\n" % item for item in vars(bot).items()))
-    return 'uwu'
+    pl_commands = bot.plugs.get('command', [])
+    pl_events = bot.plugs.get('event', [])
+    pl_regex = bot.plugs.get('regex', [])
+    pl_sieve = bot.plugs.get('sieve', [])
 
-    for command, (func, args) in bot.commands.items():
-        print(command, func._hook)
+    # parse commands
+    for (func, args) in pl_commands:
         count += 1
         argspec = inspect.getfullargspec(func)
-        funcargs = ', '.join(argspec.args)
 
-        # uuid = name(arg1, arg2, ...)
-        uuid = f'{func.__name__}({funcargs})'
+        # uuid = filename: function(arg1, arg2, ...)
+        uuid = f'{func.__code__.co_filename}:{func.__code__.co_firstlineno} {func.__name__}()'
 
         if uuid not in commands:
             commands[uuid] = {
@@ -86,13 +89,69 @@ def export_commands_json(inp, bot):
                 'lineno': func.__code__.co_firstlineno,
                 'help': func.__doc__,
                 'args': list(argspec.args),
+                'hook': args,  # TODO check this only grabs the first decorator
                 'triggers': [],
             }
 
-        commands[uuid]['triggers'].append(command)
+        commands[uuid]['triggers'].append(args['name'])
 
-    file = open('commands.json', 'w')
-    json.dump(commands, file, indent=2)
+    # parse regexes
+    for (func, args) in pl_regex:
+        count += 1
+        uuid = f'{func.__code__.co_filename}:{func.__code__.co_firstlineno} {func.__name__}()'
+
+        if uuid not in events:
+            regexes[uuid] = {
+                'function': func.__name__,
+                'filename': func.__code__.co_filename,
+                'lineno': func.__code__.co_firstlineno,
+                'help': func.__doc__,
+                'regexes': [],
+            }
+        else:
+            print('warning: duplicated regex decorator??', uuid)
+
+        regexes[uuid]['regexes'].append(args['regex'])
+
+    # parse events
+    for (func, args) in pl_events:
+        count += 1
+        uuid = f'{func.__code__.co_filename}:{func.__code__.co_firstlineno} {func.__name__}()'
+
+        if uuid not in events:
+            events[uuid] = {
+                'function': func.__name__,
+                'filename': func.__code__.co_filename,
+                'lineno': func.__code__.co_firstlineno,
+                'help': func.__doc__,
+                'events': [],
+            }
+        else:
+            print('warning: duplicated event decorator?', uuid)
+
+        for event in args['events']:
+            events[uuid]['events'].append(event)
+
+    # parse sieves
+    for (func, ) in pl_sieve:
+        count += 1
+        uuid = f'{func.__code__.co_filename}:{func.__code__.co_firstlineno} {func.__name__}()'
+
+        sieves[uuid] = {
+            'function': func.__name__,
+            'filename': func.__code__.co_filename,
+            'lineno': func.__code__.co_firstlineno
+        }
+
+    output = {
+        'commands': commands,
+        'events': events,
+        'regexes': regexes,
+        'sieves': sieves,
+    }
+
+    file = open('plugins.json', 'w')
+    json.dump(output, file, indent=2)
     file.close()
 
-    return f'[EXPORT] dumped {count} commands to commands.json'
+    return f'[EXPORT] dumped {count} functions to plugins.json'
