@@ -71,7 +71,7 @@ def unicode_dictreader(utf8_data, **kwargs):
 @hook.command('sc')
 @hook.command
 def steamcalc(inp, reply):
-    """steamcalc <username> - Gets value of steam account and total hours played """
+    """steamcalc <username> -- Gets value of steam account and total hours played"""
 
     name = inp.strip()
 

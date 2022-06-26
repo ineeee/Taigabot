@@ -49,8 +49,7 @@ def helper(event):
 
 @hook.command(autohelp=False)
 def nfl(inp):
-    """nfl | nfl <team abbreviation> -- Returns all matchups for current week, or only for a specified team's matchup
-    """
+    """nfl [team abbreviation] -- Returns all matchups for current week, or only for a specified team's matchup"""
     data = request.get_json(NFL_REALTIME_API, headers=h)
     events = data["events"]
 

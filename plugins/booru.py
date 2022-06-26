@@ -99,8 +99,9 @@ def get_post(booru_id, tags=''):
         return None
 
 
-@hook.command
+@hook.command(autohelp=False)
 def yandere(inp):
+    """yandere [search] -- List latest yande.re posts or search for a tag"""
     post = get_post('yandere', inp)
     if post is None:
         return 'nothing found'
@@ -108,8 +109,9 @@ def yandere(inp):
     return message(post)
 
 
-@hook.command
+@hook.command(autohelp=False)
 def danbooru(inp):
+    """danbooru [search] -- List latest danbooru.donmai.us posts or search for a tag"""
     post = get_post('danbooru', inp)
     if post is None:
         return 'nothing found on those tags'

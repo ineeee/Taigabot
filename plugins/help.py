@@ -6,7 +6,7 @@ from utilities import services
 
 @hook.command(autohelp=False)
 def commands(inp, say, notice, input, conn, bot, db):
-    """commands  -- Gives a list of commands/help for a command."""
+    """commands [command] -- Gives a list of available commands, or help for [command]"""
     funcs = {}
     disabled = bot.config.get('disabled_plugins', [])
     disabled_comm = bot.config.get('disabled_commands', [])
@@ -57,6 +57,7 @@ def commands(inp, say, notice, input, conn, bot, db):
 @hook.command('command', autohelp=False)
 @hook.command(autohelp=False)
 def help(inp, say, notice, input, conn, bot, db):
+    """help [command] -- show help for [command]"""
     if not inp:
         pref = conn.conf['command_prefix']
         say(f'For help see \x02{pref}commands\x02 or \x02{pref}help <command>\x02')
