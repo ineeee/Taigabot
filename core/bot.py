@@ -4,6 +4,7 @@ import time
 import json
 import sqlite3
 import _thread
+import collections
 
 
 class Bot:
@@ -16,6 +17,12 @@ class Bot:
 
         # folder used to store database and logs
         self.persist_dir = os.path.abspath('persist')
+
+        # these variables store every plugin
+        self.plugs = collections.defaultdict(list)
+        self.events = collections.defaultdict(list)
+        self.threads = {}
+        self.commands = {}
 
     def ensure_files(self):
         if not os.path.exists(self.persist_dir):
