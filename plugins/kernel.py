@@ -7,6 +7,7 @@ import re
 
 @hook.command(autohelp=False)
 def kernel(inp):
+    """kernel -- show latest linux kernel versions"""
     data = request.get("https://www.kernel.org/finger_banner")
     lines = data.split('\n')
 

@@ -37,6 +37,32 @@ from utilities import formatting, request
 # HONK HONK
 # HONK HONK
 # HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
 actions = {
     "honk": ["honked at", "honking"],
     "pet": ["pet", "petting"],
@@ -137,11 +163,13 @@ def citation(db, chan, nick, reason):
 
 @hook.command(autohelp=False)
 def guts(inp):
+    """guts -- fuck jumi."""
     return 'Fuck jumi.'
 
 
 @hook.command()
 def plez(inp, me):
+    """plez -- disable plez"""
     me("disables plez")
     me("disables plez")
     me("disables plez")

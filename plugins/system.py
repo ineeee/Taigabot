@@ -93,9 +93,11 @@ def pid(inp):
 
 @hook.command(autohelp=False)
 def bots(inp):
+    """bots -- standard reply to IRC Bot Identification Protocol Standard"""
     return "Reporting in! [Python 3] See http://uguubot.com"
 
 
 @hook.command(autohelp=False)
 def source(inp):
+    """source -- show a link to taigabot's source code"""
     return "\x02Taigabot\x02 - Fuck my shit up nigga https://github.com/inexist3nce/Taigabot"

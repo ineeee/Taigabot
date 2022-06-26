@@ -1,4 +1,3 @@
-from __future__ import print_function
 # distrowatch ranking plugin by ine (2020)
 from util import hook
 from utilities import request, iterable
@@ -80,6 +79,7 @@ def refresh_cache():
 
 @hook.command
 def distro(inp):
+    """distro -- get most popular linux distros according to distrowatch.com"""
     # update if time passed is more than cache_stale
     global last_refresh, cache_stale, cache
     now = time()
