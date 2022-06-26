@@ -2,7 +2,7 @@ import random
 import re
 
 from util import hook
-from utilities import request
+from utilities import request, services
 
 gelbooru_cache = []
 gb_lastsearch = ''
