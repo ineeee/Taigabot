@@ -1,8 +1,4 @@
 # Written by Scaevolus, updated by Lukeroge and ine
-
-from builtins import str
-from builtins import map
-from builtins import range
 import re
 import random
 from util import hook

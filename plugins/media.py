@@ -1,10 +1,5 @@
-from __future__ import print_function
-from __future__ import division
 # IMDb lookup plugin by Ghetto Wizard (2011).
-
-from future import standard_library
-standard_library.install_aliases()
-from builtins import map
+from __future__ import division
 from past.utils import old_div
 from util import hook, http
 import re

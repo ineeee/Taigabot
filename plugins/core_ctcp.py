@@ -1,6 +1,4 @@
-from __future__ import print_function
 # Plugin by neersighted
-from builtins import str
 import time
 import re
 from util import hook, database, user

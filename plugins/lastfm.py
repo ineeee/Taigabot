@@ -1,5 +1,3 @@
-from __future__ import print_function
-from builtins import str
 from util import hook, http, database
 import time
 from datetime import datetime

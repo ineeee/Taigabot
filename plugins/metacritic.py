@@ -1,7 +1,4 @@
 # metacritic.com scraper
-
-from future import standard_library
-standard_library.install_aliases()
 import re
 from urllib.error import HTTPError
 

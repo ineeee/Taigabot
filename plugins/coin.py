@@ -1,4 +1,4 @@
-from collections.abc import Callable
+from typing import Callable
 from util import hook
 import random
 

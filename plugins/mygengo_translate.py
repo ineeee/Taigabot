@@ -1,13 +1,5 @@
-from __future__ import print_function
 # BING translation plugin by Lukeroge and neersighted
-from future import standard_library
-standard_library.install_aliases()
-from builtins import zip
-from builtins import str
 from util import hook
-from util import http
-import re 
-import html.entities
 import mygengo
 
 gogengo = mygengo.MyGengo(
@@ -21,7 +13,7 @@ def gengo_translate(text, source, target):
         translation = gogengo.postTranslationJob(job={
             'type': 'text',
             'slug': 'Translating '+source+' to '+target+' with the myGengo API',
-            'body_src': text, 
+            'body_src': text,
             'lc_src': source,
             'lc_tgt': target,
             'tier': 'machine',
@@ -49,18 +41,18 @@ def etranslate(inp):
     #args = inp.split(' ')
 
     inp = inp.lower()
-    if 'from ' in inp and 'to ' in inp: 
+    if 'from ' in inp and 'to ' in inp:
         sl = inp.split()[1]
         tl = inp.split()[3]
         txt = str(inp.split(tl)[1].strip())
         sl = match_language(sl)
         tl = match_language(tl)
-    elif 'from ' in inp: 
+    elif 'from ' in inp:
         sl = inp.split()[1]
         tl = "en"
         txt = str(inp.split(tl)[1].strip())
         sl = match_language(sl)
-    elif 'to ' in inp: 
+    elif 'to ' in inp:
         sl = "en"
         tl = inp.split()[1]
         txt = str(inp.split(tl)[1].strip())

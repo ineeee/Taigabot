@@ -1,7 +1,6 @@
-from __future__ import print_function
 import re
 
-from util import hook, web
+from util import hook
 from utilities import formatting, request, services
 
 API_URL = 'https://www.googleapis.com/customsearch/v1'

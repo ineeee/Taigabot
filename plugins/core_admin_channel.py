@@ -1,5 +1,5 @@
-from __future__ import division
 # Plugin made by Infinity, Lukeroge and neersighted
+from __future__ import division
 from past.utils import old_div
 import re
 from time import sleep

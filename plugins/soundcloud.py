@@ -1,7 +1,3 @@
-from __future__ import print_function
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
 from util import hook, http, web, text
 from urllib.parse import urlencode
 import re
@@ -19,13 +15,13 @@ def soundcloud(url, api_key):
 
     genre = ""
     if data['genre']: genre = u"- Genre: \x02{}\x02 ".format(data['genre'])
-        
+
     duration = ""
     if data['duration']:
         tracklength = float(data['duration']) / 60000
         tracklength = re.match('(.*\...)', str(tracklength)).group(1)
         if tracklength: duration = u" {} mins -".format(tracklength)
-        
+
 
     url = web.try_isgd(data['permalink_url'])
 

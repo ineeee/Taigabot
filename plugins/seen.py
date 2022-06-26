@@ -1,5 +1,4 @@
 " seen.py: written by sklnd in about two beers July 2009"
-from builtins import str
 import time
 import re
 

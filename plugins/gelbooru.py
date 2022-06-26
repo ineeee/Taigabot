@@ -1,7 +1,7 @@
 import random
 import re
 
-from util import hook, web
+from util import hook
 from utilities import request
 
 gelbooru_cache = []

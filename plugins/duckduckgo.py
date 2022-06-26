@@ -14,7 +14,6 @@
 # limitations under the License.
 
 from typing import Callable, NamedTuple, Optional
-from sys import exit
 from html.parser import HTMLParser
 from urllib.parse import urlparse, parse_qsl
 

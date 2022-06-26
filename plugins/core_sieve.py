@@ -1,5 +1,3 @@
-from __future__ import print_function
-from builtins import map
 import inspect
 import json
 import os

@@ -1,4 +1,3 @@
-from builtins import range
 import re
 import urllib.request
 import urllib.error
@@ -8,7 +7,6 @@ from html.parser import HTMLParser as HtmlParser
 
 import requests
 from bs4 import BeautifulSoup
-from lxml import html
 
 from util import database, formatting, hook, http
 

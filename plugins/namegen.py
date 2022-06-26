@@ -1,6 +1,4 @@
 # Plugin by Lukeroge
-from builtins import range
-from builtins import object
 from util import hook
 from util.text import get_text_list
 import json, random, re, os

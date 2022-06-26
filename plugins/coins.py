@@ -42,12 +42,10 @@ def find_coin_id(inp):
     return False
 
 
-@hook.command('cg', autohelp=False)
-@hook.command(autohelp=False)
+@hook.command('cg')
+@hook.command()
 def cryptocoin(inp):
-    if inp == "":
-        return "[coin] Search a coin with .cryptocoin <name> (or .cg eth)"
-
+    """cryptocoin [name] -- show a crypto coin's prices"""
     coin = find_coin_id(inp)
 
     if coin is False:
@@ -92,11 +90,13 @@ def cryptocoin(inp):
 @hook.command('bitcoin', autohelp=False)
 @hook.command(autohelp=False)
 def btc(inp):
+    """btc -- show bitcoin's prices"""
     return cryptocoin('bitcoin')
 
 @hook.command('ethereum', autohelp=False)
 @hook.command(autohelp=False)
 def eth(inp):
+    """eth -- show ethereum's prices"""
     return cryptocoin('ethereum')
 
 # <wednesday> .doge
@@ -105,4 +105,5 @@ def eth(inp):
 # <wednesday> I like that
 @hook.command(autohelp=False)
 def doge(inp):
+    """who even cares about dogecoin in 2022 lmfao"""
     return "Error: Doge is worthless."

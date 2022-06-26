@@ -1,4 +1,3 @@
-from builtins import str
 import re
 from util import hook, http, text
 from bs4 import BeautifulSoup

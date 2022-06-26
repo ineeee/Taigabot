@@ -1,10 +1,9 @@
 import random
 import re
 import time
-import urllib.request, urllib.parse, urllib.error
 
 from util import hook, user
-from utilities.services import paste, paste_litterbox
+from utilities.services import paste_litterbox
 
 
 def format_quote(q, num, n_quotes):

@@ -21,10 +21,6 @@ inspired by:
   Mark Nottingham, http://www.mnot.net/python/urlnorm.py
 """
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import object
 __license__ = "Python"
 
 import re

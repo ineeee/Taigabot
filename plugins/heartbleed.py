@@ -10,7 +10,6 @@
 # See: https://blog.mozilla.org/security/2014/04/12/testing-for-heartbleed-vulnerability-without-exploiting-the-server/
 
 # Usage example: python ssltest.py example.com
-from builtins import str
 from util import hook
 
 # import sys

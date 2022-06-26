@@ -1,4 +1,3 @@
-from builtins import filter
 import re
 import random
 from util import hook
