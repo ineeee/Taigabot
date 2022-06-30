@@ -46,22 +46,16 @@ def image(inp, bot):
         url = API_URL + '?key={}&cx={}&searchType=image&num=1&safe=off&q={}&fileType={}'
         res = request.get_json(url.format(key, cx, search.encode('utf-8'),
                                           filetype))['items']
-        for result in res:
-            if result['link'].startswith('x-raw-image'):
-                continue
-            else:
-                break
-        else:
-            return "Could not find your image."
     else:
         url = API_URL + '?key={}&cx={}&searchType=image&num=1&safe=off&q={}'
         res = request.get_json(url.format(key, cx, search.encode('utf-8')))['items']
-        for result in res:
-            if result['link'].startswith('x-raw-image'):
-                continue
-            else:
-                break
+
+    for result in res:
+        if result['link'].startswith('x-raw-image'):
+            continue
         else:
-            return "Could not find your image."
+            break
+    else:
+        return "Could not find your image."
 
     return services.shorten(result)
