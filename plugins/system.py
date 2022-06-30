@@ -5,6 +5,7 @@ import psutil
 import re
 import time
 import platform
+import subprocess
 from util import hook
 from datetime import timedelta
 
@@ -100,3 +101,10 @@ def bots(inp):
 def source(inp):
     """source -- show a link to taigabot's source code"""
     return "\x02Taigabot\x02 - Fuck my shit up nigga https://github.com/inexist3nce/Taigabot"
+
+
+@hook.command(autohelp=False)
+def commit(inp):
+    """commit -- show taigabot's current HEAD commit"""
+    proc = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True)
+    return f'Taigabot is running commit {proc.stdout.decode("utf-8").strip()}'
