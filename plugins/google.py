@@ -1,4 +1,5 @@
 import re
+from urllib.parse import urlencode, quote_plus
 
 from util import hook
 from utilities import formatting, request, services
@@ -39,22 +40,29 @@ def image(inp, bot):
         inp, filetype = inp.string[1:].split('.')
 
     cx = bot.config['api_keys']['googleimage']
-    search = '+'.join(inp.split())
+    search = inp
     key = bot.config['api_keys']['google']
 
     if filetype:
-        url = API_URL + '?key={}&cx={}&searchType=image&num=1&safe=off&q={}&fileType={}'
-        res = request.get_json(url.format(key, cx, search.encode('utf-8'),
-                                          filetype))['items']
+        url = API_URL + \
+            f'?key={key}&cx={cx}&searchType=image&num=1&safe=off&q={quote_plus(search)}&fileType={quote_plus(filetype)}'
+        res = request.get_json(url)
     else:
-        url = API_URL + '?key={}&cx={}&searchType=image&num=1&safe=off&q={}'
-        res = request.get_json(url.format(key, cx, search.encode('utf-8')))['items']
+        url = API_URL + f'?key={key}&cx={cx}&searchType=image&num=1&safe=off&q={quote_plus(search)}'
+        res = request.get_json(url)
 
-    for result in res:
-        if result['link'].startswith('x-raw-image'):
-            continue
-        else:
-            break
+    # DEBUG
+    # print(res)
+    if 'items' not in res:
+        return "Could not find an image."
+
+    res = res['items'][0]
+
+    result = ''
+    if not res['link'].startswith('x-raw-image'):
+        result = res['link']
+    elif 'image' in res and 'thumbnailLink' in res['image']:
+        result = res['image']['thumbnailLink']
     else:
         return "Could not find your image."
 
