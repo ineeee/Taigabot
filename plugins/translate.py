@@ -1,5 +1,6 @@
 # google translate plugin
-# updated 04/2022
+# updated 07/2022
+from html import unescape
 from util import hook
 from utilities import request
 
@@ -136,7 +137,7 @@ def google_translate(to_translate: str, to_language: str = 'auto', from_language
     before_trans = 'class="result-container">'
     result = page[page.find(before_trans) + len(before_trans):]
     result = result.split('<')[0]
-    return result
+    return unescape(result)
 
 
 @hook.command
