@@ -1,4 +1,5 @@
 from util import hook
+from utilities import services
 import re
 
 db_inited = False
@@ -141,7 +142,7 @@ def todo(inp, nick, chan, db, notice, bot):
 
         notice(f'Deleted {rows.rowcount} entries')
     elif cmd == 'list':
-        limit = 21
+        limit = 40
 
         if len(args):
             try:
@@ -151,16 +152,26 @@ def todo(inp, nick, chan, db, notice, bot):
                 notice('Invalid number.')
                 return
 
-        rows = db_getall(db, nick, limit)
+        rows = db_getall(db, nick, limit + 1)
 
         found = False
+        data = []
 
         for (index, row) in enumerate(rows):
-            notice(f'[{index}]: {row[0]}: {row[1]}')
+            data.append(f'[{index}]: {row[0]}: {row[1]}')
             found = True
 
         if not found:
             notice(f'{nick} has no entries.')
+        else:
+            if len(data) >= limit - 1:  # why does this look so wrong? it works tho
+                data.append(f'Search limited to {limit} entries.')
+
+            data = 'List of TODO entries:\n' + '\n'.join(data)
+
+            link = services.paste(data, title='TODO')
+            notice(f'Your list: {link}')
+
     elif cmd == 'search':
         if not len(args):
             notice('No search query given!')
