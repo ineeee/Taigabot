@@ -1,1 +1,7209 @@
-does this work??
+
+<!DOCTYPE html><html>
+<head>
+	<meta charset="utf-8">
+	<title>Taigabot</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+	<section class="section">
+
+	<div class="content">
+		<h4>plugins/4chan.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/4chan.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>catalog</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.catalog</strong>  &lt;board&gt; &lt;regex&gt; -- Search all OP posts on the catalog of a board, and return matching results</span>
+					</li>
+				
+					<li>
+						<span><strong>.4chan</strong>  &lt;board&gt; &lt;regex&gt; -- Search all OP posts on the catalog of a board, and return matching results</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>board</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.board</strong>  &lt;board&gt; &lt;regex&gt; -- Search all the posts on a board and return matching results</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bs</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bs</strong>  -- Returns current battlestation threads on /g/</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>desktops</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.desktops</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>britbong</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.britbong</strong>  -- find latest britbong thread on /pol/</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/ai.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/ai.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>ai_sieve</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/amazon.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/amazon.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>amazon</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.amazon</strong>  [query] -- Searches amazon for query</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>amazon_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/bank.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/bank.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bank</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bank</strong>  -- check the balance in your TaigaBank(tm) Account(r). also opens a new account if you dont have one</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>peachypeach</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.peachypeach</strong>  &lt;nick&gt;: send one (1) peachy peach to nick</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>roseyrose</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.roseyrose</strong>  &lt;nick&gt;: send one (1) rosey rose to nick</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>daddiescummies</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.daddiescummies</strong>  &lt;nick&gt;: send one (1) daddies cummies to nick</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bene</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bene</strong>  -- claim one (1) free thing every few minutes</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/bash.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/bash.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bash</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bash</strong>  &lt;id&gt; -- Gets a random quote from Bash.org, or returns a specific id.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/booru.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/booru.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>yandere</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.yandere</strong>  [search] -- List latest yande.re posts or search for a tag</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>danbooru</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.danbooru</strong>  [search] -- List latest danbooru.donmai.us posts or search for a tag</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/calculator.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/calculator.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>c</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.c</strong>  [equation] -- calculates equation with custom calculator</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/choose.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/choose.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>choose</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.choose</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.decide</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/coin.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/coin.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>coin</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.coin</strong>  [amount] -- Flips [amount] of coins.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/coins.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/coins.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>cryptocoin</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.cryptocoin</strong>  [name] -- show a crypto coin&#39;s prices</span>
+					</li>
+				
+					<li>
+						<span><strong>.cg</strong>  [name] -- show a crypto coin&#39;s prices</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>btc</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.btc</strong>  -- show bitcoin&#39;s prices</span>
+					</li>
+				
+					<li>
+						<span><strong>.bitcoin</strong>  -- show bitcoin&#39;s prices</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>eth</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.eth</strong>  -- show ethereum&#39;s prices</span>
+					</li>
+				
+					<li>
+						<span><strong>.ethereum</strong>  -- show ethereum&#39;s prices</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>doge</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.doge</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/core_admin_channel.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/core_admin_channel.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>mask</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.mask</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>match</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.match</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>admins</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.admins</strong>  [channel] -- Lists admins on channel.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>admin</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.admin</strong>  [channel] &lt;add|del&gt; &lt;nick|host&gt; -- Makes the user an admin.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>autoops</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.autoops</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>autoop</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.autoop</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>ignored</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ignored</strong>  [channel] -- Lists ignored channels/nicks/hosts.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>ignore</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ignore</strong>  [channel] &lt;nick|host&gt; -- Makes the bot ignore &lt;nick|host&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>unignore</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.unignore</strong>  [channel] &lt;nick|host&gt; -- Makes the bot listen to &lt;nick|host&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>disabled</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.disabled</strong>  [#channel] -- Lists disabled commands/.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>disable</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.disable</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>enable</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.enable</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>disablehash</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.disablehash</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>disabledhashes</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.disabledhashes</strong>  [#channel] -- Lists disabled hashtags.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>enablehash</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.enablehash</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>showfloods</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.showfloods</strong>  [channel] -- Shows flood settings.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>flood</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.flood</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>cmdflood</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.cmdflood</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>badwords</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.badwords</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>trim</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.trim</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>topic</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.topic</strong>  [channel] &lt;topic&gt; -- Change the topic of a channel.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>mute</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.mute</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>unmute</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.unmute</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>shutup</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.shutup</strong>  [channel] &lt;user&gt; -- Shuts the user up. </span>
+					</li>
+				
+					<li>
+						<span><strong>.silence</strong>  [channel] &lt;user&gt; -- Shuts the user up. </span>
+					</li>
+				
+					<li>
+						<span><strong>.stfu</strong>  [channel] &lt;user&gt; -- Shuts the user up. </span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>speak</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.speak</strong>  [channel] &lt;user&gt; -- Shuts the user up. </span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>lock</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.lock</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>unlock</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.unlock</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bans</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bans</strong>  -- Lists bans on channel.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>ban</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ban</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.kb</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>unban</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.unban</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.ub</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>kick</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.kick</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.kal</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.k</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>op</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.op</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.up</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>deop</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.deop</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.down</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>hop</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.hop</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>dehop</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.dehop</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>voice</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.voice</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>devoice</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.devoice</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>invite</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.invite</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>remove</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.remove</strong>  [channel] &lt;user&gt; [message] -- Force a user to part from a channel.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>testdamnit</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.testdamnit</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>event_handle_autoop</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/core_admin_global.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/core_admin_global.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gadmins</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gadmins</strong>  -- Lists bot&#39;s global admins.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gadmin</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gadmin</strong>  &lt;add|del&gt; &lt;nick|host&gt; -- Make &lt;nick|host&gt; an global admin (you can delete multiple admins at once)</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gdisabled</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gdisabled</strong>  -- Lists globally disabled commands.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gdisable</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gdisable</strong>  &lt;commands&gt; -- Makes the bot globally disable a command.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>genable</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.genable</strong>  &lt;commands&gt; -- Enables currently globally disabled commands</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gignored</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gignored</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gignore</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gignore</strong>  &lt;nick|host&gt; -- Makes the bot ignore nick|host.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gunignore</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gunignore</strong>  [channel] &lt;nick|host&gt; -- Makes the bot listen to &lt;nick|host&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>stop</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.stop</strong>  [reason] -- Kills the bot with [reason] as its quit message.</span>
+					</li>
+				
+					<li>
+						<span><strong>.quit</strong>  [reason] -- Kills the bot with [reason] as its quit message.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>restart</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.restart</strong>  [reason] -- Restarts the bot with [reason] as its quit message.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>clearlogs</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.clearlogs</strong>  -- Clears the bots log(s).</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>join</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.join</strong>  &lt;channel&gt; -- Joins &lt;channel&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>part</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.part</strong>  [channel] -- Leaves [channel]. If [channel] is blank, leave the current channel.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>cycle</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.cycle</strong>  [channel] -- Cycles [channel]. If [channel] is blank, cycle the current channel.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>nick</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.nick</strong>  &lt;nick&gt; -- Changes the bots nickname to &lt;nick&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>raw</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.raw</strong>  &lt;command&gt; -- Sends a RAW IRC command.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>say</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.say</strong>  [channel] &lt;message&gt; -- Say &lt;message&gt; in [channel]. If [channel] is blank, send in current channel.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>msg</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.msg</strong>  &lt;user&gt; &lt;message&gt; -- Sends a Message.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>me</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.me</strong>  [channel] &lt;action&gt; -- Act out &lt;action&gt; in [channel]. If [channel] is blank, use the current channel.</span>
+					</li>
+				
+					<li>
+						<span><strong>.act</strong>  [channel] &lt;action&gt; -- Act out &lt;action&gt; in [channel]. If [channel] is blank, use the current channel.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>set</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.set</strong>  &lt;field&gt; &lt;nick&gt; &lt;value&gt; -- Admin override for setting database values. Example: set lastfm infinity spookieboogie</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>db</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.db</strong>  &lt;update|init&gt; -- Init or update the database.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/core_ctcp.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/core_ctcp.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>ctcp</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ctcp</strong>  &lt;destination&gt; &lt;command&gt; -- Send a CTCP command</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>version</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.version</strong>  [nick] -- Returns a client&#39;s version (ctcp)</span>
+					</li>
+				
+					<li>
+						<span><strong>.ver</strong>  [nick] -- Returns a client&#39;s version (ctcp)</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>ping</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ping</strong>  [nick] -- ping a client (ctcp)</span>
+					</li>
+				
+					<li>
+						<span><strong>.pingme</strong>  [nick] -- ping a client (ctcp)</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>pingip</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.pingip</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>host</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.host</strong>  [nick] -- find a nick&#39;s hostname</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>fhost</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.fhost</strong>  [nick] -- find a nick&#39;s hostname</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>trolltest</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.trolltest</strong>  -- check if Havixil should be trolled</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>ctcp_event</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>ctcp_version</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>ctcp_ping</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>ctcp_time</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>ctcp_finger</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/core_misc.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/core_misc.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>onjoin</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>invite</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>onkick</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>onjoined</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>onpart</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>onnick</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>onmode</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>keep_alive</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/core_sieve.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/core_sieve.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>ledzep</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ledzep</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>sudos</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.sudos</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-warning is-light">sieve</span>
+					<span>ignoresieve</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-warning is-light">sieve</span>
+					<span>sieve_suite</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/core_tests.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/core_tests.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>test_docstrings</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.test_docstrings</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>test_function_definition</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.test_function_definition</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>export_plugins_json</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.export_plugins_json</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/core_user.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/core_user.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>battlestation</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.battlestation</strong>  &lt;url | @ nick&gt; -- set your battlestation or see &lt;nick&gt;&#39;s</span>
+					</li>
+				
+					<li>
+						<span><strong>.keyboard</strong>  &lt;url | @ nick&gt; -- set your battlestation or see &lt;nick&gt;&#39;s</span>
+					</li>
+				
+					<li>
+						<span><strong>.bullshit</strong>  &lt;url | @ nick&gt; -- set your battlestation or see &lt;nick&gt;&#39;s</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>desktop</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.desktop</strong>  &lt;url | @ nick&gt; -- set your desktop or see &lt;nick&gt;&#39;s</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>greeting</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.greeting</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.intro</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>waifu</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.waifu</strong>  &lt;waifu | @ nick&gt; -- Shows a users Waifu or Husbando.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>husbando</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.husbando</strong>  &lt;husbando | @ nick&gt; -- Shows a users husbando or Husbando.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>imouto</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.imouto</strong>  &lt;imouto | @ nick&gt; -- Shows a users imouto or Husbando.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>daughteru</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.daughteru</strong>  &lt;daughteru | @ nick&gt; -- Shows a users daughteru.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>mom</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.mom</strong>  &lt;mom | @ nick&gt; -- Shows a users mom.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>dad</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.dad</strong>  &lt;dad | @ nick&gt; -- Shows a users dad.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>birthday</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.birthday</strong>  &lt;date | @ person&gt; -- Shows a users Birthday.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>horoscope</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.horoscope</strong>  &lt;sign&gt; [save] -- Get your horoscope.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>homescreen</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.homescreen</strong>  &lt;url | @ nick&gt; -- Shows a users homescreen.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>snapchat</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.snapchat</strong>  &lt;snapchatname | @ nick&gt; -- Shows a users snapchat name.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>socialmedia</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.socialmedia</strong>  &lt;socialmedianames | @ nick&gt; -- Shows a users social medias names.</span>
+					</li>
+				
+					<li>
+						<span><strong>.soc</strong>  &lt;socialmedianames | @ nick&gt; -- Shows a users social medias names.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>myanime</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.myanime</strong>  &lt;mal name | @ nick&gt; -- Shows a users myanimelist profile.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>mymanga</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.mymanga</strong>  &lt;mal name | @ nick&gt; -- Shows a users myanimelist profile.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>selfie</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.selfie</strong>  &lt;url | @ nick&gt; -- Shows a users selfie.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>fit</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.fit</strong>  &lt;url | @ nick&gt; -- Shows a users outfit.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>handwriting</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.handwriting</strong>  &lt;url | @ nick&gt; -- Shows a users handwriting.</span>
+					</li>
+				
+					<li>
+						<span><strong>.hw</strong>  &lt;url | @ nick&gt; -- Shows a users handwriting.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>steam</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.steam</strong>  &lt;steam username | @ nick&gt; -- Shows a users steam information.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/countdown.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/countdown.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>countdown</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.countdown</strong>  [seconds] [nick1 nick2 nick3] -- starts a countdown. It will begin when all the users type .ready</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>ready</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ready</strong>  -- when all users are ready the countdown will begin.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/cypher.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/cypher.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>cypher</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.cypher</strong>  &lt;pass&gt; &lt;string&gt; -- Cyphers &lt;string&gt; with &lt;password&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>decypher</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.decypher</strong>  &lt;pass&gt; &lt;string&gt; -- Decyphers &lt;string&gt; with &lt;password&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/datafiles.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/datafiles.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>smiley</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.smiley</strong>  -- show a random smiley emoticon</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>potato</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.potato</strong>  &lt;user&gt; -- Makes &lt;user&gt; a tasty little potato.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>eightball</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.8ball</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>lart</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.lart</strong>  &lt;user&gt; -- LARTs &lt;user&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>insult</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.insult</strong>  &lt;user&gt; -- Makes the bot insult &lt;user&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>flirt</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.flirt</strong>  &lt;user&gt; -- Makes the bot flirt &lt;user&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>yiff</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.yiff</strong>  &lt;user&gt; -- yiffs &lt;user&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>lewd</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.lewd</strong>  &lt;user&gt; -- lewd &lt;user&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>kill</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.kill</strong>  &lt;user&gt; -- Makes the bot kill &lt;user&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>slap</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.slap</strong>  &lt;user&gt; -- Makes the bot slap &lt;user&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>slogan</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.slogan</strong>  &lt;word&gt; -- Makes a slogan for &lt;word&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>add</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.add</strong>  &lt;type&gt; &lt;data&gt; -- appends &lt;data&gt; to &lt;type&gt;.txt</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>troll</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.troll</strong>  -- Trolls on demand</span>
+					</li>
+				
+					<li>
+						<span><strong>.wailord</strong>  -- Trolls on demand</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>fortune</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.fortune</strong>  -- Fortune cookies on demand.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>topkek</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.topkek</strong>  -- keks on demand.</span>
+					</li>
+				
+					<li>
+						<span><strong>.kek</strong>  -- keks on demand.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>lolifile</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.lolifile</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>moistcake</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.moistcake</strong>  -- Moists on demand.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>qt</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.qt</strong>  --  return qts.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>urmom</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.urmom</strong>  --  return urmom.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>honry</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.honry</strong>  --  return honry.</span>
+					</li>
+				
+					<li>
+						<span><strong>.old</strong>  --  return honry.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bender</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bender</strong>  -- Bender quotes.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gainz</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gainz</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.gains</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/debt.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/debt.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>debt</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.debt</strong>  -- returns the us national debt</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/dice.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/dice.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>dice</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.dice</strong>  &lt;diceroll&gt; -- Simulates dicerolls. Example: &#39;2d20-d5+4&#39; = roll 2 D20s, subtract 1D5, add 4</span>
+					</li>
+				
+					<li>
+						<span><strong>.roll</strong>  &lt;diceroll&gt; -- Simulates dicerolls. Example: &#39;2d20-d5+4&#39; = roll 2 D20s, subtract 1D5, add 4</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/dictionary.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/dictionary.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>define</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.define</strong>  &lt;word&gt; -- Fetches definition of &lt;word&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.dictionary</strong>  &lt;word&gt; -- Fetches definition of &lt;word&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>etymology</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.etymology</strong>  &lt;word&gt; -- Retrieves the etymology of &lt;word&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/distance.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/distance.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>distance</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.distance</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/distro.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/distro.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>distro</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.distro</strong>  -- get most popular linux distros according to distrowatch.com</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/duckduckgo.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/duckduckgo.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>ddg</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ddg</strong>  &lt;query&gt; -- search the webs with duckduckgo</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/fmylife.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/fmylife.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>fml</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.fml</strong>  -- Gets a random quote from fmyfife.com.</span>
+					</li>
+				
+					<li>
+						<span><strong>.fmylife</strong>  -- Gets a random quote from fmyfife.com.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/furry.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/furry.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>furry</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.furry</strong>  [query] -- show latest e621.net posts, or search with the given query</span>
+					</li>
+				
+					<li>
+						<span><strong>.e621</strong>  [query] -- show latest e621.net posts, or search with the given query</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/gelbooru.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/gelbooru.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gelbooru</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gelbooru</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+					<li>
+						<span><strong>.futanari</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+					<li>
+						<span><strong>.futa</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+					<li>
+						<span><strong>.trap</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+					<li>
+						<span><strong>.shotacon</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+					<li>
+						<span><strong>.shota</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+					<li>
+						<span><strong>.lolicon</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+					<li>
+						<span><strong>.loli</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+					<li>
+						<span><strong>.gb</strong>  &lt;tags&gt; -- Gets a random image from gelbooru.com</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>gelbooru_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/geoip.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/geoip.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>geoip</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.geoip</strong>  &lt;host|ip&gt; -- Gets the location of &lt;host&gt; or &lt;ip&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/google.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/google.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>google</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.google</strong>  &lt;query&gt; -- Returns first google search result for &lt;query&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.g</strong>  &lt;query&gt; -- Returns first google search result for &lt;query&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.search</strong>  &lt;query&gt; -- Returns first google search result for &lt;query&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>image</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gi</strong>  &lt;query&gt; -- Returns the first Google Image result for &lt;query&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>image</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/hashtags.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/hashtags.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>remember</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.remember</strong>  &lt;word&gt; &lt;data&gt; -- Remembers &lt;data&gt; with &lt;word&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.r</strong>  &lt;word&gt; &lt;data&gt; -- Remembers &lt;data&gt; with &lt;word&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.learn</strong>  &lt;word&gt; &lt;data&gt; -- Remembers &lt;data&gt; with &lt;word&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>forget</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.forget</strong>  &lt;word&gt; -- Forgets a remembered &lt;word&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.f</strong>  &lt;word&gt; -- Forgets a remembered &lt;word&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>info</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.info</strong>  &lt;word&gt; -- Shows the source of a factoid.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>hashes</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.hashes</strong>  -- Shows hash names for all known hashes.</span>
+					</li>
+				
+					<li>
+						<span><strong>.key</strong>  -- Shows hash names for all known hashes.</span>
+					</li>
+				
+					<li>
+						<span><strong>.keys</strong>  -- Shows hash names for all known hashes.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>hashtag</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/heartbleed.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/heartbleed.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>heartbleed</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.heartbleed</strong>  &lt;host&gt; -- scan the given host for a heartbleed vulnerability</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/help.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/help.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>commands</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.commands</strong>  [command] -- Gives a list of available commands, or help for [command]</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>help</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.help</strong>  [command] -- show help for [command]</span>
+					</li>
+				
+					<li>
+						<span><strong>.command</strong>  [command] -- show help for [command]</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/kernel.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/kernel.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>kernel</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.kernel</strong>  -- show latest linux kernel versions</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/lastfm.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/lastfm.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>band</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.band</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>lastfm</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.lastfm</strong>  [username|@nick] -- Displays the current/last played track.</span>
+					</li>
+				
+					<li>
+						<span><strong>.np</strong>  [username|@nick] -- Displays the current/last played track.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/log.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/log.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>log</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/lyrics.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/lyrics.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>lyrics</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.lyrics</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/major_league_baseball.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/major_league_baseball.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>mlb</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.mlb</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/marketing.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/marketing.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>marketing</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.marketing</strong>  -- show some marketing bullshit</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/masshighlight.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/masshighlight.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>users</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.users</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>getusers</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.getusers</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>onnames</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>onjoined_addhighlight</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-warning is-light">sieve</span>
+					<span>highlight_sieve</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/media.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/media.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>tv</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.series</strong>  &lt;series&gt; -- get info for the &lt;series&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.show</strong>  &lt;series&gt; -- get info for the &lt;series&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.tv</strong>  &lt;series&gt; -- get info for the &lt;series&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>tv_next</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.tv_next</strong>  &lt;series&gt; -- get the next episode of &lt;series&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.next</strong>  &lt;series&gt; -- get the next episode of &lt;series&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>tv_last</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.last</strong>  &lt;series&gt; -- gets the most recently aired episode of &lt;series&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.prev</strong>  &lt;series&gt; -- gets the most recently aired episode of &lt;series&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.tv_prev</strong>  &lt;series&gt; -- gets the most recently aired episode of &lt;series&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.tv_last</strong>  &lt;series&gt; -- gets the most recently aired episode of &lt;series&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>imdb</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.imdb</strong>  &lt;movie&gt; -- Gets information about &lt;movie&gt; from IMDb.</span>
+					</li>
+				
+					<li>
+						<span><strong>.movie</strong>  &lt;movie&gt; -- Gets information about &lt;movie&gt; from IMDb.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>rottentomatoes</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.rottentomatoes</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.rt</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/mediawiki.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/mediawiki.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>drama</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.drama</strong>  &lt;article&gt; -- search an Encyclopedia Dramatica article</span>
+					</li>
+				
+					<li>
+						<span><strong>.encyclopediadramatica</strong>  &lt;article&gt; -- search an Encyclopedia Dramatica article</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>wikipedia</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.wikipedia</strong>  &lt;article&gt; -- search a wikipedia article</span>
+					</li>
+				
+					<li>
+						<span><strong>.wiki</strong>  &lt;article&gt; -- search a wikipedia article</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>drama_url</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>wikipedia_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/metacritic.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/metacritic.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>metacritic</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.metacritic</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.mc</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/namegen.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/namegen.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>namegen</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.namegen</strong>  [generator] -- Generates some names using the chosen generator. &#39;namegen list&#39; will display a list of all generators.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/newegg.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/newegg.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>newegg</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.newegg</strong>  &lt;item name&gt; -- Searches newegg.com for &lt;item name&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>newegg_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/nfl.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/nfl.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>nfl</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.nfl</strong>  [team abbreviation] -- Returns all matchups for current week, or only for a specified team&#39;s matchup</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/quote.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/quote.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>quote</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.quote</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.q</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>rquote</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.rquote</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>quotechan</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.qchan</strong>  &lt;#channel&gt; &lt;search&gt;: search some shit in an entire channel</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/radio.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/radio.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>radio</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.radio</strong>  &lt;name&gt; -- look up what&#39;s playing on an icecast radio</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>aradio</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.aradio</strong>  -- show currently playing song from r/a/dio</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>muradio</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.mutantradio</strong>  -- Returns current mutantradio song</span>
+					</li>
+				
+					<li>
+						<span><strong>.muradio</strong>  -- Returns current mutantradio song</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/religion.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/religion.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bible</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bible</strong>  &lt;passage&gt; -- gets &lt;passage&gt; from the Bible (ESV)</span>
+					</li>
+				
+					<li>
+						<span><strong>.god</strong>  &lt;passage&gt; -- gets &lt;passage&gt; from the Bible (ESV)</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>koran</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.koran</strong>  &lt;chapter.verse&gt; -- gets &lt;chapter.verse&gt; from the Koran. it can also search any text.</span>
+					</li>
+				
+					<li>
+						<span><strong>.allah</strong>  &lt;chapter.verse&gt; -- gets &lt;chapter.verse&gt; from the Koran. it can also search any text.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/reminder.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/reminder.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>reminder</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.reminder</strong>  &lt;time&gt; &lt;message&gt; -- reminds you of &lt;message&gt;. the time argument accepts minutes, hours, days, etc</span>
+					</li>
+				
+					<li>
+						<span><strong>.remind</strong>  &lt;time&gt; &lt;message&gt; -- reminds you of &lt;message&gt;. the time argument accepts minutes, hours, days, etc</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/seen.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/seen.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>seen</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.seen</strong>  &lt;nick&gt; -- Tell when a nickname was last in active in one of this bot&#39;s channels.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>seen_sieve</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/soundcloud.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/soundcloud.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>soundcloud_url</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>sndsc_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/spellcheck.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/spellcheck.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>spell</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.spell</strong>  &lt;word|sentence&gt; -- Check spelling of a &lt;word&gt; or a whole &lt;sentence&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/spotify.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/spotify.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>spotify</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.spotify</strong>  &lt;song&gt; -- Search Spotify for &lt;song&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.song</strong>  &lt;song&gt; -- Search Spotify for &lt;song&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.sp</strong>  &lt;song&gt; -- Search Spotify for &lt;song&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>spalbum</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.spalbum</strong>  &lt;album&gt; -- Search Spotify for &lt;album&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.album</strong>  &lt;album&gt; -- Search Spotify for &lt;album&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>spartist</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.spartist</strong>  &lt;artist&gt; -- Search Spotify for &lt;artist&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.artist</strong>  &lt;artist&gt; -- Search Spotify for &lt;artist&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>spotify_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/steam.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/steam.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>steamsearch</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.steamsearch</strong>  &lt;search&gt; -- Search for specified game/trailer/DLC</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>steamcalc</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.steamcalc</strong>  &lt;username&gt; -- Gets value of steam account and total hours played</span>
+					</li>
+				
+					<li>
+						<span><strong>.sc</strong>  &lt;username&gt; -- Gets value of steam account and total hours played</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>steam_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/stock.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/stock.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>stock</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.stock</strong>  &lt;symbol&gt; -- gets stock information</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/stupid.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/stupid.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>guts</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.guts</strong>  -- fuck jumi.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>plez</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.plez</strong>  -- disable plez</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bet</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bet</strong>  &lt;ammount&gt; -- bets &lt;ammount&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>honk</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.honk</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.lick</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.pet</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.diddle</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.spank</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.rape</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.buy</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.sex</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.shill</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+					<li>
+						<span><strong>.sell</strong>  &lt;nick&gt; -- Honks at someone.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>donate</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.donate</strong>  &lt;user&gt; &lt;money&gt; -- Gives &lt;money&gt; to &lt;user&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.give</strong>  &lt;user&gt; &lt;money&gt; -- Gives &lt;money&gt; to &lt;user&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>mug</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.mug</strong>  &lt;user&gt; -- Takes money from &lt;user&gt;..</span>
+					</li>
+				
+					<li>
+						<span><strong>.rob</strong>  &lt;user&gt; -- Takes money from &lt;user&gt;..</span>
+					</li>
+				
+					<li>
+						<span><strong>.steal</strong>  &lt;user&gt; -- Takes money from &lt;user&gt;..</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>owed</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.owed</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>pay</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.pay</strong>  -- pay your fines</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>vendingmachine</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.vendingmachine</strong>  [nick] -- get a surprise from the vending machine</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>hug</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.hug</strong>  &lt;nick&gt; -- hugs someone</span>
+					</li>
+				
+					<li>
+						<span><strong>.love</strong>  &lt;nick&gt; -- hugs someone</span>
+					</li>
+				
+					<li>
+						<span><strong>.daki</strong>  &lt;nick&gt; -- hugs someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>dab</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.dab</strong>  &lt;nick&gt; -- dab on dem haters</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>poke</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.poke</strong>  &lt;nick&gt; -- pokes someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>nigger</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.nigger</strong>  &lt;nick&gt; -- niggers someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>kiss</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.kiss</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>intensify</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.intensify</strong>  &lt;word&gt; -- [EXCITEMENT INTENSIFIES]</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>increase</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.increase</strong>  -- make the channel significantly better</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>decrease</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.decrease</strong>  -- make the channel significantly worse</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>shekels</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.shekels</strong>  -- some moneys...</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>hump</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.hump</strong>  [nick] -- hump someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>marry</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.marry</strong>  [nick] -- marry someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>pantsumap</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.pantsumap</strong>  -- returns map of #pantsumen users if channel is #pantsumen</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>penis</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.penis</strong>  [nick] -- get penis info for nick</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>tits</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.tits</strong>  [nick] -- get tits info for nick</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>vagina</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.vagina</strong>  [nick] -- get vagina info for nick</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>anus</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.anus</strong>  [nick] -- get chocolate starfish info for nick</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>sudoku</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.sudoku</strong>  -- Makes the bot kick you in [channel].</span>
+					</li>
+				
+					<li>
+						<span><strong>.seppuku</strong>  -- Makes the bot kick you in [channel].</span>
+					</li>
+				
+					<li>
+						<span><strong>.anhero</strong>  -- Makes the bot kick you in [channel].</span>
+					</li>
+				
+					<li>
+						<span><strong>.harakiri</strong>  -- Makes the bot kick you in [channel].</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>akbar</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.akbar</strong>  -- makes the bot kick itsself.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>storyofpomfface</span>
+			
+					<small class="tag is-light">Channel admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.storyofpomfface</strong>  -- pomf&#39;s origins</span>
+					</li>
+				
+					<li>
+						<span><strong>.storyofrincewindscat</strong>  -- pomf&#39;s origins</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>cowsay</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.cowsay</strong>  [inp] -- cow says your message</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>hack</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.hack</strong>  -- hacks...</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>pdawg</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.pdawg</strong>  -- returns a quote from Pdawg</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>leet</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.leet</strong>  &lt;text&gt; -- converts text into l33t h4ck3r text</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>workout</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.workout</strong>  [nick] -- gives someone an exercise</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>pushups</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.pushups</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.squats</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>madoka</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.madoka</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>drink</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.drink</strong>  [nick] -- drinks someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>fap</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.fap</strong>  [nick] -- the bot pleasures itself</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>cayoot</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.cayoot</strong>  [nick] -- the bot catcalls someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>spit</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.spit</strong>  [nick] -- the bot disrespects someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>pee</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.pee</strong>  [nick] -- the bot urinates on someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>sniff</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.sniff</strong>  [nick] -- the bot sniffs someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>lok</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.lok</strong>  -- bot autocorrects a misspelling of &#39;lol&#39;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>breakfast</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.breakfast</strong>  [nick] -- suggests a breakfast food</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>rose</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.rose</strong>  [nick] -- gives rose to a special someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>egg</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.egg</strong>  [nick] -- gives an egg to a victim</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>banana</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.banana</strong>  [nick] -- gives a yellow fruit to someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>mango</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.mango</strong>  [nick] -- gives the king of all fruits to someone special</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>peach</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.peach</strong>  [nick] -- gives a sweet peach to someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>vax</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.vax</strong>  [nick] -- vaccinates someone</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>intensify</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>same</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>huehuehue</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>tetete</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>woah</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>interject</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/system.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/system.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>system</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.system</strong>  -- Retrieves information about the host system.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>memory</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.memory</strong>  -- Displays the bot&#39;s current memory usage.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>uptime</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.uptime</strong>  -- Shows the bot&#39;s uptime.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>pid</span>
+			
+					<small class="tag is-light">Global admin only</small>
+				
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.pid</strong>  -- Prints the bot&#39;s PID.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>bots</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.bots</strong>  -- standard reply to IRC Bot Identification Protocol Standard</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>source</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.source</strong>  -- show a link to taigabot&#39;s source code</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/tell.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/tell.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>showtells</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.showtells</strong>  -- View all pending tell messages (sent in a notice).</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>tell</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.tell</strong>  &lt;nick&gt; &lt;message&gt; -- Relay &lt;message&gt; to &lt;nick&gt; when &lt;nick&gt; is around.</span>
+					</li>
+				
+					<li>
+						<span><strong>.ask</strong>  &lt;nick&gt; &lt;message&gt; -- Relay &lt;message&gt; to &lt;nick&gt; when &lt;nick&gt; is around.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-info is-light">event</span>
+					<span>tellinput</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/times.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/times.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>times</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.times</strong>  -- Shows times around the world.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/todo.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/todo.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>todo</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.todo</strong>  &lt;add|del|list|search&gt; [args] -- Manipulates your list of todos.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/translate.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/translate.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>translate</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.translate</strong>  [from language] [to language] &lt;text&gt; -- Translate text with google translate, auto-detect by default</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/twitch.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/twitch.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>twitch</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.twitch</strong>  &lt;username&gt; -- gets user and channel info about a twitch.tv streamer</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>twitch_urls</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/twitter.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/twitter.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>twitter</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.twitter</strong>  &lt;user&gt; [n] -- Gets last/[n]th tweet from &lt;user&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.twatter</strong>  &lt;user&gt; [n] -- Gets last/[n]th tweet from &lt;user&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.tw</strong>  &lt;user&gt; [n] -- Gets last/[n]th tweet from &lt;user&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>twuser</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.twuser</strong>  &lt;user&gt; -- Get info on the Twitter user &lt;user&gt;</span>
+					</li>
+				
+					<li>
+						<span><strong>.twinfo</strong>  &lt;user&gt; -- Get info on the Twitter user &lt;user&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>twitter_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/urbandict.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/urbandict.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>urban</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.urban</strong>  &lt;phrase&gt; [entry] -- Looks up &lt;phrase&gt; on urbandictionary.com.</span>
+					</li>
+				
+					<li>
+						<span><strong>.ebonics</strong>  &lt;phrase&gt; [entry] -- Looks up &lt;phrase&gt; on urbandictionary.com.</span>
+					</li>
+				
+					<li>
+						<span><strong>.nig</strong>  &lt;phrase&gt; [entry] -- Looks up &lt;phrase&gt; on urbandictionary.com.</span>
+					</li>
+				
+					<li>
+						<span><strong>.ud</strong>  &lt;phrase&gt; [entry] -- Looks up &lt;phrase&gt; on urbandictionary.com.</span>
+					</li>
+				
+					<li>
+						<span><strong>.u</strong>  &lt;phrase&gt; [entry] -- Looks up &lt;phrase&gt; on urbandictionary.com.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/urls.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/urls.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>process_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/utility.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/utility.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>capitalize</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.capitalize</strong>  &lt;string&gt; -- Capitalizes &lt;string&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.capitalise</strong>  &lt;string&gt; -- Capitalizes &lt;string&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>upper</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.upper</strong>  &lt;string&gt; -- Convert string to uppercase.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>lower</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.lower</strong>  &lt;string&gt; -- Convert string to lowercase.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>titlecase</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.titlecase</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>swapcase</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.swapcase</strong>  &lt;string&gt; -- Swaps the capitalization of &lt;string&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>length</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.length</strong>  &lt;string&gt; -- gets the length of &lt;string&gt;</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>reverse</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.reverse</strong>  &lt;string&gt; -- reverses &lt;string&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>hash</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.hash</strong>  &lt;string&gt; -- Returns hashes of &lt;string&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>munge</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.munge</strong>  &lt;text&gt; -- Munges up &lt;text&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>rainbow</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.rainbow</strong>  &lt;text&gt; -- makes your text gay</span>
+					</li>
+				
+					<li>
+						<span><strong>.gay</strong>  &lt;text&gt; -- makes your text gay</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>gaycow</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.gaycow</strong>  &lt;text&gt; -- cowsay, but gay</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>wrainbow</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.wrainbow</strong>  &lt;text&gt; -- makes your text rainbow, separated by words</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>usa</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.usa</strong>  &lt;text&gt; -- makes your text alternate between red, white and blue. yeah its usa but it works for like 9 countries</span>
+					</li>
+				
+					<li>
+						<span><strong>.uk</strong>  &lt;text&gt; -- makes your text alternate between red, white and blue. yeah its usa but it works for like 9 countries</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/validate.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/validate.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>validate</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.validate</strong>  &lt;url&gt; -- Runs url through the w3c markup validator.</span>
+					</li>
+				
+					<li>
+						<span><strong>.w3c</strong>  &lt;url&gt; -- Runs url through the w3c markup validator.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/vimeo.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/vimeo.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>vimeo_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/weather.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/weather.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>weather</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.weather</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.forecast</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.w</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.t</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.time</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.alerts</strong> <i class="has-text-grey">No help available</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/wolframalpha.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/wolframalpha.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>wolframalpha</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.wolframalpha</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.wa</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.calc</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+					<li>
+						<span><strong>.convert</strong> <i class="has-text-grey">Cannot parse help</i></span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/wordoftheday.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/wordoftheday.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>wordoftheday</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.wordoftheday</strong>  -- get the word of the day from merriam-webster dictionary</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	<div class="content">
+		<h4>plugins/youtube.py <small><a href="https://github.com/inexist3nce/Taigabot/blob/dev/plugins/youtube.py">src</a></small></h4>
+
+		<ul>
+	
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>randomtube</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.ytr</strong>  -- Returns random youtube link from old logs.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>youtube</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.youtube</strong>  &lt;query&gt; -- Returns the first YouTube search result for &lt;query&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.ht</strong>  &lt;query&gt; -- Returns the first YouTube search result for &lt;query&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.hooktube</strong>  &lt;query&gt; -- Returns the first YouTube search result for &lt;query&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.yt</strong>  &lt;query&gt; -- Returns the first YouTube search result for &lt;query&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-primary is-light">cmd</span>
+					<span>youtime</span>
+			
+				</p>
+
+				<ul>
+			
+					<li>
+						<span><strong>.youtime</strong>  &lt;query&gt; -- Gets the total run time of the first YouTube search result for &lt;query&gt;.</span>
+					</li>
+				
+					<li>
+						<span><strong>.ytime</strong>  &lt;query&gt; -- Gets the total run time of the first YouTube search result for &lt;query&gt;.</span>
+					</li>
+				
+				</ul>
+
+				<p>&nbsp;</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>youtube_url</span>
+				</p>
+			
+			</li>
+		
+			<li>
+		
+				<p>
+					<span class="tag is-success is-light">regexp</span>
+					<span>youtubeplaylist_url</span>
+				</p>
+			
+			</li>
+		
+		</ul>
+	</div>
+	
+	</section>
+</body>
