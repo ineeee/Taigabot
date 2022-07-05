@@ -91,6 +91,10 @@ def peachypeach(inp, nick, db, me, notice):
     if not bank_exists(db, inp):
         return f"dude {inp} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that"
 
+    current = bank_get_data(db, nick, 'peach')
+    if current <= 0:
+        return f'sorry {nick}, you dont have any peachy peaches to send'
+
     bank_subtract(db, nick, 'peach')
     bank_add(db, inp, 'peach')
 
@@ -110,6 +114,10 @@ def roseyrose(inp, nick, db, me, notice):
 
     if not bank_exists(db, inp):
         return f"dude {inp} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that"
+
+    current = bank_get_data(db, nick, 'rose')
+    if current <= 0:
+        return f'sorry {nick}, you dont have any roses to give'
 
     bank_subtract(db, nick, 'rose')
     bank_add(db, inp, 'rose')
@@ -133,6 +141,10 @@ def daddiescummies(inp, nick, db, me, notice):
 
     if not bank_exists(db, inp):
         return f"dude {inp} literally doesnt have a TaigaBank(tm) Account(r), i can't transfer that"
+
+    current = bank_get_data(db, nick, 'cum')
+    if current <= -100:
+        return f'sorry {nick} but your balls are more than empty'
 
     bank_subtract(db, nick, 'cum')
     bank_add(db, inp, 'cum')
