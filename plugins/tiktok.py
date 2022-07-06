@@ -7,12 +7,13 @@ from util import hook
 from utilities import request
 
 
-class Wrangler(str):
-    def __init__(self, text: str):
+class Wrangler:  # i love you 4chan
+    def __init__(self, text: str, eat: bool = False):
+        self.eat = eat
         self.text = text
 
     def get_text(self):
-        """will return and wipe self.text"""
+        """will return self.text but wipe it"""
         temp = self.text
         self.text = ''
         return temp
@@ -20,28 +21,40 @@ class Wrangler(str):
     def cut_left(self, search: str):
         """
             cut self.text up to $search from the left to the right, inclusive.
-            given the text "hello world",
+            using the text "hello world",
+
+            if self.eat is set to false, then:
             cut_left("llo") -> "llo world"
                       ^^^       ^^^
         """
         if self.text.find(search) == -1:
             return None
-        else:
+
+        if not self.eat:
             self.text = self.text[self.text.index(search):]
-            return self
+        else:
+            self.text = self.text[self.text.index(search) + len(search):]
+
+        return self
 
     def cut_right(self, search: str):
         """
-            cut self.text up to $search from the right to the left, inclusive.
-            given the text "hello world",
+            cut self.text up to $search from the right to the left.
+            consider the text "hello world"
+
+            if self.eat is set to false, then:
             cut_right("llo") -> "hello"
                        ^^^         ^^^
         """
         if self.text.find(search) == -1:
             return None
-        else:
+
+        if not self.eat:
             self.text = self.text[:self.text.index(search) + len(search)]
-            return self
+        else:
+            self.text = self.text[:self.text.index(search)]
+
+        return self
 
 
 @hook.command
@@ -60,5 +73,17 @@ def tiktok(id: str):
     username_json = Wrangler(html).cut_left('"uniqueId"').cut_right(',').get_text()
     nickname_json = Wrangler(html).cut_left('"nickName"').cut_right(',').get_text()
 
-    return f'{likes_json}, {shares_json}, {plays_json}, {comments_json}' \
-           f'{username_json}, {nickname_json}'
+    desc = Wrangler(html, True).cut_left('videoData') \
+                               .cut_left('{').cut_right('}') \
+                               .cut_left('text":"').cut_right('","stitchEnabled') \
+                               .get_text()
+
+    likes = Wrangler(likes_json, True).cut_left(':').cut_right(',').get_text()
+    shares = Wrangler(shares_json, True).cut_left(':').cut_right(',').get_text()
+    plays = Wrangler(plays_json, True).cut_left(':').cut_right(',').get_text()
+    comments = Wrangler(comments_json, True).cut_left(':').cut_right(',').get_text()
+
+    username = Wrangler(username_json, True).cut_left('":"').cut_right('",').get_text()
+    nickname = Wrangler(nickname_json, True).cut_left('":"').cut_right('",').get_text()
+
+    return f'[TikTok] \x02{nickname} (@{username})\x02 - {desc} - {likes} likes, {shares} shares, {plays} plays, {comments} comments'
