@@ -43,6 +43,11 @@ class Bot:
             except ValueError as e:
                 print('error: malformed config', e)
 
+                if self.config_mtime == 0:
+                    print('fatal: cant load config on first boot. crashing')
+                    sys.exit(1)
+
+
     def get_db_connection(self, conn):
         """returns an sqlite3 connection to a persistent database"""
         # at some point i added a print() here and discovered that
