@@ -1,5 +1,5 @@
 # taigabot dependencies
-taigabot is ancient software that now runs on python 3 (only 3.9 or 3.10). it depends mostly on requests, beautifulsoup4 and lxml.
+taigabot is runs on python 3 (only 3.9 or 3.10). it depends mostly on requests, beautifulsoup4 and lxml.
 
 ## instructions
 see below for copypaste-friendly ubuntu/alpine instructions.
@@ -22,20 +22,17 @@ you can now run taigabot!
     python3 bot.py
 
 
-### ubuntu
+### ubuntu 22.04
 these instructions work for ubuntu 22.04. see older commits in this repo for ubuntu 21 and 18.
+
+ubuntu 22.04 downloads a wheel for lxml so you don't need to compile anything.
 
     # protip: update ur system
     sudo apt update
     sudo apt upgrade
 
-    # lxml requirements
-    sudo apt install build-essential libxml2-dev libxslt1-dev
     # system requirements
     sudo apt install git python3 python3-pip python3-venv
-
-    # OPTIONAL: spellcheck plugin requirements (defaults to aspell english)
-    sudo apt install libenchant-2-2 --no-install-suggests
 
     # download taigabot
     git clone https://github.com/inexist3nce/Taigabot.git Taigabot
