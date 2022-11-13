@@ -204,3 +204,11 @@ def youtubeplaylist_url(match):
 
     return "\x02{}\x02 - \x02{}\x02 views - \x02{}\x02 videos - \x02{}\x02".format(
         title, views, numvideos, author)
+   
+ytshorts_re = (r'(.*:)//(www.youtube.com/shorts|youtube.com/shorts)(:[0-9]+)?(.*)', re.I)
+
+@hook.regex(*ytshorts_re)
+def youtubeshorts_url(match, bot=None):
+    location = match.group(4).strip('/')
+    key = bot.config.get('api_keys', {}).get('google')
+    return get_video_description(key, location)
