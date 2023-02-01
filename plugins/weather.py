@@ -14,15 +14,12 @@ def getlocation(db, location):
     if not latlong:
         locator = Nominatim(user_agent="Taiga").geocode(location)
         latlong = (locator.latitude, locator.longitude)
-        database.set(db, 'location', 'latlong', '{},{}'.format(latlong[0], latlong[1]),
-                     'location', location)
-        address = locator.address.replace('United States of America', 'USA').replace(
-            'United Kingdom', 'UK')
+        database.set(db, 'location', 'latlong', '{},{}'.format(latlong[0], latlong[1]), 'location', location)
+        address = locator.address.replace('United States of America', 'USA').replace('United Kingdom', 'UK')
         database.set(db, 'location', 'address', address, 'location', location)
     else:
         latlong = latlong.split(',')
     return latlong, address
-
 
 
 @hook.command('alerts', autohelp=False)
@@ -70,9 +67,10 @@ def weather(inp, bot, reply, db, nick, notice, paraml):
     if inp and save:
         database.set(db, 'users', 'location', inp, 'nick', nick)
 
-    secret = bot.config.get("api_keys", {}).get("darksky")
-    baseurl = 'https://api.darksky.net/forecast/{}/{},{}?exclude=minutely,flags,hourly'.format(
-        secret, latlong[0], latlong[1])
+    secret = bot.config.get("api_keys", {}).get("pirateweather")
+    baseurl = 'https://dev.pirateweather.net/forecast/{}/{},{}?exclude=minutely,flags,hourly'.format(
+        secret, latlong[0], latlong[1]
+    )
     reply = json.loads(urllib.request.urlopen(baseurl).read())
     current = reply['currently']
     daily_current = reply['daily']['data'][0]
@@ -87,8 +85,14 @@ def weather(inp, bot, reply, db, nick, notice, paraml):
         else:
             for alert in reply['alerts']:
                 tz = pytz.timezone(reply['timezone'])
-                output += '\x02{}\x02: \x02Starts:\x02 {}, \x02Ends:\x02 {}, \x02Severity:\x02 {}'.format(alert['title'], datetime.fromtimestamp(alert['time'], tz).strftime('%Y-%m-%d %H:%M:%S'), datetime.fromtimestamp(alert['expires'], tz).strftime('%Y-%m-%d %H:%M:%S'), alert['severity'])
-                if len(reply['alerts']) > 1 and reply['alerts'].index(alert) != len(reply['alerts']) -1:
+                output += '\x02{}\x02: \x02Severity:\x02 {}'.format(
+                    alert['title'],
+                    # Time and date are now included in title
+                    # datetime.fromtimestamp(alert['time'], tz).strftime('%Y-%m-%d %H:%M:%S'),
+                    # datetime.fromtimestamp(alert['expires'], tz).strftime('%Y-%m-%d %H:%M:%S'),
+                    alert['severity'],
+                )
+                if len(reply['alerts']) > 1 and reply['alerts'].index(alert) != len(reply['alerts']) - 1:
                     output += ', '
 
             return output
@@ -105,16 +109,21 @@ def weather(inp, bot, reply, db, nick, notice, paraml):
             'high_c': int(round(old_div((daily_current['temperatureMax'] - 32) * 5, 9))),
             'low_f': int(round(daily_current['temperatureMin'])),
             'low_c': int(round(old_div((daily_current['temperatureMin'] - 32) * 5, 9))),
-            'humidity': (str(current['humidity'])[2:] if len(str(current['humidity'])) >3 else ('100' if current['humidity'] == 1 else str(current['humidity'])[2:] + '0')),
+            'humidity': (
+                str(current['humidity'])[2:]
+                if len(str(current['humidity'])) > 3
+                else ('100' if current['humidity'] == 1 else str(current['humidity'])[2:] + '0')
+            ),
             'wind_text': wind_type(current['windSpeed']),
             'wind_mph': int(round(current['windSpeed'])),
             'wind_kph': int(round(current['windSpeed'] * 1.609)),
             'wind_direction': wind_dir(current['windBearing']),
             'pressure': int(round(current['pressure'])),
-            'uv_index': current['uvIndex']
+            'uv_index': current['uvIndex'],
         }
+
         try:
-            weather_data['forecast'] = daily_current['summary'][:-1]
+            weather_data['forecast'] = daily_current['summary']
             weather_data['sunrise'] = datetime.fromtimestamp(daily_current['sunriseTime'], tz).strftime('%I:%M:%S %p')
             weather_data['sunset'] = datetime.fromtimestamp(daily_current['sunsetTime'], tz).strftime('%I:%M:%S %p')
 
@@ -128,10 +137,10 @@ def weather(inp, bot, reply, db, nick, notice, paraml):
             weather_data['temp_c'] = int(round(old_div((current['temperature'] - 32) * 5, 9)))
             weather_data['feel_f'] = int(round(current['apparentTemperature']))
             weather_data['feel_c'] = int(round(old_div((current['apparentTemperature'] - 32) * 5, 9), 1))
-        #uv index, moon phase, cloud cover, preasure, dew point, wind gust, sunset time, sunrise time, ozone,
+
+        # uv index, moon phase, cloud cover, preasure, dew point, wind gust, sunset time, sunrise time, ozone,
         # precip intencity, precip probabilyty, precip type, precip intencity max
-        output = "\x02{place}\x02: {summary}, {forecast}".format(
-            **weather_data)
+        output = "\x02{place}\x02: {summary}, {forecast}".format(**weather_data)
 
         for temp_type in ['temp', 'feel', 'high', 'low']:
             if (temp_type + '_f') in weather_data:
@@ -151,13 +160,14 @@ def weather(inp, bot, reply, db, nick, notice, paraml):
 
         if 'temp_f' in weather_data:
             output += ', \x02Currently:\x02 {temp_c} ({temp_f}), \x02Feels Like:\x02 {feel_c} ({feel_f})'.format(
-                **weather_data)
+                **weather_data
+            )
         output += ", \x02High:\x02 {high_c} ({high_f}), \x02Low:\x02 {low_c} ({low_f}), \x02Humidity:\x02 {humidity}%, \x02Wind:\x02 {wind_text} ({wind_mph} mph/{wind_kph} kph {wind_direction}), \x02Pressure:\x02 {pressure} mb, \x02Sunrise/Sunset:\02 {sunrise}/{sunset}".format(
-            **weather_data)
+            **weather_data
+        )
         if weather_data['uv_index']:
-            output += ', \x02UV:\x02 {uv_index}'.format(
-                **weather_data)
-        if 'alerts' in reply:
+            output += ', \x02UV:\x02 {uv_index}'.format(**weather_data)
+        if 'alerts' in reply and len(reply['alerts']) > 0:
             output += ', \x0304\x02Alerts:\x02 {} (.alerts)\x03'.format(len(reply['alerts']))
         return output
 
