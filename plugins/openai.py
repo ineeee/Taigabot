@@ -58,6 +58,15 @@ def WHORE(prompt, temp=0.8):
         return 'Sorry, too busy right now'
 
     XDD = XD.json()
+    if 'error' in XDD:
+        LMAOO = XDD['error']['type']
+        LMFAO = XDD['error']['message']
+
+        if LMAOO == 'insufficient_quota':
+            return 'Error: ran out of cash, cant pay for the compute power lmao. cant do any work unless u paypal me some cash to pay for the openai gpus.'
+        else:
+            return f'Error {LMAOO}: {LMFAO}'
+
     pricing = XDD['usage']['completion_tokens']
     print(f'received openai data, it costed {pricing} tokens')
     XDDDD = XDD['choices'][0]
