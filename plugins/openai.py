@@ -1,43 +1,43 @@
 import time
-import requests
+import requests as XDDD
 from util import hook
 from utilities.services import paste, shorten
 
-EPIC_SEKRET = 'sk-lmao00N7iqIY00get000rekt00FJXosySErkNKtJHUIFR'
-EPIC_LIMIT = 320
-EPIC_TIMEO = 10
+XDDDDDDDDDDDDDDDDD = 'sk-lmao00N7iqIY00get000rekt00FJXosySErkNKtJHUIFR'
+XDDDDDDDDDDDD = 320
+XDDDDDDDD = 12
 
 
-def MEME(prompt, temp):
+def MEME(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD):
     url = 'https://api.openai.com/v1/chat/completions'
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + EPIC_SEKRET
+        'Authorization': 'Bearer ' + XDDDDDDDDDDDDDDDDD
     }
     data = {
         'model': 'gpt-3.5-turbo',
         'messages': [
-            {'role': 'user', 'content': prompt}
+            {'role': 'user', 'content': XDDDDDDDDDDDDDDDDDDDD}
         ],
-        'temperature': temp,
+        'temperature': XDDDDDDDDDDDDDDDDDDDDDD,
         'n': 1,
         'user': 'taigabot irc bot'
     }
 
     try:
-        return requests.post(url, headers=headers, json=data, timeout=EPIC_TIMEO)
-    except requests.exceptions.ReadTimeout:
+        return XDDD.post(url, headers=headers, json=data, timeout=XDDDDDDDD)
+    except XDDD.exceptions.ReadTimeout:
         return False
 
 
-def FunkyMonkeyAPIQuest(prompt):
-    url = 'https://api.openai.com/v1/images/generations'
-    headers = {
+def FunkyMonkeyAPIQuest(XDDDDDDDDDDDDDDDDDDDD):
+    XD = 'https://api.openai.com/v1/images/generations'
+    XDD = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + EPIC_SEKRET
+        'Authorization': 'Bearer ' + XDDDDDDDDDDDDDDDDD
     }
-    data = {
-        'prompt': prompt,
+    XDDDD = {
+        'XDDDDDDDDDDDDDDDDDDDD': XDDDDDDDDDDDDDDDDDDDD,
         'size': '512x512',
         'n': 1,
         'response_format': 'url',
@@ -45,14 +45,14 @@ def FunkyMonkeyAPIQuest(prompt):
     }
 
     try:
-        return requests.post(url, headers=headers, json=data, timeout=EPIC_TIMEO)
-    except requests.exceptions.ReadTimeout:
+        return XDDD.post(XD, headers=XDD, json=XDDDD, timeout=XDDDDDDDD)
+    except XDDD.exceptions.ReadTimeout:
         return False
 
 
-def WHORE(prompt, temp=0.8):
+def WHORE(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8):
     print('querying openai completion api')
-    XD = MEME(prompt, temp)
+    XD = MEME(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD)
 
     if XD is False:
         return 'Sorry, too busy right now'
@@ -67,25 +67,25 @@ def WHORE(prompt, temp=0.8):
         else:
             return f'Error {LMAOO}: {LMFAO}'
 
-    pricing = XDD['usage']['completion_tokens']
-    print(f'received openai data, it costed {pricing} tokens')
+    XDDDDD = XDD['usage']['completion_tokens']
+    print(f'received openai data, it costed {XDDDDD} tokens')
     XDDDD = XDD['choices'][0]
-    message = XDDDD['message']['content'].strip()
-    messageirc = message.replace('\n', '  ')
+    XDDDDDD = XDDDD['message']['content'].strip()
+    XDDDDDDD = XDDDDDD.replace('\n', '  ')
     print(XDDDD)
 
     # patch to remove the EVA jailbreak thing
-    if messageirc.startswith('ALLOWED ') or messageirc.startswith('ALLOWED.'):
-        messageirc = messageirc[8:]
+    if XDDDDDDD.startswith('ALLOWED ') or XDDDDDDD.startswith('ALLOWED.'):
+        XDDDDDDD = XDDDDDDD[8:]
 
-    if 'As an AI language model, ' in messageirc:
-        messageirc = messageirc.replace('As an AI language model, ', '')
+    if 'As an AI language model, ' in XDDDDDDD:
+        XDDDDDDD = XDDDDDDD.replace('As an AI language model, ', '')
 
-    if len(messageirc) > EPIC_LIMIT:
-        linkerino = paste(message, title='ai reply')
-        messageirc = messageirc[:EPIC_LIMIT] + '... ' + linkerino
+    if len(XDDDDDDD) > XDDDDDDDDDDDD:
+        XDDDDDDDD = paste(XDDDDDD, title='ai reply')
+        XDDDDDDD = XDDDDDDD[:XDDDDDDDDDDDD] + '... ' + XDDDDDDDD
 
-    return messageirc
+    return XDDDDDDD
 
 
 @hook.command(autohelp=False)
