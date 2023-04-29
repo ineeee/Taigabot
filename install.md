@@ -1,16 +1,12 @@
 # taigabot dependencies
-taigabot is runs on python 3 (only 3.9 or 3.10). it depends mostly on requests, beautifulsoup4 and lxml.
+taigabot runs on python 3 (only 3.9 or 3.10). it needs requests, beautifulsoup4 and lxml.
 
 ## instructions
-see below for copypaste-friendly ubuntu/alpine instructions.
 
-1. install python 3.9 or 3.10, pip and a compiler
-2. clone this repo
-3. make and activate a virtual environment
-4. install and compile the requirements
-
-    pip install -r requirements.txt
-    pip install -r requirements_extra.txt
+1. install python 3.9 or 3.10 (you need pip, wheel and venv)
+2. git clone this repo
+3. use a virtual environment
+4. install the requirements
 
 last step is to configure the bot:
 
@@ -25,17 +21,17 @@ you can now run taigabot!
 ### ubuntu 22.04
 these instructions work for ubuntu 22.04. see older commits in this repo for ubuntu 21 and 18.
 
-ubuntu 22.04 downloads a wheel for lxml so you don't need to compile anything.
+if you install python3-wheel in a x64 system, pip will automatically skip compiling stuff.
 
     # protip: update ur system
     sudo apt update
     sudo apt upgrade
 
     # system requirements
-    sudo apt install git python3 python3-pip python3-venv
+    sudo apt install --no-install-recomends git python3 python3-pip python3-wheel python3-venv
 
     # download taigabot
-    git clone https://github.com/inexist3nce/Taigabot.git Taigabot
+    git clone https://github.com/ineeee/Taigabot.git
     cd Taigabot
 
     # create and use a virtual environment
@@ -44,8 +40,8 @@ ubuntu 22.04 downloads a wheel for lxml so you don't need to compile anything.
 
     # install dependencies
     python3 -m pip install -r requirements.txt
-    # OPTIONAL: install extra dependencies (means more plugins will work)
-    python3 -m pip install -r requirements_extra.txt
+    # OPTIONAL: install extra dependencies (more plugins will work)
+    #python3 -m pip install -r requirements_extra.txt
 
     # edit the config file
     cp config.default config
@@ -55,7 +51,7 @@ ubuntu 22.04 downloads a wheel for lxml so you don't need to compile anything.
     python3 bot.py
 
 
-### alpine
+### alpine (OUTDATED)
 TODO update this!!! its for python 2
 
 - python2 py2-pip git
