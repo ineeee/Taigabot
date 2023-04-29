@@ -99,6 +99,9 @@ def reload(init: bool = False):
                 code = compile(open(filename, 'r').read(), filename, 'exec')
                 namespace = {}
                 eval(code, namespace)
+            except ModuleNotFoundError as e:
+                print(f'Error: cant load {filename}, missing a required package. {e}')
+                continue
             except Exception:
                 traceback.print_exc()
                 continue
