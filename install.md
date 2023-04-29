@@ -1,5 +1,8 @@
 # taigabot dependencies
-taigabot runs on python 3 (only 3.9 or 3.10). it needs requests, beautifulsoup4 and lxml.
+taigabot runs on python 3 (only 3.9 or 3.10)
+
+- system dependencies: git, python 3 (with pip, wheel, venv)
+- taiga dependencies: lxml, bs4, requests
 
 ## instructions
 
