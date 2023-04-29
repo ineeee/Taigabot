@@ -1,8 +1,6 @@
 # Taigabot
 
-* 13+ year old code
 * Runs on Python 3
-* Extremely stable, has been running for literally over a decade
 * Intuitive configuration
 * Fully controlled from IRC
 * Fully compatable with existing skybot plugins
@@ -11,11 +9,13 @@
   * Automatic reloading
   * Little boilerplate
   * Misbehaving plugins don't crash the bot
+* Extremely stable, has been running for literally over a decade
+  * Project is 14+ years old [.](https://github.com/rmmh/skybot/commit/4b7cc141e5def027d2a562a1d53a2c465216fd9e)
 
 ### Installation
 Taigabot runs only on Python 3.9 or 3.10. See [install.md](install.md#instructions) for [ubuntu](install.md#ubuntu) or [alpine](install.md#alpine) instructions.
 
-The biggest hurdle is `lxml` which needs a compiler and a bunch of libraries.
+Typically pip downloads whl files for lxml, bs4 and requests, so you don't need a compiler.
 
 #### Other dependencies
 Some plugins require extra python packages, more information can be found on [install.md § specific dependencies](install.md#specific-dependencies).
@@ -59,18 +59,19 @@ wednesday (the dude who kept the bot running) went fucking missing and he stoppe
 my first commit was d302369da2ddf5c74f485bd27c2c5f3ab84f2c49, thanks everyone who has contributed:
 ```
 $ git shortlog -sn d302369da2..
-   382  inexist3nce
+   402  inexist3nce
     52  FrozenPigs
     50  wednesday
-    19  Anthony DeDominic
-    12  676339784
+    22  Anthony DeDominic
+    13  676339784
      6  ararouge
+     5  adonut
+     5  ineeee
      3  Jordan Koch
      3  adrift
      3  fishe
      2  inexistence
      1  Jesse Erwin
-     1  adonut
      1  blompf
 ```
 
