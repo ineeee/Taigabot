@@ -62,6 +62,9 @@ def WHORE(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8):
         LMAOO = XDD['error']['type']
         LMFAO = XDD['error']['message']
 
+        if 'Rate limit reached' in LMFAO:
+            return 'Error: rate limit reached. pay up, wagie.'
+
         if LMAOO == 'insufficient_quota':
             return 'Error: ran out of cash, cant pay for the compute power lmao. cant do any work unless u paypal me some cash to pay for the openai gpus.'
         else:
