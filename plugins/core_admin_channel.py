@@ -302,8 +302,7 @@ def disabled(inp, notice, bot, chan, db):
 @hook.command(
     permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def disable(inp, notice, bot, chan, db):
-    """disable [#channel] <commands> -- Disables commands for a channel.
-    (you can disable multiple commands at once)"""
+    """disable [#channel] <commands> -- Disables commands for a channel. Accepts multiple multiple commands at once."""
 
     disabledcommands = database.get(db, 'channels', 'disabled', 'chan', chan)
     targets = inp.split()
@@ -324,8 +323,7 @@ def disable(inp, notice, bot, chan, db):
 @hook.command(
     permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def enable(inp, notice, bot, chan, db):
-    """enable [#channel] <commands|all> -- Enables commands for a channel.
-    (you can enable multiple commands at once)"""
+    """enable [#channel] <commands|all> -- Enables commands for a channel. Accepts multiple commands at once"""
 
     disabledcommands = database.get(db, 'channels', 'disabled', 'chan', chan)
     targets = inp.split()
@@ -360,8 +358,7 @@ def enable(inp, notice, bot, chan, db):
 @hook.command(
     permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def disablehash(inp, notice, bot, chan, db):
-    """disablehash [#channel] <hashtah> -- Disables hashtah for a channel.
-    (you can disable multiple hastags at once, don't put # before the hashtag)"""
+    """disablehash [#channel] <hashtah> -- Disables hashtah for a channel. Accepts multiple at once. Don't use #."""
 
     disabledhashes = database.get(db, 'channels', 'disabledhashes', 'chan',
                                   chan)
@@ -396,8 +393,7 @@ def disabledhashes(inp, notice, bot, chan, db):
 @hook.command(
     permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def enablehash(inp, notice, bot, chan, db):
-    """enablehash [#channel] <hashtag|all> -- Enables hashtags for a channel.
-    (you can enable multiple hashtags at once, don't put # before the hashtag)"""
+    """enablehash [#channel] <hashtag|all> -- Enables hashtags for a channel. Accepts multiple at once. Don't use #."""
 
     disabledhashes = database.get(db, 'channels', 'disabledhashes', 'chan',
                                   chan)
@@ -621,9 +617,7 @@ def mute(inp, conn, chan, notice):
 @hook.command(
     permissions=["op_mute", "op"], channeladminonly=True, autohelp=False)
 def unmute(inp, conn, chan, notice):
-    """mute [channel] -- Makes the bot mute a channel..
-    If [channel] is blank the bot will mute
-    the channel the command was used in."""
+    """mute [channel] -- Makes the bot mute a channel. If [channel] is blank, use current channel."""
     mode_cmd_channel("-m", "unmute", inp, chan, conn, notice)
 
 
@@ -631,7 +625,7 @@ def unmute(inp, conn, chan, notice):
 @hook.command("silence", adminonly=True)
 @hook.command(adminonly=True)
 def shutup(inp, conn, chan, notice):
-    "shutup [channel] <user> -- Shuts the user up. "
+    """shutup [channel] <user> -- Shuts the user up."""
 
     users = inp.split(" ")
 
@@ -647,7 +641,7 @@ def shutup(inp, conn, chan, notice):
 
 @hook.command(adminonly=True)
 def speak(inp, conn, chan, notice):
-    "speak [channel] <user> -- Shuts the user up. "
+    """speak [channel] <user> -- unShuts the user up."""
 
     users = inp.split(" ")
 
@@ -664,18 +658,14 @@ def speak(inp, conn, chan, notice):
 @hook.command(
     permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def lock(inp, conn, chan, notice):
-    """lock [channel] -- Makes the bot lock a channel.
-    If [channel] is blank the bot will mute
-    the channel the command was used in."""
+    """lock [channel] -- Makes the bot lock a channel. If [channel] is blank, use current channel."""
     mode_cmd_channel("+i", "lock", inp, chan, conn, notice)
 
 
 @hook.command(
     permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def unlock(inp, conn, chan, notice):
-    """unlock [channel] -- Makes the bot unlock a channel..
-    If [channel] is blank the bot will mute
-    the channel the command was used in."""
+    """unlock [channel] -- Makes the bot unlock a channel. If [channel] is blank, use current channel."""
     mode_cmd_channel("-i", "unlock", inp, chan, conn, notice)
 
 
@@ -716,9 +706,7 @@ def bans(inp, notice, bot, chan, db):
 @hook.command('kb', permissions=["op_ban", "op"], channeladminonly=True)
 @hook.command(permissions=["op_ban", "op"], channeladminonly=True)
 def ban(inp, conn, chan, notice, db, nick, bot):
-    """ban [channel] <user> [reason] [timer] -- Makes the bot ban <user> in [channel].
-    If [channel] is blank the bot will ban <user> in
-    the channel the command was used in."""
+    """ban [channel] <user> [reason] [timer] -- Makes the bot ban <user> in [channel]. If [channel] is blank, use current channel."""
     mode = "+b"
     reason = "#rekt"
     # inp,chan = get_chan(inp,chan)
@@ -759,9 +747,7 @@ def ban(inp, conn, chan, notice, db, nick, bot):
 @hook.command('ub', permissions=["op_ban", "op"], channeladminonly=True)
 @hook.command(permissions=["op_ban", "op"], channeladminonly=True)
 def unban(inp, conn, chan, notice, db):
-    """unban [channel] <user> -- Makes the bot unban <user> in [channel].
-    If [channel] is blank the bot will unban <user> in
-    the channel the command was used in."""
+    """unban [channel] <user> -- Makes the bot unban <user> in [channel]. If [channel] is blank, use current channel."""
     #mode_cmd("-b", "unban", inp, chan, conn, notice)
     # inp,chan = get_chan(inp,chan)
     split = inp.split(" ")
@@ -785,9 +771,7 @@ def unban(inp, conn, chan, notice, db):
 @hook.command('kal', channeladminonly=True)
 @hook.command(permissions=["op_kick", "op"], channeladminonly=True)
 def kick(inp, chan, conn, notice, nick, bot):
-    """kick [channel] <user> [reason] -- Makes the bot kick <user> in [channel]
-    If [channel] is blank the bot will kick the <user> in
-    the channel the command was used in."""
+    """kick [channel] <user> [reason] -- Makes the bot kick <user> in [channel]. If [channel] is blank, use current channel."""
     reason = "bye bye"
     # inp,chan = get_chan(inp,chan)
     split = inp.split()
@@ -807,9 +791,7 @@ def kick(inp, chan, conn, notice, nick, bot):
     "up", permissions=["op_op", "op"], channeladminonly=True, autohelp=False)
 @hook.command(permissions=["op_op", "op"], channeladminonly=True)
 def op(inp, conn, chan, notice, nick):
-    """op [channel] <user> -- Makes the bot op <user> in [channel].
-    If [channel] is blank the bot will op <user> in
-    the channel the command was used in."""
+    """op [channel] <user> -- Makes the bot op <user> in [channel]. If [channel] is blank, use current channel."""
     if not inp: inp = nick
     mode_cmd("+o", "op", inp, chan, conn, notice)
     return
@@ -822,9 +804,7 @@ def op(inp, conn, chan, notice, nick):
     autohelp=False)
 @hook.command(permissions=["op_op", "op"], channeladminonly=True)
 def deop(inp, conn, chan, notice, nick):
-    """deop [channel] <user> -- Makes the bot deop <user> in [channel].
-    If [channel] is blank the bot will deop <user> in
-    the channel the command was used in."""
+    """deop [channel] <user> -- Makes the bot deop <user> in [channel]. If [channel] is blank, use current channel."""
     if not inp: inp = nick
     mode_cmd("-o", "deop", inp, chan, conn, notice)
     return
@@ -833,9 +813,7 @@ def deop(inp, conn, chan, notice, nick):
 @hook.command(
     permissions=["op_op", "op"], channeladminonly=True, autohelp=False)
 def hop(inp, chan, conn, notice, nick):
-    """op [channel] <user> -- Makes the bot op <user> in [channel].
-    If [channel] is blank the bot will op <user> in
-    the channel the command was used in."""
+    """op [channel] <user> -- Makes the bot op <user> in [channel]. If [channel] is blank, use current channel."""
     mode_cmd("+h", "hop", inp, chan, conn, notice)
     return
 
@@ -843,27 +821,21 @@ def hop(inp, chan, conn, notice, nick):
 @hook.command(
     permissions=["op_op", "op"], channeladminonly=True, autohelp=False)
 def dehop(inp, chan, conn, notice, nick):
-    """deop [channel] <user> -- Makes the bot deop <user> in [channel].
-    If [channel] is blank the bot will deop <user> in
-    the channel the command was used in."""
+    """deop [channel] <user> -- Makes the bot deop <user> in [channel]. If [channel] is blank, use current channel."""
     mode_cmd("-h", "dehop", inp, chan, conn, notice)
     return
 
 
 @hook.command(permissions=["op_voice", "op"], channeladminonly=True)
 def voice(inp, conn, chan, notice):
-    """voice [channel] <user> -- Makes the bot voice <user> in [channel].
-    If [channel] is blank the bot will voice <user> in
-    the channel the command was used in."""
+    """voice [channel] <user> -- Makes the bot voice <user> in [channel]. If [channel] is blank, use current channel."""
     mode_cmd("+v", "voice", inp, chan, conn, notice)
     return
 
 
 @hook.command(permissions=["op_voice", "op"], channeladminonly=True)
 def devoice(inp, conn, chan, notice):
-    """devoice [channel] <user> -- Makes the bot devoice <user> in [channel].
-    If [channel] is blank the bot will devoice <user> in
-    the channel the command was used in."""
+    """devoice [channel] <user> -- Makes the bot devoice <user> in [channel]. If [channel] is blank, use current channel."""
     mode_cmd("-v", "devoice", inp, chan, conn, notice)
     return
 
@@ -871,9 +843,7 @@ def devoice(inp, conn, chan, notice):
 #@hook.command(permissions=["op_voice", "op"], adminonly=True)
 @hook.command
 def invite(inp, conn, chan, notice):
-    """invite [channel] <user> -- Makes the bot invite <user> to [channel].
-    If [channel] is blank the bot will invite <user> to
-    the channel the command was used in."""
+    """invite [channel] <user> -- Makes the bot invite <user> to [channel]. If [channel] is blank, use current channel."""
     users = inp.split()
     throttle = 0
 
