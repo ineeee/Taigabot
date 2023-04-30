@@ -4,6 +4,7 @@ from datetime import datetime
 
 @hook.command
 def band(inp, bot):
+    """band [artist] -- Display artist/band info"""
     artist = inp
     print(artist)
     api_key = bot.config['api_keys']['lastfm']
