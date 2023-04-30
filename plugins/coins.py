@@ -105,5 +105,5 @@ def eth(inp):
 # <wednesday> I like that
 @hook.command(autohelp=False)
 def doge(inp):
-    """who even cares about dogecoin in 2022 lmfao"""
+    """doge -- show doge's prices"""
     return "Error: Doge is worthless."
