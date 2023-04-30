@@ -6,8 +6,8 @@ from util import hook
 
 
 @hook.command(adminonly=True, autohelp=False)
-def test_docstrings(inp, bot):
-    """test: make sure all commands have a docstring. docstrings are used for help commands"""
+def testdocstrings(inp, bot):
+    """testdocstrings -- make sure all commands have the docstrings used for help commands"""
 
     # types of failures:
     # - missing docstring: the decorated function doesn't have any documentation at all
@@ -41,7 +41,8 @@ def test_docstrings(inp, bot):
 
 
 @hook.command(adminonly=True)
-def test_function_definition(inp, bot):
+def testfunctiondefinition(inp, bot):
+    """testfunctiondefinition -- ensure commands are not using the old command caller code path"""
     failed = []
     count = 0
 
@@ -62,7 +63,8 @@ def test_function_definition(inp, bot):
 
 
 @hook.command(adminonly=True)
-def export_plugins_json(inp, bot):
+def exportpluginsjson(inp, bot):
+    """exportpluginsjson -- export plugins to plugins.json file"""
     commands = {}
     regexes = {}
     events = {}
