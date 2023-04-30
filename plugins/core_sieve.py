@@ -12,12 +12,14 @@ sudos_counter = 0
 
 @hook.command(autohelp=False)
 def ledzep(inp):
+    """ledzep -- Prints number of times LeDZeP has said tfw today"""
     global ledzep_counter
     return 'LeDZeP has said "tfw" {} times today.'.format(ledzep_counter)
 
 
 @hook.command(autohelp=False)
 def sudos(inp):
+    """sudos -- Prints number of times sudos has said honk today"""
     global sudos_counter
     return 'Sudos has said "honk" {} times today.'.format(sudos_counter)
 
