@@ -262,7 +262,7 @@ def quote(inp, nick, chan, db, notice, reply, bot):
 
 @hook.command(adminonly=True)
 def rquote(inp, db, notice, nick, bot, reply):
-    """rquote <nick> <number/*> - Deletes a quote from a nick"""
+    """rquote <nick> <number> -- Deletes a quote from a nick"""
     target = inp.split(' ')[0]
     if nick != target:
         if user.is_globaladmin(user.get_hostmask(nick, db), nick, bot):
