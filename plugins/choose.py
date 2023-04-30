@@ -5,7 +5,7 @@ from util import hook
 @hook.command('decide')
 @hook.command
 def choose(inp):
-    """choose <choice1>, [choice2], [choice3], ... --  Randomly picks one of the given choices."""
+    """choose <choice1> [choice2] [choice3] -- Randomly picks one of the given choices."""
 
     if inp == 'eat':
         return 'Yes'
