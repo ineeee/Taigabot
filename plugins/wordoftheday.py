@@ -5,7 +5,7 @@ from utilities import request, iterable
 from bs4 import BeautifulSoup
 
 
-@hook.command()
+@hook.command(autohelp=False)
 def wordoftheday(inp):
     """wordoftheday -- finds an interesting word for today in merriam-webster.com"""
     html = request.get('https://www.merriam-webster.com/word-of-the-day')
