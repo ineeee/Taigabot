@@ -29,7 +29,7 @@ def getlocation(db, location):
 @hook.command('forecast', autohelp=False)
 @hook.command(autohelp=False)
 def weather(inp, bot, reply, db, nick, notice, paraml):
-    "weather/time/alerts | <location> [save] | <@ user> -- Gets weather data for <location>."
+    "weather <location | @ nick> -- Gets weather data for location or user."
     save = True
     command = paraml[-1].split(' ')[0][1:].lower()
     if '@' in inp:
