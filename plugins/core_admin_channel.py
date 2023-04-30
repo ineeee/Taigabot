@@ -14,6 +14,7 @@ FALSE_ISH = 'nope'
 # \binfinity@[^\s]*like.lolis\b
 @hook.command(autohelp=False, adminonly=True)
 def mask(inp):
+    """mask -- returns a masked nick or something"""
     return re.sub(r'((?:@)[^@\.]+\d{2,}([^\.]?)+\.)', '*',
                   inp.replace('@', '@@')).replace('@@', '@').lower().strip()
 
