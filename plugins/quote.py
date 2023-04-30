@@ -199,7 +199,7 @@ def get_quote_by_chan(db, chan, num=False):
 @hook.command('q')
 @hook.command
 def quote(inp, nick, chan, db, notice, reply, bot):
-    "quote [add] <#chan | nick> [-r] [query | number]"
+    """quote [add] <#chan | nick> [query | number] -- Add quote to user or fetch quote from user or channel"""
     create_table_if_not_exists(db)
 
     add = re.match(r"add[^\w@]+(\S+?)>?\s+(.*)", inp, re.I)
