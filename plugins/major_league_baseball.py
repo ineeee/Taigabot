@@ -34,6 +34,7 @@ def get_api_time_of_day():
 
 
 @hook.command('mlb', autohelp=False)
+"""mlb -- Get baseball (MLB) game scores"""
 def mlb(inp, say):
     api_base = '{}/{}'.format(MLB_DEPRECATED_API,
                               get_api_time_of_day())
