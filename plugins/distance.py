@@ -29,7 +29,7 @@ def parse(html):
 
 @hook.command
 def distance(inp):
-    """distance <start> to <end> -- Calculate the distance between 2 places."""
+    """distance [from start] [to end] -- Calculate the distance between 2 places."""
     if 'from ' in inp:
         inp = inp.replace('from ', '')
 
