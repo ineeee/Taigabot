@@ -57,12 +57,14 @@ def highlight_sieve(bot, input, func, kind, args):
 
 @hook.command(autohelp=False, adminonly=True)
 def users(inp, nick, chan, notice):
+    """users -- retrieves and sends notices (for internal use)"""
     notice(' '.join(userlist[chan.replace('#', '')]))
     notice('Users: {}'.format(len(userlist[chan.replace('#', '')])))
 
 
 @hook.command(autohelp=False, adminonly=True)
 def getusers(inp, conn, chan):
+    """getusers -- retrieves a list of users currently present in a given channel (for internal use)"""
     if inp:
         chan = inp
     conn.send('NAMES {}'.format(chan))
