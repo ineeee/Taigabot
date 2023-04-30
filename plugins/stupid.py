@@ -821,7 +821,7 @@ def pushups(inp, me, paraml):
 
 @hook.command(autohelp=False)
 def madoka(inp):
-    """madoka  -- see how much Madoka_Miku has mired infinity..."""
+    """madoka -- see how much Madoka_Miku has mired infinity..."""
     return 'Madoka_Miku has looked at infinitys abs {} times today.'.format(random.randint(1, 500))
 
 
