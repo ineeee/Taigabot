@@ -811,7 +811,7 @@ def workout(inp, me):
 @hook.command('squats', autohelp=False)
 @hook.command(autohelp=False)
 def pushups(inp, me, paraml):
-    """pushups/squats [nick] -- gives someone pushups/squats to do"""
+    """pushups [nick] -- gives someone pushups/squats to do"""
     activity = paraml[-1].split(' ')[0][1:].lower()
     if not inp: inp = 'you'
     else: inp = inp.replace('@', '').strip()
