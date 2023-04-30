@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 
 @hook.command()
 def wordoftheday(inp):
+    """wordoftheday -- finds an interesting word for today in merriam-webster.com"""
     html = request.get('https://www.merriam-webster.com/word-of-the-day')
     soup = BeautifulSoup(html)
 
