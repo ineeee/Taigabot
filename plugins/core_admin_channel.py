@@ -46,6 +46,7 @@ def is_channeladmin(hostmask, chan, db):
 
 @hook.command(autohelp=False, channeladminonly=True)
 def match(inp, chan, bot, input, db):
+    """match [nick] -- determine if user is global admin"""
     if inp: mask = user.get_hostmask(inp, db)
     else: mask = input.mask
     # hostmask = format_hostmask(mask)
@@ -147,7 +148,7 @@ def autoops(inp, notice, chan, db):
 
 @hook.command(permissions=['op_lock', 'op'], channeladminonly=True, autohelp=False)
 def autoop(inp, notice, chan, db):
-    """aop [channel] <enable|disable> OR <add|del> <nick|host> -- Add/Del Autoops."""
+    """aop [channel] <enable|disable> <add|del> <nick|host> -- Add/Del Autoops."""
 
     if len(inp) < 1:
         notice('Missing subcommand. Usage: .autoop <enable/disable/add/del>')
@@ -444,8 +445,9 @@ def showfloods(inp, chan, notice, db):
 
 @hook.command(channeladminonly=True, autohelp=False)
 def flood(inp, chan, notice, db):
-    """flood [channel] <number> <duration> | disable -- Enables flood protection for a channel.
-    ex: .flood 3 30 -- Allows 3 messages in 30 seconds, set disable to disable"""
+    """flood [channel] <number> <duration> [disable] -- Enables flood protection for a channel."""
+
+    # ex: .flood 3 30 -- Allows 3 messages in 30 seconds, set disable to disable"""
 
     if len(inp) == 0:
         floods = database.get(db, 'channels', 'flood', 'chan', chan)
@@ -472,8 +474,9 @@ def flood(inp, chan, notice, db):
 
 @hook.command(channeladminonly=True, autohelp=False)
 def cmdflood(inp, chan, notice, db):
-    """cmdflood [channel] <number> <duration> | disable -- Enables commandflood protection for a channel.
-    ex: .cmdflood 3 30 -- Allows 3 commands in 30 seconds, set disable to disable"""
+    """cmdflood [channel] <number> <duration> [disable] -- Enables commandflood protection for a channel."""
+    
+    # ex: .cmdflood 3 30 -- Allows 3 commands in 30 seconds, set disable to disable
 
     if len(inp) == 0:
         floods = database.get(db, 'channels', 'cmdflood', 'chan', chan)
@@ -562,8 +565,9 @@ def badwords(inp, notice, bot, chan, db):
 
 @hook.command(channeladminonly=True, autohelp=False)
 def trim(inp, chan, notice, db):
-    """trim [channel] <length|disable> -- Sets trim length for parsers.
-    ex: .trim 150 -- Returns the first 150 characters of a parsed url"""
+    """trim [channel] <length> [disable] -- Sets trim length for parsers."""
+    
+    # .trim 150 -- Returns the first 150 characters of a parsed url
 
     if len(inp) == 0:
         trimlength = database.get(db, 'channels', 'trimlength', 'chan', chan)
@@ -608,9 +612,10 @@ def topic(inp, conn, chan):
 @hook.command(
     permissions=["op_mute", "op"], channeladminonly=True, autohelp=False)
 def mute(inp, conn, chan, notice):
-    """mute [channel] -- Makes the bot mute a channel..
-    If [channel] is blank the bot will mute
-    the channel the command was used in."""
+    """mute [channel] -- Makes the bot mute a channel.."""
+    
+    # If [channel] is blank the bot will mute
+    # the channel the command was used in.
     mode_cmd_channel("+m", "mute", inp, chan, conn, notice)
 
 
