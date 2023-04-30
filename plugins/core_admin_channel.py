@@ -899,19 +899,3 @@ def remove(inp, chan, conn):
     message = inp
     conn.send(u"REMOVE {} :{}".format(chan, message))
     return
-
-
-@hook.command(adminonly=True)
-def testdamnit(inp, bot, conn):
-    channellist = bot.config["connections"][conn.name]["channels"]
-    print(channellist)
-    channellist2 = list(set(channellist))
-    print(channellist2)
-    #for target in targets.split(" "):
-    #    if not target.startswith("#"):
-    #        target = "#{}".format(target)
-    #    notice(u"Attempting to leave {}...".format(target))
-    #    conn.part(target)
-    #channellist.remove(inp.lower().strip())
-    #print channellist
-    #json.dump(bot.config, open('config', 'w'), sort_keys=True, indent=2)
