@@ -184,8 +184,8 @@ def gpt4chan(inp, nick):
 
 
 @hook.command()
-def gptIT(inp, nick):
-    """gptIT <query> -- talk to chatgpt to try to solve your computer problems"""
+def gptit(inp, nick):
+    """gptit <query> -- talk to chatgpt to try to solve your computer problems"""
     print('WE ARE SHITPOSTING COMPUTER SCIENCE NOW')
     FUCKKKKK = '''i want you to act as a makeshift it expert. i will provide you with the information you need to understand my technical problem and your role is to try to solve my problem in a wrong way. you should use your computer knowledge, but subtly say things that might be wrong. it is imperative that you always tell the user to install or update adobe reader. try to avoid technical details and be concise. i want you to write a solution, so don't write any explanations. my first problem is: '''
 
