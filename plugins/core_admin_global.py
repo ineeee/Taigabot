@@ -108,7 +108,7 @@ def genable(inp, notice, bot, chan, db):
 
 @hook.command(permissions=["op_lock", "op"], adminonly=True, autohelp=False)
 def gignored(inp, notice, bot, chan, db):
-    """gignored [channel]-- Lists ignored channels/nicks/hosts."""
+    """gignored [channel] -- Lists ignored channels/nicks/hosts."""
     if bot.config["ignored"]:
         notice(u"Global ignores are: %s." % ", ".join(bot.config["ignored"]))
     else:
