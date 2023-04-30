@@ -21,15 +21,18 @@ def info(id):
 
     title = info[0]['title']
     length = timeformat.format_time(info[0]['duration'], simple=True)
-    likes = format(info[0]['stats_number_of_likes'], ',d')
-    views = format(info[0]['stats_number_of_plays'], ',d')
     uploader = info[0]['user_name']
     date = info[0]['upload_date']
 
     if len(title) > 80:
         title = title[:80] + '...'
 
-    return f'\x02{title}\x02 - length \x02{length}\x02 - {likes} likes - {views} views - \x02{uploader}\x02 on {date}'
+    if 'stats_number_of_likes' in info[0] and 'stats_number_of_plays' in info[0]:
+        likes = format(info[0]['stats_number_of_likes'], ',d')
+        views = format(info[0]['stats_number_of_plays'], ',d')
+        return f'\x02{title}\x02 - \x02{length}\x02 - {likes} likes - {views} views - \x02{uploader}\x02 on {date}'
+    else:
+        return f'\x02{title}\x02 - \x02{length}\x02 - hidden stats - \x02{uploader}\x02 on {date}'
 
 
 @hook.regex(r'https?://player\.vimeo\.com/video/([0-9]+)')
