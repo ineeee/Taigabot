@@ -7,7 +7,7 @@ API_URL = "https://api.genius.com/search"
 
 @hook.command
 def lyrics(inp, bot):
-    """lyrics <search> - Search genius.com for song lyrics"""
+    """lyrics <search> -- Search genius.com for song lyrics"""
 
     headers = {'Authorization': bot.config['api_keys']['genius']}
     params = {'q': inp}
