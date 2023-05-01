@@ -11,6 +11,7 @@ except FileNotFoundError:
     raise  # intentionally interrupt plugin loading
 
 
+@hook.command('calc')
 @hook.command()
 def c(inp, nick):
     """c <equation> -- calculate something. supported: () ! ^ ** + - and or xor to in sqrt sin cos tan abs log exp"""
