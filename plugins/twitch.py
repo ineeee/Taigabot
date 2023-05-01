@@ -96,6 +96,9 @@ def twitch(inp, bot, reply):
     c_game = data.get('game_name', 'Unknown game')
     c_lang = data.get('broadcaster_language', 'unknown')
 
+    if len(c_game) < 4:
+        c_game = 'Unknown game'
+
     return f'[Twitch] \x02{u_name}\x02 https://twitch.tv/{u_user} was last seen streaming \x02{c_game}\x02 titled "{c_title}" ({c_lang})'
 
 
