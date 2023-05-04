@@ -74,6 +74,9 @@ def urban(inp):
     results = search(inp_val)
     results_len = len(results)
 
+    if results_len == 0:
+        return f'[ud] Not found'
+    
     if inp_count > results_len:
         return f'[ud] this entry only has {results_len} results'
 
