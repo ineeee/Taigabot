@@ -20,3 +20,4 @@ flood
 *.fuse*
 None.txt
 venv
+env
