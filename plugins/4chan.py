@@ -1,166 +1,98 @@
-import re
-from threading import Thread
-from collections import deque
-
 from util import hook
 from utilities import request
 from utilities import services
 from bs4 import BeautifulSoup
 
-
-def sanitise(string):
-    """Strips a string of all non-alphanumeric characters"""
-    return re.sub(r"[^a-zA-Z0-9 ]", "", string)
+MAX_NUM_URLS_DISPLAYED = 3
+MAX_NUM_URLS_FETCHED = 20
 
 
-# this absolute garbage was copypasted from util.http just because we want to remove that import
-def process_text(string: str | bytes):
-    if isinstance(string, bytes):
-        string = string.decode('utf-8')
+def extract_text_from_html(element):
+    soup = BeautifulSoup(element, 'html.parser')
 
-    try:
-        string = string.replace('<br/>', '  ').replace('\n', '  ').replace('<wbr>', '')
-    except:
-        pass
-    string = re.sub(r'&gt;&gt;\d*[\s]', '', string)  # remove quoted posts
-    string = re.sub(r'(&gt;&gt;\d*)', '', string)
-    try: string = str(string, "utf8")
-    except: pass
-    try: string = string.decode('utf-8').strip()
-    except: pass
-    string = re.sub('[\s]{3,}','  ',string)
-    return string
+    # Loop through line break tags
+    for line_break in soup.find_all('br'):
+        # Replace tags with new line delimiter
+        line_break.replace_with('\n')
 
+    # Get list of strings
+    strings = soup.get_text().split('\n')
 
-def get_title(url):
-    html = request.get(url)
-    soup = BeautifulSoup(html, 'lxml')
-
-    if '#' in url:
-        postid = url.split('#')[1]
-        post = soup.find('div', {'id': postid})
-    else:
-        post = soup.find('div', {'class': 'opContainer'})
-
-    comment = process_text(post.find('blockquote', {'class': 'postMessage'}).renderContents().strip())
-    return u"{} - {}".format(url, comment)  #
-
-
-def search_thread(results_deque, thread_num, search_specifics):
-    """
-    Searches every post in thread thread_num on board board for the
-    string provided. Returns a list of matching post numbers.
-    """
-    json_url = "https://a.4cdn.org/{0}/thread/{1}.json".format(search_specifics["board"], thread_num)
-    thread_json = request.get_json(json_url)
-
-    if thread_json is not None:
-        re_search = None
-        for post in thread_json["posts"]:
-            user_text = "".join([post[s] for s in search_specifics["sections"] if s in list(post.keys())])
-            re_search = re.search(search_specifics["string"], user_text, re.UNICODE + re.IGNORECASE)
-            if re_search is not None:
-                results_deque.append("{0}#p{1}".format(thread_num, post["no"]))
-
-
-def search_page(results_deque, page, search_specifics):
-    """Will be run by the threading module. Searches all the
-    4chan threads on a page and adds matching results to synchronised queue"""
-    for thread in page['threads']:
-        user_text = "".join([thread[s] for s in search_specifics["sections"] if s in list(thread.keys())])
-        if re.search(search_specifics["string"], user_text, re.UNICODE + re.IGNORECASE) is not None:
-            results_deque.append(thread["no"])
-
-
-def process_results(board, string, results_deque):
-    """Process the resulting data of a search and present it"""
-    max_num_urls_displayed = 6
-    max_num_urls_fetch = 20
-    board = sanitise(board)
-    message = ""
-    urllist = []
-    post_template = "https://boards.4chan.org/{0}/thread/{1}"
-    if len(results_deque) <= 0:
-        message = "No results for {0}".format(string)
-    elif len(results_deque) > max_num_urls_fetch:
-        # message = "Too many results for {0}".format(string)
-        urls = [post_template.format(board, post_num) for post_num in results_deque]
-        # message = " ".join(urllist[:max_num_urls_displayed])
-        message = services.paste('\n'.join(urls))
-    else:
-        urls = [post_template.format(board, post_num) for post_num in results_deque]
-        if len(urls) > max_num_urls_displayed:
-            for url in urls:
-                title = get_title(url)
-                urllist.append("{}".format(title))
-            message = services.paste('\n\n'.join(urllist))
-        else:
-            for url in urls:
-                title = get_title(url)
-                urllist.append("{}".format(title[: int(120)]))
-            message = " \x03|\x03 ".join(urllist[:max_num_urls_displayed])
-
-    return message
+    return "\n".join([string for string in strings if string])
 
 
 @hook.command("4chan")
 @hook.command
 def catalog(inp):
     """catalog <board> <regex> -- Search all OP posts on the catalog of a board, and return matching results"""
-    thread_join_timeout_seconds = 10
-    results_deque = deque()
 
     inp = inp.split(" ")
     board = inp[0]
-    string = (" ".join(inp[1:])).strip()
+    user_query = (" ".join(inp[1:])).strip()
 
-    json_url = "https://a.4cdn.org/{0}/catalog.json".format(board)
-    sections = ["com", "name", "trip", "email", "sub", "filename"]
-    catalog_json = request.get_json(json_url)
-    search_specifics = {"sections": sections, "board": board, "string": string}
-    thread_pool = []
+    catalog_json_url = f"https://a.4cdn.org/{board}/catalog.json"
 
+    try:
+        catalog_json = request.get_json(catalog_json_url)
+    except Exception as e:
+        return f"[4chan] Error fetching catalog"
+
+    # Store the search specifics in a dictionary
+    results = []
+
+    # Iterate through each page in the catalog
     for page in catalog_json:
-        t = Thread(None, target=search_page, args=(results_deque, page, search_specifics))
-        t.start()
-        thread_pool.append(t)
+        # Iterate through each thread on the page
+        thread_list = page["threads"]
+        for thread in thread_list:
+            # List of all relevant fields to search
+            # https://github.com/4chan/4chan-API/blob/master/pages/Catalog.md
+            sections = ["com", "name", "trip", "email", "sub", "filename"]
 
-    for _thread in thread_pool:
-        if _thread.is_alive():
-            _thread.join(float(thread_join_timeout_seconds))
+            # Get relevant fields from thread
+            relevant_fields = {key: thread.get(key, "") for key in sections}
 
-    results = process_results(board, string, results_deque)
-    return "%s" % (results)
+            # Search the relevant fields user query (case insensitive)
+            query_in_relevant_fields = any(user_query.lower() in s.lower() for s in relevant_fields.values())
 
+            # If the query is in any of the relevant fields, add the thread to the results
+            if query_in_relevant_fields:
+                results.append(thread)
 
-@hook.command
-def board(inp):
-    """board <board> <regex> -- Search all the posts on a board and return matching results"""
-    thread_join_timeout_seconds = 10
-    results_deque = deque()
+            # If we have enough results, return them
+            if len(results) >= MAX_NUM_URLS_FETCHED:
+                break
 
-    inp = inp.split(" ")
-    board = inp[0]
-    string = " ".join(inp[1:])
+    if len(results) == 0:
+        return f"No results on /{board}/ for {user_query}"
 
-    json_url = "https://a.4cdn.org/{0}/threads.json".format(board)
-    sections = ["com", "name", "trip", "email", "sub", "filename"]
-    threads_json = request.get_json(json_url)
-    search_specifics = {"sections": sections, "board": board, "string": string}
-    thread_pool = []
+    # Upload to pastebin if there are too many results
+    if len(results) > MAX_NUM_URLS_DISPLAYED:
+        # Create HTML formatted results to upload to taiga.link
+        html_formatted_results = []
 
-    for page in threads_json:
-        for thread in page["threads"]:
-            t = Thread(None, target=search_thread, args=(results_deque, thread["no"], search_specifics))
-            t.start()
-            thread_pool.append(t)
+        for thread in results:
+            url = f"https://boards.4chan.org/{board}/thread/{thread['no']}"
+            subject = thread.get("sub", "(No subject)")
+            comment = thread.get("com", "")
 
-    for _thread in thread_pool:
-        if _thread.is_alive():
-            _thread.join(float(thread_join_timeout_seconds))
+            html_formatted_results.append(f"<h2>{subject}</h2><a href={url}>{url}</a>\n{comment}\n")
 
-    results = process_results(board, string, results_deque)
-    return "%s" % (results)
+        return services.paste_taigalink(
+            "\n".join(html_formatted_results), title=f"4chan {board} search results for {user_query}", format="html"
+        )
+
+    # Otherwise, return the results as a message to IRC
+    irc_results = []
+    for thread in results:
+        max_chars = 100
+        url = f"https://boards.4chan.org/{board}/thread/{thread['no']}"
+        subject = extract_text_from_html(thread.get("sub", ""))[:max_chars]
+        comment = extract_text_from_html(thread.get("com", ""))[:max_chars]
+
+        irc_results.append(f"{url} \x02{subject}\x02 {comment}")
+
+    return " ".join(irc_results)
 
 
 @hook.command(autohelp=False)
