@@ -10,7 +10,7 @@ CFB_REALTIME_API = "http://site.api.espn.com/apis/site/v2/sports/football/colleg
 headers = {"Cache-Control": "no-cache", "Pragma": "no-cache"}
 
 
-def helper(event):
+def format_sports_event(event):
     """Format information about sports event"""
 
     match_info = []
@@ -68,7 +68,7 @@ def fetcher(api_url, inp):
             competitors = event["competitions"][0]["competitors"]
             for competitor in competitors:
                 if competitor["team"]["abbreviation"] == team:
-                    return helper(event)
+                    return format_sports_event(event)
 
     # League summary
     for event in events:
