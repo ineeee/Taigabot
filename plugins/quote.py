@@ -3,7 +3,7 @@ import re
 import time
 
 from util import hook, user
-from utilities.services import paste_litterbox
+from utilities.services import paste
 
 
 def format_quote(q, num, n_quotes):
@@ -78,7 +78,7 @@ def search_quote(db, nick, search, bot):
     # print results
     if len(results) >= 5:
         output = '\n'.join(results).encode('utf-8')
-        paste_url = paste_litterbox(output)
+        paste_url = paste(output)
         return str(paste_url)
     return results
 
