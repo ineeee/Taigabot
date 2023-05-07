@@ -10,7 +10,7 @@ CFB_REALTIME_API = "http://site.api.espn.com/apis/site/v2/sports/football/colleg
 headers = {"Cache-Control": "no-cache", "Pragma": "no-cache"}
 
 
-def format_sports_event(event):
+def format_sports_event(api_url, event):
     """Format information about sports event"""
 
     match_info = []
@@ -32,19 +32,57 @@ def format_sports_event(event):
     time_detail = competition["status"]["type"]["shortDetail"]
     match_info.append(time_detail)
 
-    # Down distance
-    down_distance = ""
-    try:
-        pos_team_id = competition["situation"]["lastPlay"]["team"]["id"]
-        pos_team = id_to_abbr[pos_team_id]
-        down_distance = pos_team + ": " + competition["situation"]["downDistanceText"]
-        match_info.append(down_distance)
-    except:
-        pass
+    # Sport-specific logic
+    if api_url == NFL_REALTIME_API:
+        try:
+            pos_team_id = competition["situation"]["lastPlay"]["team"]["id"]
+            pos_team = id_to_abbr[pos_team_id]
+            down_distance = pos_team + ": " + competition["situation"]["downDistanceText"]
+            match_info.append(down_distance)
+        except:
+            pass
 
-    # Last play info
-    last_play_info = ""
+    elif api_url == MLB_REALTIME_API:
+        try:
+            situation = competition["situation"]
+
+            pitching_team_id = situation["pitcher"]["athlete"]["team"]["id"]
+            pitching_team = id_to_abbr[pitching_team_id]
+
+            batting_team_id = situation["batter"]["athlete"]["team"]["id"]
+            batting_team = id_to_abbr[batting_team_id]
+
+            pitcher = situation["pitcher"]["athlete"]["shortName"]
+            pitcher_summary = situation["pitcher"]["summary"]
+
+            batter = situation["batter"]["athlete"]["shortName"]
+            batter_summary = situation["batter"]["summary"]
+
+            now_at_bat = (
+                f"[{pitching_team}] {pitcher} ({pitcher_summary}) vs. [{batting_team}] {batter} ({batter_summary})"
+            )
+            match_info.append(now_at_bat)
+        except:
+            pass
+
+        try:
+            situation = competition["situation"]
+            on_base = f"1B: {situation['onFirst']}, 2B: {situation['onSecond']}, 3B: {situation['onThird']}"
+            match_info.append(on_base)
+        except:
+            pass
+
+        try:
+            situation = competition["situation"]
+            balls_strikes_outs = (
+                f"Balls: {situation['balls']}, Strikes: {situation['strikes']}, Outs: {situation['outs']}"
+            )
+            match_info.append(balls_strikes_outs)
+        except:
+            pass
+
     try:
+        last_play_info = ""
         last_play_info = competition["situation"]["lastPlay"]["text"]
         match_info.append(last_play_info)
     except:
@@ -68,7 +106,7 @@ def fetcher(api_url, inp):
             competitors = event["competitions"][0]["competitors"]
             for competitor in competitors:
                 if competitor["team"]["abbreviation"] == team:
-                    return format_sports_event(event)
+                    return format_sports_event(api_url, event)
 
     # League summary
     for event in events:
