@@ -9,11 +9,12 @@ def post(url: str, data):
     return requests.post(url, headers=HEADERS, data=data, timeout=12, allow_redirects=True)
 
 
-def paste_taigalink(text: str, title: str = 'Paste'):
+def paste_taigalink(text: str, title: str = 'Paste', format: str = 'text'):
     data = {
         'title': title,
         'uploader': 'taigabot',
-        'text': text
+        'text': text,
+        'format': format
     }
     res = requests.post('https://taiga.link/p/upload', headers=HEADERS, data=data)
     return res.text
