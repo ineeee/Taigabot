@@ -79,7 +79,7 @@ def catalog(inp):
             html_formatted_results.append(f"<h2>{subject}</h2><a href={url}>{url}</a>\n{comment}\n")
 
         return services.paste_taigalink(
-            "\n".join(html_formatted_results), title=f"4chan {board} search results for {user_query}", format="html"
+            "\n".join(html_formatted_results), f"4chan {board} search results for {user_query}", "html"
         )
 
     # Otherwise, return the results as a message to IRC
