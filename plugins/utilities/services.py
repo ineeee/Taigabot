@@ -66,6 +66,8 @@ def paste_sprunge(data):
 def shorten_taigalink(url: str):
     data = {'url': url}
     res = post('https://taiga.link/s/short', data)
+    if res.status_code >= 400:
+        raise Exception(f'Sorry, taiga.link returned http code {res.status_code}')
     return res.text.strip()
 
 
