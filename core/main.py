@@ -4,6 +4,7 @@ import traceback
 import queue
 import inspect
 from collections.abc import Callable
+from datetime import date
 
 _thread.stack_size(1024 * 512)    # reduce vm size
 
@@ -67,6 +68,22 @@ class Input(dict):
         self[key] = value
 
 
+def record_plugin_usage(filename, func: Callable):
+    function = func.__name__
+    source = f'{func.__code__.co_filename}:{func.__code__.co_firstlineno}'
+    today = date.today().strftime('%Y/%m/%d')
+
+    # skip some known spammy commands
+    if function in ('log', 'seen_sieve', 'ctcp_event'):
+        return
+
+    line = f'{function}\t{source}\t{today}\n'
+    file = open(filename, 'a+')
+    file.write(line)
+    file.close()
+    return
+
+
 def run(func: Callable, input: Input):
     args = func._args
 
@@ -99,6 +116,12 @@ def run(func: Callable, input: Input):
             output = func(*func_args)
             if output is not None:
                 input.reply(output)
+
+            # ### START: command statistics ###
+            filename = os.path.join(bot.persist_dir, f'usage_{input.conn.name}.log')
+            _thread.start_new_thread(record_plugin_usage, (filename, func))
+            # ### END: command statistics ###
+
             return
         # else:
         #     print("failed to use new method for func", func, "continuing to old code")
