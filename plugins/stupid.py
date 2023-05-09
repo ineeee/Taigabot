@@ -923,8 +923,8 @@ def donate(inp, db, nick, chan, conn, notice):
         taker = float(database.get(db, 'users', 'fines', 'nick', user))
     except:
         taker = 0.0
-    if donation > giver or donation < 0:
-        return
+    if donation > -giver or donation < 0:
+        return "cant"
     if str(giver)[0] == '-':
         giver = giver + donation
     else:
