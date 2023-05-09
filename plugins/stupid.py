@@ -63,6 +63,36 @@ from utilities import formatting, request
 # HONK HONK
 # HONK HONK
 # HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
+# HONK HONK
 actions = {
     "honk": ["honked at", "honking"],
     "pet": ["pet", "petting"],
@@ -839,9 +869,13 @@ def fap(inp, nick, me):
     me('jerks off and cums on {}'.format(inp))
 
 
-# var replies = ['faggot','i ought to fuk u up m8','1v1 me','do u evn lift','ur mom','consider urself trolld','ur mom iz gay','stfu fagget','omg nub','u hax i repert u','my dad works for this site so I would be nice if I were you','ill rek u','get rekt scrub','u r gay'];
-
-# .sue
+gayreplies = ['faggot','i ought to fuk u up m8','1v1 me','do u evn lift','ur mom','consider urself trolld','ur mom iz gay','stfu fagget','omg nub','u hax i repert u','my dad works for this site so I would be nice if I were you','ill rek u','get rekt scrub','u r gay']
+@hook.command(autohelp=False)
+def shutthefuckup(inp, nick):
+    """shutthefuckup [nick] -- tells some idiot to shut the fuck up"""
+    if not inp: inp = nick
+    gayreply = gayreplies[random.randint(0, len(gayreplies) - 1)]
+    return f'{inp}: {gayreply}'
 
 
 @hook.command(autohelp=False)
