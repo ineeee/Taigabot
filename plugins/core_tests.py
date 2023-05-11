@@ -157,3 +157,60 @@ def exportpluginsjson(inp, bot):
     file.close()
 
     return f'[EXPORT] dumped {count} functions to plugins.json'
+
+
+@hook.command(adminonly=True)
+def testdbintegrityusers(inp, nick, db, reply):
+    reply('analyzing database integrity: table "users"')
+    print('analyzing database integrity: table "users"')
+
+    pragma = db.execute('PRAGMA table_info("users")')
+    damaged = ''
+
+    for (cid, cname, ctype, nullable, _, _) in pragma.fetchall():
+        print(f'reading col {cid} = {cname} (type = "{ctype}")')
+
+        if nullable:
+            print(f'> skipping nullable {cname}...')
+            damaged = damaged + f'{cname} skipped; '
+            continue
+
+        data = db.execute(f'SELECT {cname} FROM users WHERE {cname} == "False" OR {cname} == ""')
+        data = data.fetchall()
+        count = len(data)
+
+        if count > 0:
+            print(f'> found {count} invalid records in {cname}')
+            damaged = damaged + f'{cname} = {count} fields; '
+
+    reply(f'corrupt values: {damaged}. check stdout for more info')
+    return
+
+
+from time import sleep  # fucking seen.py plugin
+@hook.command(adminonly=True)
+def fixdbintegrityusers(inp, nick, db, reply):
+    reply('trying to repair table "users"')
+    print('trying to repair table "users"')
+
+    pragma = db.execute('PRAGMA table_info("users")')
+    repaired = ''
+
+    sleep(1)
+    for (cid, cname, _, nullable, _, _) in pragma.fetchall():
+        print(f'repairing col {cid} = {cname}')
+
+        if nullable:
+            print(f'> skipping nullable {cname}...')
+            repaired = repaired + f'{cname} skipped; '
+            continue
+
+        cursor = db.execute(f'UPDATE users SET {cname} = NULL WHERE {cname} == "False" OR {cname} == ""')
+        count = cursor.rowcount
+
+        if count > 0:
+            print(f'> fixed {count} invalid records in {cname}')
+            repaired = repaired + f'{cname} = {count} fields; '
+
+    reply(f'repaired: {repaired}. check stdout for more info')
+    return
