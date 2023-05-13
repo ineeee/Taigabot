@@ -26,6 +26,18 @@ def upload_mp3(audio):
 @hook.command('tts')
 def tiktoktts(inp, nick):
     """tiktoktts <query> -- generate a text-to-speech audio with tiktok's female english voice"""
+    return realtiktoktts(inp, nick, 'en_us_001')
+
+
+@hook.command()
+def ttssing(inp, nick):
+    """ttssing <query> -- generate a tts audio with a random singing voice with some goofy ahh sound effects"""
+    if len(inp) > 100:
+        return f'no {nick}, keep it short'
+    return realtiktoktts(inp, nick, 'en_female_f08_salut_damour')
+
+
+def realtiktoktts(inp, nick, voice):
 
     # i forgot why this is needed
     global idx
@@ -40,7 +52,7 @@ def tiktoktts(inp, nick):
         'params': [
             {
                 'text': inp,
-                'voice': 'en_us_001'
+                'voice': voice
             }
         ]
     }
