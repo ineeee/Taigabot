@@ -4,6 +4,7 @@ import sys
 import time
 
 from util import database, hook, user
+from utilities.services import paste
 
 
 @hook.command(autohelp=False, adminonly=True)
@@ -110,7 +111,13 @@ def genable(inp, notice, bot, chan, db):
 def gignored(inp, notice, bot, chan, db):
     """gignored [channel] -- Lists ignored channels/nicks/hosts."""
     if bot.config["ignored"]:
-        notice(u"Global ignores are: %s." % ", ".join(bot.config["ignored"]))
+        penis = ", ".join(bot.config["ignored"])
+        if len(penis) > 100:
+            vagina = '\n- '.join(bot.config["ignored"])  # use newlines instead of commas
+            link = paste(vagina)
+            notice(f'Global ignores are {link}, here are some: {penis}')
+        else:
+            notice(f'Global ignores are: {penis}')
     else:
         notice(u"There are no global ignores.")
     return
