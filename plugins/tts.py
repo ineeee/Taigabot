@@ -32,7 +32,7 @@ def tiktoktts(inp, nick):
 @hook.command()
 def ttssing(inp, nick):
     """ttssing <query> -- generate a tts audio with a random singing voice with some goofy ahh sound effects"""
-    if len(inp) > 100:
+    if len(inp) > 200:
         return f'no {nick}, keep it short'
     return realtiktoktts(inp, nick, 'en_female_f08_salut_damour')
 
