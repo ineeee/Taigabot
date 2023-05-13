@@ -1,5 +1,6 @@
 from util import hook
 from base64 import b64decode
+from random import randint
 import requests
 
 
@@ -26,7 +27,10 @@ def upload_mp3(audio):
 @hook.command('tts')
 def tiktoktts(inp, nick):
     """tiktoktts <query> -- generate a text-to-speech audio with tiktok's female english voice"""
-    return realtiktoktts(inp, nick, 'en_us_001')
+    if randint(0, 4) == 0:
+        return realtiktoktts(inp, nick, 'br_005') + ' ;)'
+    else:
+        return realtiktoktts(inp, nick, 'en_us_001')
 
 
 @hook.command()
