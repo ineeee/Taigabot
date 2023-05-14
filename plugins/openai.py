@@ -8,6 +8,34 @@ XDDDDDDDDDDDD = 320
 XDDDDDDDD = 12
 
 
+def will_openai_censor_it(msg: str) -> bool:
+    url = 'https://api.openai.com/v1/moderations'
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + XDDDDDDDDDDDDDDDDD
+    }
+    data = {
+        'input': msg
+    }
+
+    res = XDDD.post(url, headers=headers, json=data, timeout=XDDDDDDDD)
+
+    if res.status_code == 401:
+        return 'error: invalid api key'
+
+    values = res.json()
+    flagged = values['results'][0]['flagged']
+    return flagged
+
+
+@hook.command()
+def check_gpt_censorship(inp):
+    if will_openai_censor_it(inp):
+        return 'openai flagged your message and the ai will refuse to answer it, sorry'
+    else:
+        return 'thats ok'
+
+
 def MEME(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD):
     url = 'https://api.openai.com/v1/chat/completions'
     headers = {
@@ -51,6 +79,9 @@ def FunkyMonkeyAPIQuest(XDDDDDDDDDDDDDDDDDDDD):
 
 
 def WHORE(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8):
+    if will_openai_censor_it(XDDDDDDDDDDDDDDDDDDDD):
+        return 'Error: openai flagged your message, the ai wont answer it'
+
     print('querying openai completion api')
     XD = MEME(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD)
 
