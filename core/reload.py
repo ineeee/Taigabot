@@ -42,6 +42,12 @@ def format_plug(plug, kind='', lpad=0):
     return out
 
 
+def include(filename, namespace):
+    file = open(filename, 'r').read()
+    code = compile(file, filename, 'exec')
+    eval(code, namespace)
+
+
 def reload(init: bool = False):
     changed = False
 
@@ -60,7 +66,7 @@ def reload(init: bool = False):
             changed = True
 
             try:
-                eval(compile(open(filename, 'r').read(), filename, 'exec'), globals())
+                include(filename, globals())
             except Exception:
                 traceback.print_exc()
                 if init:        # stop if there's an error (syntax?) in a core
