@@ -57,8 +57,8 @@ print('Loading plugins...')
 reloader_path = os.path.join('core', 'reload.py')
 eval(compile(open(reloader_path, 'r').read(), reloader_path, 'exec'))
 
-reload(init=True)
 bot.load_config()
+reload(init=True)
 
 print('Connecting to IRC...')
 
