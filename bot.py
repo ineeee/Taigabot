@@ -34,7 +34,7 @@ if not sys.version_info >= (3, 9):
 
 sys.stdout.reconfigure(line_buffering=True)
 
-print('Taigabot <https://github.com/inexist3nce/Taigabot>')
+print('Taigabot <https://github.com/ineeee/Taigabot>')
 
 sys.path += ['plugins']  # so 'import hook' works without duplication
 os.chdir(sys.path[0] or '.')  # do stuff relative to the install directory
