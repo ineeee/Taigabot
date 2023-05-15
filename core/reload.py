@@ -100,11 +100,10 @@ def reload(init: bool = False):
             mtimes[filename] = mtime
 
             changed = True
+            namespace = {'bot': bot}
 
             try:
-                code = compile(open(filename, 'r').read(), filename, 'exec')
-                namespace = {}
-                eval(code, namespace)
+                include(filename, namespace)
             except ModuleNotFoundError as e:
                 print(f'Error: cant load {filename}, missing a required package. {e}')
                 continue
