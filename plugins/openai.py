@@ -3,7 +3,7 @@ import requests as XDDD
 from util import hook
 from utilities.services import paste, shorten
 
-XDDDDDDDDDDDDDDDDD = 'sk-lmao00N7iqIY00get000rekt00FJXosySErkNKtJHUIFR'
+XDDDDDDDDDDDDDDDDD = bot.get_api_key('openai_chatgpt')
 XDDDDDDDDDDDD = 320
 XDDDDDDDD = 12
 

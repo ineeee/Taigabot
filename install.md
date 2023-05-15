@@ -120,6 +120,7 @@ these plugins need an api key on the `config` file
 | google       | `"google"`         | - |
 | google       | `"google2"`        | - |
 | google       | `"googleimage"`    | - |
+| openai       | `"openai_chatgpt"`   | openai.com |
 | twitch       | `"twitch_client_id"` | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
 | twitch       | `"twitch_client_secret"` | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
 

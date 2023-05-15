@@ -22,6 +22,7 @@
     "mc_pass": "INSERT minecraft PASSWORD HERE",
     "mc_user": "INSERT minecraft USERNAME HERE",
     "old_pastebin": "",
+    "openai_chatgpt": "",
     "openweathermap": "",
     "papkey": "",
     "pastebin": "",
