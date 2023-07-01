@@ -299,7 +299,7 @@ def hentai_url(match, bot):
         return u'{}'.format(soup.title.string)
 
 
-user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138'
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 headers = {'User-Agent': user_agent}
 
 
