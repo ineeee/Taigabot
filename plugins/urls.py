@@ -14,6 +14,7 @@ from utilities.formatting import compress_whitespace
 
 MAX_LENGTH = 200
 trimlength = 320
+REQ_TIMEOUT = 8
 
 IGNORED_HOSTS = [
     '.onion',
@@ -65,7 +66,7 @@ def process_url(match, bot=None, chan=None, db=None):
             return
 
     if 'simg.gelbooru.com' in url.lower():
-        return unmatched_url(url, parsed, bot, chan, db)    # handled by Gelbooru plugin: exiting
+        return unmatched_url(url, parsed, chan, db)    # handled by Gelbooru plugin: exiting
     elif 'gelbooru.com' in url.lower():
         return    # handled by Gelbooru plugin: exiting
     elif 'craigslist.org' in url.lower():
@@ -84,11 +85,11 @@ def process_url(match, bot=None, chan=None, db=None):
             return fourchanthread_url(url)    # 4chan Post
 
         if '/src/' in url.lower():
-            return unmatched_url(url, parsed, bot, chan, db)    # 4chan Image
+            return unmatched_url(url, parsed, chan, db)    # 4chan Image
         else:
             return fourchanboard_url(url)    # 4chan Board
     else:
-        return unmatched_url(url, parsed, bot, chan, db)    # process other url
+        return unmatched_url(url, parsed, chan, db)    # process other url
 
 
 # @hook.regex(*fourchan_re)
@@ -100,7 +101,7 @@ def fourchanboard_url(match):
 
 def fourchanapi_get_thread(board: str, thread: str):
     url = f'https://a.4cdn.org/{board}/thread/{thread}.json'
-    req = requests.get(url)
+    req = requests.get(url, timeout=REQ_TIMEOUT)
 
     if req.status_code != 200:
         print(f'[ERROR] some 4chan api error happened, http status {req.status_code} ({board}, {thread})')
@@ -342,7 +343,7 @@ def parse_html(stream, encoding: str = 'utf8'):
     return 'Untitled'
 
 
-def unmatched_url(url, parsed, bot, chan, db):
+def unmatched_url(url, parsed, chan, db):
     disabled_commands = database.get(db, 'channels', 'disabled', 'chan', chan) or []
 
     # don't bother if the channel has url titles disabled
@@ -351,7 +352,7 @@ def unmatched_url(url, parsed, bot, chan, db):
 
     # fetch, and hide all errors from the output
     try:
-        req = requests.get(url, headers=headers, allow_redirects=True, stream=True, timeout=8)
+        req = requests.get(url, headers=headers, allow_redirects=True, stream=True, timeout=REQ_TIMEOUT)
     except Exception as e:
         print('[!] WARNING couldnt fetch url')
         print(e)
