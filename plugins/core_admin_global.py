@@ -199,13 +199,6 @@ def restart(inp, nick, bot):
 
 
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
-def clearlogs(inp, input):
-    """clearlogs -- Clears the bots log(s)."""
-    return "not implemented"
-    #subprocess.call(["./bot", "clear"])
-
-
-@hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
 def join(inp, conn, notice, bot):
     """join <channel> -- Joins <channel>."""
     if "0,0" in inp: return
