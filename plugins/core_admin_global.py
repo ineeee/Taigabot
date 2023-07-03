@@ -234,7 +234,8 @@ def join(inp, conn, notice, bot):
         channellist = bot.config["connections"][conn.name]["channels"]
         if target not in channellist:
             channellist.append(target)
-            json.dump(bot.config, open('config', 'w'), sort_keys=True, indent=2)
+
+    bot.save_config()
 
     return
 
@@ -249,16 +250,21 @@ def part(inp, conn, chan, notice, bot):
 
     for target in targets.split(" "):
         if not target.startswith("#"):
-            target = "#{}".format(target)
-        if target in conn.channels:
-            notice(u"Attempting to leave {}...".format(target))
+            target = f"#{target}"
+
+        if target in channellist:
+            notice(f"Attempting to leave {target}...")
             conn.part(target)
-            channellist.remove(target.lower().strip())
-            notice(f'Deleted {target} from channel list.')
+
+            try:
+                channellist.remove(target)
+                notice(f'Deleted {target} from channel list.')
+            except ValueError:
+                notice(f'Could not delete {target} from channel list.')
         else:
             notice(f"Not in {target}!")
 
-    json.dump(bot.config, open('config', 'w'), sort_keys=True, indent=2)
+    bot.save_config()
     return
 
 
