@@ -198,28 +198,44 @@ def restart(inp, nick, bot):
     sys.exit(0)
 
 
+@hook.command(autohelp=False, adminonly=True)
+def channellist(inp, bot, conn):
+    return "current channels: " + ' '.join(bot.config["connections"][conn.name]["channels"])
+
+
 @hook.command(autohelp=False, permissions=["botcontrol"], adminonly=True)
 def join(inp, conn, notice, bot):
     """join <channel> -- Joins <channel>."""
-    if "0,0" in inp: return
+    # skip old irc trick that makes the bot leave every channel
+    if ",0" in inp:
+        return
+
+    channellist = bot.config["connections"][conn.name]["channels"]
+
     for target in inp.split(" "):
         key = None
         if ":" in target:
             key = target.split(":")[1]
             target = target.split(":")[0]
+
         if not target.startswith("#"):
-            target = "#{}".format(target)
-        notice(u"Attempting to join {}...".format(target))
+            target = f"#{target}"
+
+        if target in channellist:
+            notice(f"I'm already in {target}! Rejoining...")
+        else:
+            notice(f"Attempting to join {target}...")
+
         if key:
             conn.join(target, key)
         else:
             conn.join(target)
 
         channellist = bot.config["connections"][conn.name]["channels"]
-        if not target.lower() in channellist:
-            channellist.append(target.lower())
-            json.dump(
-                bot.config, open('config', 'w'), sort_keys=True, indent=2)
+        if target not in channellist:
+            channellist.append(target)
+            json.dump(bot.config, open('config', 'w'), sort_keys=True, indent=2)
+
     return
 
 
@@ -238,9 +254,9 @@ def part(inp, conn, chan, notice, bot):
             notice(u"Attempting to leave {}...".format(target))
             conn.part(target)
             channellist.remove(target.lower().strip())
-            print('Deleted {} from channel list.'.format(target))
+            notice(f'Deleted {target} from channel list.')
         else:
-            notice(u"Not in {}!".format(target))
+            notice(f"Not in {target}!")
 
     json.dump(bot.config, open('config', 'w'), sort_keys=True, indent=2)
     return
