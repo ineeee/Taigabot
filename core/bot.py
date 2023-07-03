@@ -47,6 +47,8 @@ class Bot:
                     print('fatal: cant load config on first boot. crashing')
                     sys.exit(1)
 
+    def save_config(self):
+        json.dump(self.config, open('config', 'w'), sort_keys=True, indent=2)
 
     def get_db_connection(self, conn):
         """returns an sqlite3 connection to a persistent database"""
