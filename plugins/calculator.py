@@ -15,7 +15,7 @@ except FileNotFoundError:
 @hook.command()
 def c(inp, nick):
     """c <equation> -- calculate something. supported: () ! ^ ** + - and or xor to in sqrt sin cos tan abs log exp"""
-    process = subprocess.run(['fend', '--', inp], stdout=subprocess.PIPE)
+    process = subprocess.run(['/usr/bin/fend', '--', inp], stdout=subprocess.PIPE)  # should probably limit input length
 
     # return if the parser didn't like the input
     if process.returncode != 0:
