@@ -5,7 +5,7 @@ import subprocess
 from util import hook
 
 try:
-    subprocess.run(['fend', '1+1'])
+    subprocess.run(['/usr/bin/fend', '1+1'])
 except FileNotFoundError:
     print('ERROR in calculator.py: the system doesnt have "fend" installed')
     raise  # intentionally interrupt plugin loading
