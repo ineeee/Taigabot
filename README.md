@@ -10,7 +10,7 @@
   * Little boilerplate
   * Misbehaving plugins don't crash the bot
 * Extremely stable, has been running for literally over a decade
-  * Project is 14+ years old [.](https://github.com/rmmh/skybot/commit/4b7cc141e5def027d2a562a1d53a2c465216fd9e)
+  * Project is 15+ years old [.](https://github.com/rmmh/skybot/commit/4b7cc141e5def027d2a562a1d53a2c465216fd9e)
 
 ### Installation
 Taigabot runs only on Python 3.9 or 3.10. See [install.md](install.md#instructions) for [ubuntu](install.md#ubuntu) or [alpine](install.md#alpine) instructions.
