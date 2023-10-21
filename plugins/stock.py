@@ -1,6 +1,9 @@
 from util import hook
 import requests
-import json
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+}
 
 
 def color(change):
@@ -12,93 +15,62 @@ def color(change):
         return "03"
 
 
+# Get list of possible tickers user could be referencing
+def ticker_search(query):
+    url = "https://query2.finance.yahoo.com/v1/finance/search?q=" + query
+    r = requests.get(url, headers=headers)
+    data = r.json()
+    return data
+
+
 @hook.command
 def stock(inp, bot):
     """stock <symbol> -- gets stock information"""
-    symbols = inp.upper()
-    base_url = "https://cloud.iexapis.com/v1"
-    token = bot.config["api_keys"]["iex"]
-    params = {"token": token, "symbols": symbols, "types": "quote,stats"}
+    inputed_symbol = inp
+    base_url = "https://query2.finance.yahoo.com/v6/finance/quoteSummary/"
+
+    # Validate ticker
+    query_url = (
+        base_url
+        + inputed_symbol
+        + "?modules=financialData&modules=quoteType&modules=defaultKeyStatistics&modules=assetProfile&modules=summaryDetail&modules=price&ssl=true"
+    )
+    r = requests.get(query_url, headers=headers)
+
+    # JSON
+    data = r.json()
+    print(data)
+
+    # Check if valid ticker
+    if data["quoteSummary"]["error"] or data["quoteSummary"]["result"][0]["quoteType"]["exchange"] is None:
+        # Call function that searches for ticker
+        ticker_search_data = ticker_search(inputed_symbol)
+
+        # If no quotes, return
+        if not ticker_search_data["quotes"]:
+            return "[Stock] No quotes found for " + inputed_symbol
+        else:
+            # Create list of possible tickers
+            possible_tickers = []
+            for quote in ticker_search_data["quotes"]:
+                possible_tickers.append(
+                    quote["exchDisp"] + ": " + quote["shortname"] + " (\x02" + quote["symbol"] + "\x02)"
+                )
+            # Return list of possible tickers
+            return "[Stock] Possible tickers: " + ", ".join(possible_tickers)
 
     try:
-        data = requests.get(base_url + "/stock/market/batch", params=params)
-        data = data.json()
+        shortName = data["quoteSummary"]["result"][0]["quoteType"]["shortName"]
+        symbol = data["quoteSummary"]["result"][0]["quoteType"]["symbol"]
+        currencySymbol = data["quoteSummary"]["result"][0]["price"]["currencySymbol"]
+        price = data["quoteSummary"]["result"][0]["price"]["regularMarketPrice"]["raw"]
+        changePercent = data["quoteSummary"]["result"][0]["price"]["regularMarketChangePercent"]["raw"]
+    except:
+        return "[Stock] Error parsing data"
 
-        # https://iexcloud.io/docs/api/#quote
-        quote_data = data[symbols]["quote"]
+    # Round change percent two 2 decimal places
+    changePercentRounded = round(changePercent, 2)
 
-        current_price = quote_data["latestPrice"]
-        symbol = quote_data["symbol"]
-        day_high_price = quote_data["high"]
-        day_low_price = quote_data["low"]
-        day_change_percent = float("{:.2f}".format(quote_data["changePercent"] * 100))
-        day_change_color = color(day_change_percent)
-        day_change_percent = "\x03{}{}%\x03".format(
-            day_change_color, day_change_percent
-        )
-
-        # https://iexcloud.io/docs/api/#key-stats
-        stats_data = data[symbols]["stats"]
-        name = stats_data["companyName"]
-
-        year1_change_percent = float(
-            "{:.2f}".format(stats_data["year1ChangePercent"] * 100)
-        )
-        year1_change_color = color(float(year1_change_percent))
-        year1_change_percent = "\x03{}{}%\x03".format(
-            year1_change_color, year1_change_percent
-        )
-
-        month_6_change_percent = float(
-            "{:.2f}".format(stats_data["month6ChangePercent"] * 100)
-        )
-        month_6_change_color = color(float(month_6_change_percent))
-        month_6_change_percent = "\x03{}{}%\x03".format(
-            month_6_change_color, month_6_change_percent
-        )
-
-        day_30_change_percent = float(
-            "{:.2f}".format(stats_data["day30ChangePercent"] * 100)
-        )
-        day_30_change_color = color(float(day_30_change_percent))
-        day_30_change_percent = "\x03{}{}%\x03".format(
-            day_30_change_color, day_30_change_percent
-        )
-
-        day_5_change_percent = float(
-            "{:.2f}".format(stats_data["day5ChangePercent"] * 100)
-        )
-        day_5_change_color = color(float(day_5_change_percent))
-        day_5_change_percent = "\x03{}{}%\x03".format(
-            day_5_change_color, day_5_change_percent
-        )
-
-        if day_high_price:
-            response = "\x02{} ({})\x02, Current: ${}, High: ${}, Low: ${}, 24h: {}, 5d: {}, 30d: {}, 6m: {}, 1y: {}".format(
-                name,
-                symbol,
-                current_price,
-                day_high_price,
-                day_low_price,
-                day_change_percent,
-                day_5_change_percent,
-                day_30_change_percent,
-                month_6_change_percent,
-                year1_change_percent,
-            )
-        # Not in trading hours
-        else:
-            response = "\x02{} ({})\x02, Current: ${}, 24h: {}, 5d: {}, 30d: {}, 6m: {}, 1y: {}".format(
-                name,
-                symbol,
-                current_price,
-                day_change_percent,
-                day_5_change_percent,
-                day_30_change_percent,
-                month_6_change_percent,
-                year1_change_percent,
-            )
-    except Exception as e:
-        return "Could not get stock information for {}".format(symbols)
-
-    return "[Stock] " + response
+    # Redo output in f-string
+    stock_info = f"\x02{shortName} ({symbol})\x02, Current: {currencySymbol}{price}, 24h: (\x03{color(changePercentRounded)}{changePercentRounded}%\x03)"
+    return "[Stock] " + stock_info
