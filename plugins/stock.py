@@ -36,13 +36,12 @@ def stock(inp, bot):
         + "?modules=financialData&modules=quoteType&modules=defaultKeyStatistics&modules=assetProfile&modules=summaryDetail&modules=price&ssl=true"
     )
     r = requests.get(query_url, headers=headers)
-
-    # JSON
     data = r.json()
     print(data)
 
-    # Check if valid ticker
-    if data["quoteSummary"]["error"] or data["quoteSummary"]["result"][0]["quoteType"]["exchange"] is None:
+    # Ticker might not exist
+    # Or, it might be some inactive ticker in which case we want to search the term instead
+    if data["quoteSummary"]["error"] or "summaryDetail" not in data["quoteSummary"]["result"][0]:
         # Call function that searches for ticker
         ticker_search_data = ticker_search(inputed_symbol)
 
@@ -65,12 +64,20 @@ def stock(inp, bot):
         currencySymbol = data["quoteSummary"]["result"][0]["price"]["currencySymbol"]
         price = data["quoteSummary"]["result"][0]["price"]["regularMarketPrice"]["raw"]
         changePercent = data["quoteSummary"]["result"][0]["price"]["regularMarketChangePercent"]["raw"]
-    except:
+        fiftyTwoWeekLow = data["quoteSummary"]["result"][0]["summaryDetail"]["fiftyTwoWeekLow"]["raw"]
+        fiftyTwoWeekHigh = data["quoteSummary"]["result"][0]["summaryDetail"]["fiftyTwoWeekHigh"]["raw"]
+    except Exception as e:
+        print(e)
         return "[Stock] Error parsing data"
 
     # Round change percent two 2 decimal places
     changePercentRounded = round(changePercent, 2)
+    marketCapFormatted = data["quoteSummary"]["result"][0]["price"]["marketCap"].get("fmt")
+    if marketCapFormatted:
+        marketCapFormatted = f"{currencySymbol}{marketCapFormatted}"
+    else:
+        marketCapFormatted = "N/A"
 
     # Redo output in f-string
-    stock_info = f"\x02{shortName} ({symbol})\x02, Current: {currencySymbol}{price}, 24h: (\x03{color(changePercentRounded)}{changePercentRounded}%\x03)"
+    stock_info = f"{shortName} (\x02{symbol}\x02), Current: \x0307{currencySymbol}{price}\x03, 24h: \x03{color(changePercentRounded)}{changePercentRounded}%\x03, 52-wk range: {currencySymbol}{fiftyTwoWeekLow} - {currencySymbol}{fiftyTwoWeekHigh}, Cap: {marketCapFormatted}"
     return "[Stock] " + stock_info
