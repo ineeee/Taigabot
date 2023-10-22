@@ -37,7 +37,6 @@ def stock(inp, bot):
     )
     r = requests.get(query_url, headers=headers)
     data = r.json()
-    print(data)
 
     # Ticker might not exist
     # Or, it might be some inactive ticker in which case we want to search the term instead
