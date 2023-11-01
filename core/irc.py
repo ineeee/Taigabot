@@ -1,10 +1,11 @@
 from builtins import map
-import queue
 import re
 import socket
 import _thread
 import time
 from ssl import CERT_NONE, CERT_REQUIRED, SSLError, wrap_socket
+
+from core.logging import LoggingQueue
 
 
 def censor(text: str) -> bytes:
@@ -31,8 +32,8 @@ class crlf_tcp:
     def __init__(self, host: str, port: int, timeout: int = 300):
         self.ibuffer = b''
         self.obuffer = b''
-        self.oqueue = queue.Queue()  # lines to be sent out
-        self.iqueue = queue.Queue()  # lines that were received
+        self.oqueue = LoggingQueue('output')  # lines to be sent out
+        self.iqueue = LoggingQueue('input')  # lines that were received
         self.socket = self.create_socket()
         self.host = host
         self.port = port
@@ -88,10 +89,11 @@ class crlf_tcp:
                 line, self.ibuffer = self.ibuffer.split(b'\r\n', 1)
                 self.iqueue.put(hack_cast_bytes_to_str(line))  # cast bytes[] to str
 
+    # send_loop runs permanently in its own thread
+    # it shits out `self.oqueue` into `self.socket`
     def send_loop(self):
         while True:
             line = self.oqueue.get().splitlines()[0][:500]  # wut?
-            print(f'>>> {line}')
             self.obuffer += hack_cast_str_to_bytes(line) + b'\r\n'  # cast str to bytes[]
             while self.obuffer:
                 sent = self.socket.send(self.obuffer)
