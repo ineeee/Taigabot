@@ -1,4 +1,5 @@
 # Taigabot
+Python IRC bot.
 
 * Runs on Python 3
 * Intuitive configuration
@@ -10,17 +11,17 @@
   * Little boilerplate
   * Misbehaving plugins don't crash the bot
 * Extremely stable, has been running for literally over a decade
-  * Project is 15+ years old [.](https://github.com/rmmh/skybot/commit/4b7cc141e5def027d2a562a1d53a2c465216fd9e)
+  * Project is 16+ years old [.](https://github.com/rmmh/skybot/commit/4b7cc141e5def027d2a562a1d53a2c465216fd9e)
 
 ### Installation
-Taigabot runs only on Python 3.9 or 3.10. See [install.md](install.md#instructions) for [ubuntu](install.md#ubuntu) or [alpine](install.md#alpine) instructions.
+Taigabot runs on Python 3.9 to 3.11. See [install.md](install.md#instructions) for [ubuntu](install.md#ubuntu) or [alpine](install.md#alpine) instructions.
 
-Typically pip downloads whl files for lxml, bs4 and requests, so you don't need a compiler.
+The main dependencies are `BeautifulSoup4`, `lxml` and `requests`. Some unused plugins have additional dependencies.
 
 #### Other dependencies
 Some plugins require extra python packages, more information can be found on [install.md § specific dependencies](install.md#specific-dependencies).
 
-**Many** plugins require API keys from different services. Currently we have 34 api keys.
+**Many** plugins require API keys from different services. Currently taiga needs 36 api keys.
 
 
 ### Run
