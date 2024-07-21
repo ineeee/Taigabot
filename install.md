@@ -21,10 +21,10 @@ you can now run taigabot!
     python3 bot.py
 
 
-### ubuntu 22.04
-these instructions work for ubuntu 22.04. see older commits in this repo for ubuntu 21 and 18.
+### ubuntu 22.04 and debian 12
+these instructions work for ubuntu 22.04 and debian 12. taiga requires python 3.9 to 3.11.
 
-if you install python3-wheel in a x64 system, pip will automatically skip compiling stuff.
+if you install python3-wheel in a x64 system, pip will automatically skip compiling stuff. avoid lxml 5.2.1 since it has weird cpu x64 arch requirements (sse4.2? [see here](https://bugs.launchpad.net/lxml/+bug/2059910)).
 
     # protip: update ur system
     sudo apt update
@@ -42,9 +42,8 @@ if you install python3-wheel in a x64 system, pip will automatically skip compil
     source venv/bin/activate
 
     # install dependencies
+    # OPTIONAL: extras/requirements.txt
     python3 -m pip install -r requirements.txt
-    # OPTIONAL: install extra dependencies (more plugins will work)
-    #python3 -m pip install -r requirements_extra.txt
 
     # edit the config file
     cp config.default config
@@ -54,26 +53,8 @@ if you install python3-wheel in a x64 system, pip will automatically skip compil
     python3 bot.py
 
 
-### alpine (OUTDATED)
-TODO update this!!! its for python 2
-
-- python2 py2-pip git
-- gcc g++ libxml2 libxml2-dev libxslt-dev
-
-tldr:
-
-    apk add python2 py2-pip git gcc g++ python2-dev libxml2 libxml2-dev libxslt-dev
-    python2 -m pip install virtualenv
-    git clone https://github.com/inexist3nce/Taigabot.git
-    cd Taigabot
-    python2 -m virtualenv venv
-    source venv/bin/activate
-    export CFLAGS='-I/usr/include/python2.7/'
-    python2 -m pip install -r requirements.txt
-
-
 ## python dependencies
-you __need__ these to run plugins.
+you __need__ these to run almost all plugins.
 
     pip install -r requirements.txt
 
@@ -81,47 +62,50 @@ you __need__ these to run plugins.
 - requests
 - beautifulsoup4
 
-## details
-these plugins are available after installing the main dependencies (`lxml`, `bs4` and `requests`):
-- amazon
-- bash
-- booru
-- choose
-- coin
-- coins
-- debt
-- dice
-- dictionary
-- distance
-- distro
-- fmylife
-- geoip
-- kernel
-- lyrics
-- radio
-- religion
-- translate
-- twitch
-- urbandict
-- validate
-- vimeo
-- wordoftheday
 
 ## specific dependencies
-some plugins need extra dependencies, you can read `requirements_extra.txt` for more info. theyre optional, without these the plugins simply wont load.
+some plugins need extra dependencies, you can read `extra/requirements.txt` for more info. theyre optional, without these the plugins simply wont load.
 
 ## api keys
-these plugins need an api key on the `config` file
-| plugin       | key name           | where to find |
-|--------------|--------------------|---------------|
-| religion     | `"english_bible"`  | [link](https://api.esv.org/docs/) |
-| weather      | `"darksky"`        | not possible to get anymore |
-| wolframalpha | `"wolframalpha"`   | [link](https://products.wolframalpha.com/api/) |
-| google       | `"google"`         | - |
-| google       | `"google2"`        | - |
-| google       | `"googleimage"`    | - |
-| openai       | `"openai_chatgpt"`   | openai.com |
-| twitch       | `"twitch_client_id"` | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
-| twitch       | `"twitch_client_secret"` | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
+some api keys must be set in the `config` or those plugins won't work
 
-TODO document the other 30+ api keys
+| key name                | plugin                | source |
+|-------------------------|-----------------------|--------|
+| bitly_api               |                       |        |
+| bitly_user              |                       |        |
+| darksky                 | weather               | can't get anymore |
+| ebay                    |                       |        |
+| english_bible           | religion              | [link](https://api.esv.org/docs/) |
+| exhentai                |                       |        |
+| genius                  |                       |        |
+| geoip                   |                       |        |
+| google                  | google                |        |
+| google2                 |                       |        |
+| google3                 |                       |        |
+| googleimage             | google                |        |
+| iex                     |                       |        |
+| lastfm                  |                       |        |
+| mc_pass                 |                       |        |
+| mc_user                 |                       |        |
+| old_pastebin            |                       |        |
+| openai_chatgpt          | openai                |        |
+| openweathermap          |                       |        |
+| papkey                  |                       |        |
+| pastebin                |                       |        |
+| pirateweather           |                       |        |
+| public_google_key       |                       |        |
+| rottentomatoes          |                       |        |
+| spotify_client_id       |                       |        |
+| spotify_client_secret   |                       |        |
+| tvdb                    |                       |        |
+| twitch_client_id        | twitch                | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
+| twitch_client_secret    | twitch                | [link](https://dev.twitch.tv/docs/api#step-1-register-an-application) |
+| twitter_access_secret   |                       |        |
+| twitter_access_token    |                       |        |
+| twitter_consumer_key    |                       |        |
+| twitter_consumer_secret |                       |        |
+| wolframalpha            | wolframalpha          | [link](https://products.wolframalpha.com/api/) |
+| yahoo                   |                       |        |
+| yahoo_id                |                       |        |
+
+TODO document this
