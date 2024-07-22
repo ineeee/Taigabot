@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import requests as XDDD
 from util import hook
 from utilities.services import paste, shorten
@@ -6,6 +7,10 @@ from utilities.services import paste, shorten
 XDDDDDDDDDDDDDDDDD = bot.get_api_key('openai_chatgpt')
 XDDDDDDDDDDDD = 320
 XDDDDDDDD = 12
+
+
+memory = {}
+memory_timeout = 120
 
 
 def will_openai_censor_it(msg: str) -> bool:
@@ -36,7 +41,7 @@ def check_gpt_censorship(inp):
         return 'thats ok'
 
 
-def MEME(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD):
+def MEME(messages, XDDDDDDDDDDDDDDDDDDDDDD):
     url = 'https://api.openai.com/v1/chat/completions'
     headers = {
         'Content-Type': 'application/json',
@@ -44,9 +49,7 @@ def MEME(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD):
     }
     data = {
         'model': 'gpt-4o-mini',
-        'messages': [
-            {'role': 'user', 'content': XDDDDDDDDDDDDDDDDDDDD}
-        ],
+        'messages': messages,
         'temperature': XDDDDDDDDDDDDDDDDDDDDDD,
         'n': 1,
         'user': 'taigabot irc bot'
@@ -83,7 +86,7 @@ def WHORE(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8):
         return 'Error: openai flagged your message, the ai wont answer it'
 
     print('querying openai completion api')
-    XD = MEME(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD)
+    XD = MEME([{'role': 'user', 'content': XDDDDDDDDDDDDDDDDDDDD}], XDDDDDDDDDDDDDDDDDDDDDD)
 
     if XD is False:
         return 'Sorry, too busy right now'
@@ -127,7 +130,7 @@ def gptping(inp):
     """gptping -- measures the time it takes to run an empty chatgpt command"""
     print('notice: running openai ping command')
     start = time.time()
-    test = MEME('ping!', 0.1)
+    test = MEME([{'role': 'user', 'content': 'ping!'}], 0.1)
     end = time.time()
 
     if test is False:
@@ -248,3 +251,72 @@ def gptemoji(inp, nick):
     neet = '''As a chat bot that exclusively uses emojis, your primary goal is to communicate effectively with your users through visual cues. To achieve this, you should focus on recognizing and interpreting the emotions and intentions of your users, and responding in kind only with appropriate emojis. Your responses should be concise and clear, using only emojis to convey your message. You will NOT write any text. Do NOT write english. You will exclusively use emojis. Overall, your goal as a chat bot that ONLY uses emojis is to create a unique and engaging user experience. The first message is: '''
 
     return WHORE(neet + inp, 1.0)
+
+
+@hook.command()
+def gpt4(inp, nick, chan, reply):
+    """gpt4 <message> -- talk to chatgpt 4 but persist the context for a few minutes"""
+
+    print('will start a persistent chatgpt api query')
+    mem_key = hash(f'{chan} {nick}')
+    mem_now = {}
+
+    # check for previously expired entries
+    for key in list(memory.keys()):
+        if time.time() - memory[key]['timestamp'] > memory_timeout:
+            del memory[key]
+
+    if mem_key in memory:
+        # use the current entry if it exists
+        mem_now = memory[mem_key]
+    else:
+        # otherwise create a new entry
+        memory[mem_key] = {
+            'contents': [],
+            'timestamp': time.time()
+        }
+
+        reply(f'[GPT] creating new conversation for {nick}...')
+
+        # i'm trying to give the bot some context...
+        mem_now = memory[mem_key]
+        current_date = datetime.now().date().strftime('%Y-%m-%d')
+
+        mem_now['contents'].append({
+            'role': 'system',
+            'content': (
+                'You are ChatGPT 4, a friendly assistant. Answer the user\'s request briefly, using plain text. '
+                f'You are now talking to the user "{nick}" in the IRC channel known as "{chan}". '
+                f'The current date is {current_date}. '
+                'Keep responses brief, unless the user asks you to elaborate.'
+            )
+        })
+
+    mem_now['contents'].append({
+        'role': 'user',
+        'content': inp
+    })
+
+    response = MEME(mem_now['contents'], 1.0)
+
+    # handle openai response
+    if response is False:
+        return 'Error while contacting OpenAI API'
+
+    api_response = response.json()
+    if 'error' in api_response:
+        err = api_response['error']['type']
+        return f'Error in the response (type {err})'
+
+    message = api_response['choices'][0]['message']['content'].strip().replace('\n', '  ')
+
+    # store the response
+    mem_now['contents'].append({
+        'role': 'assistant',
+        'content': message
+    })
+
+    # renew expiration cooldown
+    mem_now['timestamp'] = time.time()
+
+    reply(f'[GPT] {nick}: {message}')
