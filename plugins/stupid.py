@@ -898,6 +898,9 @@ def honk(inp, nick, conn, chan, db, paraml, input):
 @hook.command
 def donate(inp, db, nick, chan, conn, notice):
     """donate <user> <money> -- Gives <money> to <user>."""
+    if '-' in inp:
+        return f'hey {nick} negative donation??'
+
     inp = inp.replace('$', '').replace('-', '').split(' ')
     inp = ' '.join(inp[0:2]).split('.')[0].split()
     user = str(' '.join(inp[0:-1]).split('.')[0])
@@ -1002,6 +1005,46 @@ def owed(inp, nick, db):
         return u'\x02{} has\x02 \x0309${}'.format(nick, strfines)
     else:
         return u'\x02{} owes\x02 \x0304${}'.format(nick, strfines[1:])
+
+
+@hook.command(autohelp=False)
+def richest(inp, db):
+    """richest -- show the most fortunate users known to taigabot"""
+    query = db.execute("SELECT nick, fines FROM users WHERE fines NOT NULL").fetchall()
+
+    all_users = []
+
+    for row in query:
+        nick = row[0]
+        fines = float(row[1])
+        if fines == 0:
+            continue
+
+        all_users.append([ nick, -fines ])
+
+    # sort poorer to richest
+    all_users.sort(key=lambda x: x[1])
+
+    # TODO handle when there are <10 users
+    biggest = all_users[-8:]
+    smallest = all_users[:2]
+
+    output = 'richest people in the gang: '
+
+    for nick, money in biggest:
+        output += f'{nick} (${money}), '
+
+    output += 'also these are the poorest: '
+
+    for nick, money in smallest:
+        if money < 0:
+            output += f'{nick} (owes {-money}), '
+        else:
+            output += f'{nick} (${money}), '
+
+    output += 'lol'
+
+    return output
 
 
 @hook.command(autohelp=False)
