@@ -7,8 +7,8 @@ from util import hook
 
 ADRIFTOAPI = 'https://tweet-reader.onrender.com'
 TWEET_RE = (r'https?://(twitter|x).com/([-_a-zA-Z0-9]+)/status/(\d+)', re.I)
-PROFILE_RE = (r'https?://(twitter|x).com/([-_a-zA-Z0-9]+)(?!/status/)', re.I)
-CHAR_LIMIT = 260
+PROFILE_RE = (r'https?://(twitter|x).com/([-_a-zA-Z0-9]+)(?=$|/[^s])', re.I)
+CHAR_LIMIT = 340
 
 
 def get_tweet(id):
@@ -72,6 +72,6 @@ def profile_url(match):
 @hook.command('twuser')
 @hook.command
 def twitter(inp):
-    """twitter <user> -- Gets profile info on <user> (can't see last tweets)"""
+    """twitter <user> -- Gets profile name and description on <user>."""
     output = get_profile(inp)
     return f'[Twitter] {output}'
