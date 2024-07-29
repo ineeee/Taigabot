@@ -100,7 +100,7 @@ def bots(inp):
 @hook.command(autohelp=False)
 def source(inp):
     """source -- show a link to taigabot's source code"""
-    return "\x02Taigabot\x02 - Fuck my shit up nigga https://github.com/inexist3nce/Taigabot"
+    return "\x02Taigabot\x02 - Fuck my shit up nigga https://github.com/ineeee/Taigabot"
 
 
 @hook.command(autohelp=False)
