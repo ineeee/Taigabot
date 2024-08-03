@@ -16,7 +16,12 @@ def paste_taigalink(text: str, title: str = 'Paste', format: str = 'text'):
         'text': text,
         'format': format
     }
+
     res = requests.post('https://taiga.link/p/upload', headers=HEADERS, data=data)
+
+    if res.status_code >= 400:
+        return f'Sorry, taiga.link returned http code {res.status_code}'
+
     return res.text
 
 
@@ -57,24 +62,23 @@ def paste_pastebin(text: str, title: str = 'Paste', config={}):
     return response.text.strip()
 
 
-def paste_sprunge(data):
-    sprunge_data = {'sprunge': data}
-    response = post('http://sprunge.us', sprunge_data)
-    return response.text.strip()
-
-
 def shorten_taigalink(url: str):
     data = {'url': url}
     res = post('https://taiga.link/s/short', data)
+
     if res.status_code >= 400:
-        raise Exception(f'Sorry, taiga.link returned http code {res.status_code}')
+        return f'Error: taiga.link returned http code {res.status_code}'
+
     return res.text.strip()
 
 
 # upload any text to pastebin
 # please use this function so you don't have to modify 40 plugins when the api changes
 def paste(text: str, title: str = 'Paste'):  # paste(*args, **kwargs)?
-    return paste_taigalink(text, title)
+    try:
+        return paste_taigalink(text, title)
+    except requests.exceptions.ConnectionError:
+        return 'Error: pastebin service is down (taigalink)'
 
 
 def shorten(url: str):
