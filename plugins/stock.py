@@ -94,10 +94,6 @@ def stock(inp, bot):
         currency = data["chart"]["result"][0]["meta"]["currency"]
         regular_market_price = data["chart"]["result"][0]["meta"]["regularMarketPrice"]
         market_time = data["chart"]["result"][0]["meta"]["regularMarketTime"]
-        chart_previous_close = data["chart"]["result"][0]["meta"]["chartPreviousClose"]
-        regular_market_volume = data["chart"]["result"][0]["meta"][
-            "regularMarketVolume"
-        ]
         timestamp = data["chart"]["result"][0]["timestamp"]
         close_prices = data["chart"]["result"][0]["indicators"]["quote"][0]["close"]
 
@@ -140,9 +136,6 @@ def stock(inp, bot):
         regular_market_price,
         find_historical_price(market_datetime, 365, timestamp, close_prices),
     )
-
-    # Format the market cap
-    market_cap = "{:,.0f}".format(regular_market_price * regular_market_volume)
 
     # Get the currency symbol
     currency_symbol = get_currency_symbol(currency)
