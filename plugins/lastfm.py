@@ -2,6 +2,7 @@ from util import hook, http, database
 import time
 from datetime import datetime
 
+
 @hook.command
 def band(inp, bot):
     """band [artist] -- Display artist/band info"""
@@ -9,9 +10,7 @@ def band(inp, bot):
     print(artist)
     api_key = bot.config['api_keys']['lastfm']
     api_url = 'http://ws.audioscrobbler.com/2.0/?format=json'
-    query_params = {'method': 'artist.getInfo',
-                    'artist': artist,
-                    'api_key': api_key}
+    query_params = {'method': 'artist.getInfo', 'artist': artist, 'api_key': api_key}
     response = http.get_json(api_url, query_params=query_params)
     plays = response['artist']['stats']['playcount']
     listeners = response['artist']['stats']['listeners']
@@ -23,7 +22,7 @@ def band(inp, bot):
     for i in response['artist']['tags']['tag']:
         tags.append(i['name'])
     tags = ', '.join(tags)
-    return artist + ' have ' + plays + ' plays and ' + listeners +'. Similar artists include ' + similar +'. Tags: (' + tags + ').'
+    return f"{artist} have {plays} plays and {listeners} listeners. Similar artists include {similar}. Tags: ({tags})."
 
 
 @hook.command('np', autohelp=False)
@@ -42,8 +41,7 @@ def lastfm(inp, db, bot, reply, chan, notice, nick, conn):
         user = database.get(db, 'users', 'lastfm', 'nick', nick)
         if not inp:
             if not user:
-                notice('[{}]: {}{}'.format(chan, conn.conf.get('command_prefix'),
-                       lastfm.__doc__))
+                notice('[{}]: {}{}'.format(chan, conn.conf.get('command_prefix'), lastfm.__doc__))
                 return
         else:
             if not user:
@@ -54,10 +52,7 @@ def lastfm(inp, db, bot, reply, chan, notice, nick, conn):
 
     if user == None:
         return
-    query_params = {'method': 'user.getRecentTracks',
-                    'user': user,
-                    'limit': 1,
-                    'api_key': api_key}
+    query_params = {'method': 'user.getRecentTracks', 'user': user, 'limit': 1, 'api_key': api_key}
     if not api_key:
         reply('Error: no api key set')
     response = http.get_json(api_url, query_params=query_params)
@@ -72,10 +67,7 @@ def lastfm(inp, db, bot, reply, chan, notice, nick, conn):
     if album == '':
         album = 'Unknown Album'
     try:
-        tag_params = {'method': 'track.getTopTags',
-                        'track': title,
-                        'artist': artist,
-                        'api_key': api_key}
+        tag_params = {'method': 'track.getTopTags', 'track': title, 'artist': artist, 'api_key': api_key}
         tagr = http.get_json(api_url, query_params=tag_params)
         tagr = tagr['toptags']['tag'][0:5]
         tags = []
@@ -85,11 +77,7 @@ def lastfm(inp, db, bot, reply, chan, notice, nick, conn):
     except:
         tags = ''
     try:
-        pc_params = {'method': 'track.getInfo',
-                        'track': title,
-                        'artist': artist,
-                        'username': user,
-                        'api_key': api_key}
+        pc_params = {'method': 'track.getInfo', 'track': title, 'artist': artist, 'username': user, 'api_key': api_key}
         pc = http.get_json(api_url, query_params=pc_params)
         played = pc['track']['userplaycount']
     except:
@@ -119,22 +107,26 @@ def lastfm(inp, db, bot, reply, chan, notice, nick, conn):
                 listened = listened[:-6] + ' hours'
 
         if tags:
-            out = (u'{} listened to "{}" by \x02{}\x02 from the'
-                   u' album \x02{}\x02 {} ago, Play Count: {}, Tags: {}'
-                   .format(user, title, artist, album, listened, played, tags))
+            out = (
+                u'{} listened to "{}" by \x02{}\x02 from the'
+                u' album \x02{}\x02 {} ago, Play Count: {}, Tags: {}'.format(
+                    user, title, artist, album, listened, played, tags
+                )
+            )
         else:
-            out = (u'{} listened to "{}" by \x02{}\x02 from the'
-                   u' album \x02{}\x02 {} ago, Play Count: {}.'
-                   .format(user, title, artist, album, listened, played))
+            out = u'{} listened to "{}" by \x02{}\x02 from the' u' album \x02{}\x02 {} ago, Play Count: {}.'.format(
+                user, title, artist, album, listened, played
+            )
     except KeyError:
         if tags:
-            out = (u'{} is listening to "{}" by \x02{}\x02 from the'
-                   u' album \x02{}\x02, Play Count: {}, Tags: {}.'
-                   .format(user, title, artist, album, played, tags))
+            out = (
+                u'{} is listening to "{}" by \x02{}\x02 from the'
+                u' album \x02{}\x02, Play Count: {}, Tags: {}.'.format(user, title, artist, album, played, tags)
+            )
         else:
-            out = (u'{} is listening to "{}" by \x02{}\x02 from the'
-                   u' album \x02{}\x02, Play Count: {}.'
-                   .format(user, title, artist, album, played))
+            out = u'{} is listening to "{}" by \x02{}\x02 from the' u' album \x02{}\x02, Play Count: {}.'.format(
+                user, title, artist, album, played
+            )
     if user and save:
         database.set(db, 'users', 'lastfm', user, 'nick', nick)
     reply(out)
