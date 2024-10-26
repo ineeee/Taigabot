@@ -267,8 +267,9 @@ def gpt4(inp, nick, chan, reply):
         err = api_response['error']['type']
         return f'Error in the response (type {err})'
 
-    message = api_response['choices'][0]['message']['content'].strip().replace('\n', '  ')
-
+    message = api_response['choices'][0]['message']['content'].strip()
+    message_without_newline = message.replace('\n', '  ')
+    
     # store the response
     mem_now['contents'].append({
         'role': 'assistant',
@@ -278,4 +279,9 @@ def gpt4(inp, nick, chan, reply):
     # renew expiration cooldown
     mem_now['timestamp'] = time.time()
 
-    reply(f'[GPT] {nick}: {message}')
+    if len(message_without_newline) > XDDDDDDDDDDDD:
+        paste_url = paste(message, title='ai reply')
+        truncated_msg = message_without_newline[:XDDDDDDDDDDDD] + '... ' + paste_url
+        reply(f'[GPT] {nick}: {truncated_msg}')
+    else:
+        reply(f'[GPT] {nick}: {message}')
