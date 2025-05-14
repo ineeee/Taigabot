@@ -8,6 +8,10 @@ XDDDDDDDDDDDDDDDDD = bot.get_api_key('openai_chatgpt')
 XDDDDDDDDDDDD = 320
 XDDDDDDDD = 12
 
+# jesus fucking christ this file is ass
+# what the fuck
+# i've decided to make it worse
+
 
 memory = {}
 memory_timeout = 120
@@ -28,6 +32,10 @@ def will_openai_censor_it(msg: str) -> bool:
     if res.status_code == 401:
         return 'error: invalid api key'
 
+    # bail censorship check if we ran out of openai credits
+    if res.status_code == 429:
+        return False
+
     values = res.json()
     flagged = values['results'][0]['flagged']
     return flagged
@@ -41,14 +49,14 @@ def check_gpt_censorship(inp):
         return 'thats ok'
 
 
-def MEME(messages, XDDDDDDDDDDDDDDDDDDDDDD):
-    url = 'https://api.openai.com/v1/chat/completions'
-    headers = {
+def MEME(messages, XDDDDDDDDDDDDDDDDDDDDDD, XDDDDDD='gpt-4o-mini'):
+    xDdDDDDDDDD = 'https://api.openai.com/v1/chat/completions'
+    XDDDDDDDDDD = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + XDDDDDDDDDDDDDDDDD
     }
-    data = {
-        'model': 'gpt-4o-mini',
+    XDDDD = {
+        'model': XDDDDDD,
         'messages': messages,
         'temperature': XDDDDDDDDDDDDDDDDDDDDDD,
         'n': 1,
@@ -56,7 +64,7 @@ def MEME(messages, XDDDDDDDDDDDDDDDDDDDDDD):
     }
 
     try:
-        return XDDD.post(url, headers=headers, json=data, timeout=XDDDDDDDD)
+        return XDDD.post(xDdDDDDDDDD, headers=XDDDDDDDDDD, json=XDDDD, timeout=XDDDDDDDD)
     except XDDD.exceptions.ReadTimeout:
         return False
 
@@ -81,12 +89,16 @@ def FunkyMonkeyAPIQuest(XDDDDDDDDDDDDDDDDDDDD):
         return False
 
 
-def WHORE(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8):
+def WHORE(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8, XDDDDddff='gpt-4o-mini'):
     if will_openai_censor_it(XDDDDDDDDDDDDDDDDDDDD):
         return 'Error: openai flagged your message, the ai wont answer it'
 
     print('querying openai completion api')
-    XD = MEME([{'role': 'user', 'content': XDDDDDDDDDDDDDDDDDDDD}], XDDDDDDDDDDDDDDDDDDDDDD)
+    XdddDDDDfdsf = [
+        {'role': 'system', 'content': 'you are an assistant called chatgpt. be concise and answer in plain text. keep a neutral tone.'},
+        {'role': 'user', 'content': XDDDDDDDDDDDDDDDDDDDD},
+    ]
+    XD = MEME(XdddDDDDfdsf, XDDDDDDDDDDDDDDDDDDDDDD, XDDDDddff)
 
     if XD is False:
         return 'Sorry, too busy right now'
@@ -97,10 +109,10 @@ def WHORE(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8):
         LMFAO = XDD['error']['message']
 
         if 'Rate limit reached' in LMFAO:
-            return 'Error: rate limit reached. pay up, wagie.'
+            return 'Error: rate limit reached. try again later or go slower'
 
         if LMAOO == 'insufficient_quota':
-            return 'Error: ran out of cash, cant pay for the compute power lmao. cant do any work unless u paypal me some cash to pay for the openai gpus.'
+            return 'Error: sorry we ran out of openai credits - cant pay for chatgot'
         else:
             return f'Error {LMAOO}: {LMFAO}'
 
@@ -116,6 +128,56 @@ def WHORE(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8):
         XDDDDDDD = XDDDDDDD[:XDDDDDDDDDDDD] + '... ' + XDDDDDDDD
 
     return XDDDDDDD
+
+
+def WHOREbitch(XDDDDDDDDDDDDDDDDDDDD, XDDDDDDDDDDDDDDDDDDDDDD=0.8):
+    time_start = time.time()
+
+    if will_openai_censor_it(XDDDDDDDDDDDDDDDDDDDD):
+        return 'Error: OpenAI flagged your message, the AI will refuse to answer it'
+
+    print('querying openai completion api')
+    XDDDDfdsf = [
+        {'role': 'system', 'content': 'you are the latest chatgpt model by openai. answer the users question briefly.'},
+        {'role': 'user', 'content': XDDDDDDDDDDDDDDDDDDDD},
+    ]
+    XD = MEME(XDDDDfdsf, XDDDDDDDDDDDDDDDDDDDDDD, 'gpt-4.5-preview')
+
+    if XD is False:
+        return 'Error: OpenAI API is too busy right now'
+
+    XDD = XD.json()
+    if 'error' in XDD:
+        LMAOO = XDD['error']['type']
+        LMFAO = XDD['error']['message']
+
+        if 'Rate limit reached' in LMFAO:
+            return 'Error: rate limit reached. try again later or go slower'
+
+        if LMAOO == 'insufficient_quota':
+            return 'Error: sorry we ran out of openai credits - cant pay for chatgot'
+        else:
+            return f'Error {LMAOO}: {LMFAO}'
+
+    XDDDDD = XDD['usage']['completion_tokens']
+    print(f'received openai data, it costed {XDDDDD} tokens')
+    time_end = time.time()
+
+    XDDDD = XDD['choices'][0]
+    XDDDDDD = XDDDD['message']['content'].strip()
+    XDDDDDDD = XDDDDDD.replace('\n', '  ')
+    print(XDDDD)
+
+    OAI_TOK = XDD['usage']['total_tokens']
+    OAI_MODEL = XDD['model']
+    time_diff = time_end - time_start
+
+    if len(XDDDDDDD) > XDDDDDDDDDDDD:
+        XDDDDDD = XDDDDDD + '\n\n' + f'Served by {OAI_MODEL} in {time_diff:.2f} seconds. This query costed {OAI_TOK} tokens.'
+        XDDDDDDDD = paste(XDDDDDD, title=f'chatgpt reply')
+        XDDDDDDD = XDDDDDDD[:XDDDDDDDDDDDD] + '... ' + XDDDDDDDD
+
+    return XDDDDDDD + f' [{OAI_MODEL}, {OAI_TOK} tok in {time_diff:.1f} sec]'
 
 
 @hook.command(autohelp=False)
@@ -139,6 +201,14 @@ def gpt(inp, nick):
     print('notice: running openai command via ' + nick)
     chat = WHORE(inp)
     return f'[AI] {nick}: {chat}'
+
+
+@hook.command()
+def gptnew(inp, nick):
+    """gptnew <query> -- ask the newest openai chatgpt model"""
+    print('we are trying to run the newest gpt as a request for ' + nick)
+    chat = WHOREbitch(inp, 1.0)
+    return f'[ChatGPT] {nick}: {chat}'
 
 
 @hook.command()
@@ -265,7 +335,11 @@ def gpt4(inp, nick, chan, reply):
     api_response = response.json()
     if 'error' in api_response:
         err = api_response['error']['type']
-        return f'Error in the response (type {err})'
+
+        if err == 'insufficient_quota':
+            return f'Error with OpenAI: not enough credits to run this model $$$$$$'
+        else:
+            return f'Error in OpenAI response (type {err})'
 
     message = api_response['choices'][0]['message']['content'].strip()
     message_without_newline = message.replace('\n', '  ')
