@@ -3,7 +3,7 @@ import requests
 from datetime import datetime, timedelta
 
 headers = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (Linux; Android 7.1.1; SAMSUNG GT-I9700 Build/KTU84P) AppleWebKit/603.27 (KHTML, like Gecko)  Chrome/48.0.2046.371 Mobile Safari/600.6"
 }
 
 
@@ -62,6 +62,7 @@ def stock(inp, bot):
     # Validate ticker
     query_url = base_url + inputed_symbol + "?range=1y&interval=1d"
     r = requests.get(query_url, headers=headers)
+
     data = r.json()
 
     # Ticker might not exist
@@ -78,12 +79,7 @@ def stock(inp, bot):
             possible_tickers = []
             for quote in ticker_search_data["quotes"]:
                 possible_tickers.append(
-                    quote["exchDisp"]
-                    + ": "
-                    + quote["shortname"]
-                    + " (\x02"
-                    + quote["symbol"]
-                    + "\x02)"
+                    quote["exchDisp"] + ": " + quote["shortname"] + " (\x02" + quote["symbol"] + "\x02)"
                 )
             # Return list of possible tickers
             return "[Stock] Possible tickers: " + ", ".join(possible_tickers)
@@ -100,11 +96,7 @@ def stock(inp, bot):
         # Fetch the company name
         ticker_search_data = ticker_search(symbol)
         company_name = next(
-            (
-                quote["shortname"]
-                for quote in ticker_search_data["quotes"]
-                if quote["symbol"] == symbol
-            ),
+            (quote["shortname"] for quote in ticker_search_data["quotes"] if quote["symbol"] == symbol),
             symbol,
         )
 
