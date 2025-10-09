@@ -1,5 +1,5 @@
 # these are used EVERYWHERE
-BeautifulSoup4==4.12.*
-lxml==5.2.2
-requests==2.32.*
+BeautifulSoup4
+lxml>5,<6
+requests
 future
