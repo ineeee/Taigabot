@@ -4,7 +4,6 @@ import socket
 import _thread
 import time
 import ssl
-from ssl import CERT_NONE, CERT_REQUIRED, SSLError, wrap_socket
 
 from core.logging import LoggingQueue
 
@@ -112,7 +111,7 @@ class crlf_ssl_tcp(crlf_tcp):
     def create_socket(self):
         context = ssl.create_default_context()
 
-        # ignore certs is bad, if u ignore certs ur bad 
+        # ignore certs is bad, if u ignore certs ur bad
         if self.ignore_cert_errors:
             context.check_hostname = False
             context.verify_mode = ssl.CERT_NONE
@@ -128,7 +127,7 @@ class crlf_ssl_tcp(crlf_tcp):
         return self.socket.read(nbytes)
 
     def get_timeout_exception_type(self):
-        return SSLError
+        return ssl.SSLError
 
     def handle_receive_exception(self, error, last_timestamp):
         if 'timed out' not in str(error.args[0]):
