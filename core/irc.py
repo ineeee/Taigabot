@@ -3,6 +3,7 @@ import re
 import socket
 import _thread
 import time
+import ssl
 from ssl import CERT_NONE, CERT_REQUIRED, SSLError, wrap_socket
 
 from core.logging import LoggingQueue
@@ -101,17 +102,27 @@ class crlf_tcp:
 
 
 class crlf_ssl_tcp(crlf_tcp):
-    """Handles ssl tcp connetions that consist of utf-8 lines ending with crlf"""
+    """Handles SSL TCP connections that consist of UTF-8 lines ending with CRLF."""
 
     def __init__(self, host: str, port: int, ignore_cert_errors: bool, timeout: int = 300):
         self.ignore_cert_errors = ignore_cert_errors
-        crlf_tcp.__init__(self, host, port, timeout)
+        self.hostname = host  # Required for SSL context (SNI)
+        super().__init__(host, port, timeout)
 
     def create_socket(self):
-        return wrap_socket(
-            crlf_tcp.create_socket(self),
-            server_side=False,
-            cert_reqs=CERT_NONE if self.ignore_cert_errors else CERT_REQUIRED)
+        context = ssl.create_default_context()
+
+        # ignore certs is bad, if u ignore certs ur bad 
+        if self.ignore_cert_errors:
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
+        else:
+            context.check_hostname = True
+            context.verify_mode = ssl.CERT_REQUIRED
+
+        raw_socket = super().create_socket()
+
+        return context.wrap_socket(raw_socket, server_hostname=self.hostname)
 
     def recv_from_socket(self, nbytes: int = 4096):
         return self.socket.read(nbytes)
@@ -120,10 +131,9 @@ class crlf_ssl_tcp(crlf_tcp):
         return SSLError
 
     def handle_receive_exception(self, error, last_timestamp):
-        # this is terrible
-        if 'timed out' not in error.args[0]:
+        if 'timed out' not in str(error.args[0]):
             raise
-        return crlf_tcp.handle_receive_exception(self, error, last_timestamp)
+        return super().handle_receive_exception(error, last_timestamp)
 
 
 irc_prefix_rem = re.compile(r'(.*?) (.*?) (.*)').match
