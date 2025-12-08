@@ -2,8 +2,8 @@ import random
 import re
 from xml.dom import minidom
 
-from utilities import request
 from util import hook
+import requests
 
 API_URL = 'http://api.wolframalpha.com/v2/query.jsp'
 
@@ -236,12 +236,19 @@ def wolframalpha(inp, bot):
         'input': inp
     }
 
-    req = request.post(API_URL, data=query_params)
+    try:
+        req = requests.get(API_URL, params=query_params, timeout=8)
+    except requests.exceptions.ReadTimeout:
+        return f'[WolframAlpha] {random.choice(errors)}'
+
+    if req.status_code != 200:
+        print(req.text)
+        return f'[WolframAlpha] Server error received from API: {req.status_code}'
 
     try:
-        waeqr = WolframAlphaQueryResult(req)
-    except Exception:
-        return '[WolframAlpha] Error while parsing response'
+        waeqr = WolframAlphaQueryResult(req.text)
+    except Exception as e:
+        return f'[WolframAlpha] Error while parsing response: {e}'
 
     results = []
     pods = waeqr.Pods()
