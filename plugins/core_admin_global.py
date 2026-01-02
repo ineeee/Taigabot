@@ -18,7 +18,7 @@ def gadmins(inp, notice, bot):
 
 
 @hook.command(adminonly=True)
-def gadmin(inp, notice, bot, config, db):
+def gadmin(inp, notice, db):
     """gadmin <add|del> <nick|host> -- Make <nick|host> an global admin (you can delete multiple admins at once)"""
     inp = inp.lower()
     command = inp.split()[0]
@@ -47,6 +47,10 @@ def gadmin(inp, notice, bot, config, db):
                     bot.config, open('config', 'w'), sort_keys=True, indent=2)
             else:
                 notice(u"%s is not a global admin." % target)
+        return
+
+    else:
+        notice('unknown subcommand, see .help gadmin')
         return
 
 
